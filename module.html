@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Module</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/module.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>html, body { background: #FAF6F1; }</style>
+</head>
+<body>
+
+    <div class="module-page">
+        <div class="module-container">
+
+            <p class="module-label" id="moduleLabel">ANGLAIS</p>
+
+            <h1 class="module-title">Comment veux-tu<br>réviser <em>aujourd'hui</em> ?</h1>
+
+            <p class="module-subtitle">Choisis un mode pour commencer ta session.</p>
+
+            <div class="module-options">
+
+                <!-- Flashcards -->
+                <a href="#" class="module-option option-light selected" id="optFlashcards">
+                    <div class="option-icon icon-flashcard">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="14" rx="3"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <h3>Flashcards</h3>
+                        <p>Révise carte par carte avec retournement et auto-évaluation.</p>
+                    </div>
+                    <span class="option-arrow">›</span>
+                </a>
+
+                <!-- PDF de cours -->
+                <a href="#" class="module-option option-dark">
+                    <div class="option-icon icon-pdf">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <h3>PDF de cours</h3>
+                        <p>Consulte tes cours complets directement depuis l'app.</p>
+                    </div>
+                    <span class="option-arrow">›</span>
+                </a>
+
+                <!-- Résumé global -->
+                <a href="#" class="module-option option-light">
+                    <div class="option-icon icon-resume">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <h3>Résumé global</h3>
+                        <p>Un condensé clair des points essentiels à retenir.</p>
+                    </div>
+                    <span class="option-arrow">›</span>
+                </a>
+
+            </div>
+
+            <a href="fiches.html" class="module-back">
+                Retour
+                <span class="back-arrow">←</span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- MODAL CHOIX % -->
+    <div class="percent-modal" id="percentModal">
+        <div class="percent-backdrop" id="percentBackdrop"></div>
+        <div class="percent-content">
+            <h3>Combien de cartes ?</h3>
+            <p class="percent-sub">Choisis la proportion du deck à réviser.</p>
+            <div class="percent-options">
+                <button class="percent-btn" data-pct="25">25%</button>
+                <button class="percent-btn" data-pct="50">50%</button>
+                <button class="percent-btn" data-pct="75">75%</button>
+                <button class="percent-btn selected" data-pct="100">100%</button>
+            </div>
+            <button class="percent-start" id="percentStart">Commencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Lire le module depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const moduleName = params.get('name') || 'Module';
+        const moduleCode = params.get('code') || '';
+
+        const label = document.getElementById('moduleLabel');
+        label.textContent = moduleCode ? `${moduleName.toUpperCase()} · ${moduleCode}` : moduleName.toUpperCase();
+        document.title = `Révisio — ${moduleName}`;
+
+        // Sélection d'option
+        document.querySelectorAll('.module-option').forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.module-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+        });
+
+        // Flashcards — ouvrir modal %
+        const modal = document.getElementById('percentModal');
+        const backdrop = document.getElementById('percentBackdrop');
+        let selectedPct = 100;
+
+        document.getElementById('optFlashcards').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            modal.classList.add('open');
+        });
+
+        backdrop.addEventListener('click', () => modal.classList.remove('open'));
+
+        document.querySelectorAll('.percent-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.percent-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedPct = parseInt(btn.dataset.pct);
+            });
+        });
+
+        document.getElementById('percentStart').addEventListener('click', () => {
+            window.location.href = `flashcard.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}&pct=${selectedPct}`;
+        });
+
+        // Retour
+        document.querySelector('.module-back').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = this.getAttribute('href');
+        });
+    </script>
+
+</body>
+</html>

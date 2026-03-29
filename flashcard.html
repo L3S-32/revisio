@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Flashcards</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/flashcard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>html, body { background: #FAF6F1; }</style>
+</head>
+<body>
+
+    <div class="flashcard-page">
+
+        <!-- HEADER -->
+        <div class="fc-header">
+            <a href="#" class="fc-back-link" id="fcBack">← Retour</a>
+            <p class="fc-module-label" id="fcLabel">ANGLAIS · AN</p>
+            <p class="fc-counter" id="fcCounter">1 / 10</p>
+        </div>
+
+        <!-- CARTE -->
+        <div class="fc-card-wrapper" id="cardWrapper">
+            <div class="fc-card" id="fcCard">
+
+                <!-- FACE AVANT (question) — brun -->
+                <div class="fc-face fc-front">
+                    <span class="fc-tag">QUESTION</span>
+                    <span class="fc-num" id="fcNumFront">01</span>
+                    <div class="fc-content">
+                        <p class="fc-question" id="fcQuestion">What is the past tense of "to go"?</p>
+                    </div>
+                </div>
+
+                <!-- FACE ARRIÈRE (réponse) — beige -->
+                <div class="fc-face fc-back">
+                    <span class="fc-tag">RÉPONSE</span>
+                    <span class="fc-num" id="fcNumBack">01</span>
+                    <div class="fc-content">
+                        <p class="fc-answer" id="fcAnswer">went</p>
+                        <hr class="fc-divider">
+                        <p class="fc-explanation" id="fcExplanation">Verbe irrégulier : go → went → gone</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BOUTONS -->
+        <div class="fc-controls">
+            <button class="fc-btn fc-btn-wrong" id="btnWrong" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button class="fc-btn fc-btn-flip" id="btnFlip">Retourner</button>
+            <button class="fc-btn fc-btn-correct" id="btnCorrect" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+        </div>
+
+        <!-- BARRE DE PROGRESSION -->
+        <div class="fc-progress">
+            <div class="fc-progress-wrong" id="progressWrong"></div>
+            <div class="fc-progress-correct" id="progressCorrect"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DONNÉES FLASHCARDS ---
+        const allDecks = {
+            'Anglais': [
+                { q: 'car', a: 'voiture' },
+                { q: 'bus stop', a: 'arrêt de bus' },
+                { q: 'tyre', a: 'pneu' },
+                { q: 'wheel', a: 'volant / roue' },
+                { q: 'lorry / truck', a: 'camion' },
+                { q: 'taxi / cab', a: 'taxi' },
+                { q: 'passenger', a: 'passager' },
+                { q: 'engine', a: 'moteur' },
+                { q: 'fuel', a: 'carburant' },
+                { q: 'seat', a: 'siège' },
+                { q: 'seat belt', a: 'ceinture de sécurité' },
+                { q: 'driving licence', a: 'permis de conduire' },
+                { q: 'rush hour', a: 'heure de pointe' },
+                { q: 'traffic jam', a: 'embouteillage' },
+                { q: 'road sign', a: 'panneau de signalisation' },
+                { q: 'traffic light', a: 'feu de circulation' },
+                { q: 'bend', a: 'virage / tournant' },
+                { q: 'roundabout', a: 'rond-point' },
+                { q: 'exit', a: 'sortie' },
+                { q: 'hitchhiker', a: 'autostoppeur' },
+                { q: 'motorway / highway', a: 'autoroute' },
+                { q: 'to turn right / left', a: 'tourner à droite / gauche' },
+                { q: 'to go straight', a: 'aller tout droit' },
+                { q: 'to go past', a: 'passer à côté' },
+                { q: 'to move house', a: 'déménager' },
+                { q: 'to honk a horn', a: 'klaxonner' },
+                { q: 'to brake', a: 'freiner' },
+                { q: 'to break down', a: 'tomber en panne' },
+                { q: 'to overtake', a: 'dépasser' },
+                { q: 'to commute', a: 'faire le trajet domicile-travail' },
+                { q: 'to drop someone off', a: 'déposer quelqu\'un' },
+                { q: 'to pick up someone', a: 'prendre qqn en voiture' },
+                { q: 'to hitchhike', a: 'faire du stop' },
+                { q: 'to hire', a: 'louer' },
+                { q: 'carriage / coach', a: 'wagon' },
+                { q: 'conductor', a: 'contrôleur' },
+                { q: 'underground / subway', a: 'métro' },
+                { q: 'high-speed train', a: 'train à grande vitesse' },
+                { q: 'single ticket', a: 'aller simple' },
+                { q: 'return ticket', a: 'aller-retour' },
+                { q: 'platform', a: 'quai' },
+                { q: 'train station', a: 'gare' },
+                { q: 'fare', a: 'tarif' },
+                { q: 'to get on', a: 'monter dans le train/bus' },
+                { q: 'to get off', a: 'descendre du train/bus' },
+                { q: 'to miss', a: 'rater le train/bus' },
+                { q: 'to catch the bus/train', a: 'prendre le bus/train' },
+                { q: 'to carry', a: 'transporter' },
+                { q: 'plane / airplane', a: 'avion' },
+                { q: 'flight', a: 'vol' },
+                { q: 'luggage', a: 'bagage' },
+                { q: 'hand luggage', a: 'bagage à main' },
+                { q: 'gate', a: 'porte d\'embarquement' },
+                { q: 'departure', a: 'départ' },
+                { q: 'crew', a: 'équipage' },
+                { q: 'turbulence', a: 'turbulence' },
+                { q: 'to take off', a: 'décoller' },
+                { q: 'to land', a: 'atterrir' },
+                { q: 'to board', a: 'embarquer' },
+                { q: 'to book', a: 'réserver' },
+                { q: 'to cancel', a: 'annuler' },
+                { q: 'to check in', a: 's\'enregistrer' },
+                { q: 'to delay', a: 'retarder' },
+                { q: 'to be late', a: 'être en retard' },
+                { q: 'on time', a: 'à l\'heure' },
+                { q: 'boat', a: 'bateau (petit)' },
+                { q: 'ship', a: 'navire / grand bateau' },
+                { q: 'cruise', a: 'croisière' },
+                { q: 'to row', a: 'ramer' },
+                { q: 'to sink', a: 'couler' },
+                { q: 'to sail', a: 'naviguer' },
+                { q: 'on foot', a: 'à pied' },
+                { q: 'pedestrian', a: 'piéton' },
+                { q: 'map', a: 'carte' },
+                { q: 'zebra crossing', a: 'passage pour piétons' },
+                { q: 'pavement', a: 'trottoir' },
+                { q: 'to hike', a: 'faire de la randonnée' },
+                { q: 'cable car', a: 'téléphérique' },
+                { q: 'sledge', a: 'traineau / luge' },
+                { q: 'hot air balloon', a: 'montgolfière' },
+                { q: 'scooter', a: 'trottinette / scooter' },
+                { q: 'motorbike', a: 'moto' },
+            ]
+        };
+
+        // Mélange Fisher-Yates
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // Récupérer le module
+        const params = new URLSearchParams(window.location.search);
+        const moduleName = params.get('name') || 'Module';
+        const moduleCode = params.get('code') || '';
+        const saveKey = `fc_progress_${moduleCode || moduleName}`;
+
+        // Charger ou créer le deck
+        const pct = parseInt(params.get('pct') || '100');
+        let cards, current, results;
+        const saved = localStorage.getItem(saveKey);
+        if (saved) {
+            const state = JSON.parse(saved);
+            cards = state.cards;
+            current = state.current;
+            results = state.results;
+        } else {
+            let fullDeck = shuffle(allDecks[moduleName] || allDecks['Anglais']);
+            const count = Math.max(1, Math.round(fullDeck.length * pct / 100));
+            cards = fullDeck.slice(0, count);
+            current = 0;
+            results = [];
+        }
+
+        let flipped = false;
+
+        const card = document.getElementById('fcCard');
+        const btnFlip = document.getElementById('btnFlip');
+        const btnWrong = document.getElementById('btnWrong');
+        const btnCorrect = document.getElementById('btnCorrect');
+        const fcQuestion = document.getElementById('fcQuestion');
+        const fcAnswer = document.getElementById('fcAnswer');
+        const fcExplanation = document.getElementById('fcExplanation');
+        const fcCounter = document.getElementById('fcCounter');
+        const fcNumFront = document.getElementById('fcNumFront');
+        const fcNumBack = document.getElementById('fcNumBack');
+        const progressWrong = document.getElementById('progressWrong');
+        const progressCorrect = document.getElementById('progressCorrect');
+
+        function saveProgress() {
+            localStorage.setItem(saveKey, JSON.stringify({ cards, current, results }));
+        }
+
+        function loadCard() {
+            const c = cards[current];
+            const num = String(current + 1).padStart(2, '0');
+            fcQuestion.textContent = c.q;
+            fcAnswer.textContent = c.a;
+            fcExplanation.textContent = '';
+            fcCounter.textContent = `${current + 1} / ${cards.length}`;
+            fcNumFront.textContent = num;
+            fcNumBack.textContent = num;
+            flipped = false;
+            card.classList.remove('flipped');
+            btnWrong.disabled = true;
+            btnCorrect.disabled = true;
+            btnFlip.textContent = 'Retourner';
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const total = cards.length;
+            const wrongCount = results.filter(r => r === 'wrong').length;
+            const correctCount = results.filter(r => r === 'correct').length;
+            progressWrong.style.width = (wrongCount / total * 100) + '%';
+            progressCorrect.style.width = (correctCount / total * 100) + '%';
+        }
+
+        let errors = []; // cartes ratées
+
+        function nextCard(result) {
+            if (result === 'wrong') {
+                errors.push(cards[current]);
+            }
+            results.push(result);
+            updateProgress();
+            saveProgress();
+            if (current < cards.length - 1) {
+                current++;
+                // Retourner la carte instantanément (sans animation) avant le slide
+                card.style.transition = 'none';
+                card.classList.remove('flipped');
+                // Forcer le reflow pour appliquer le changement immédiatement
+                void card.offsetHeight;
+                card.style.transition = '';
+
+                card.parentElement.classList.add('slide-out');
+                setTimeout(() => {
+                    loadCard();
+                    card.parentElement.classList.remove('slide-out');
+                    card.parentElement.classList.add('slide-in');
+                    setTimeout(() => {
+                        card.parentElement.classList.remove('slide-in');
+                    }, 400);
+                }, 300);
+            } else {
+                showEndScreen();
+            }
+        }
+
+        function saveGlobalResults() {
+            const key = 'fc_results_global';
+            const global = JSON.parse(localStorage.getItem(key) || '{}');
+            const mKey = moduleCode || moduleName;
+            if (!global[mKey]) {
+                global[mKey] = { name: moduleName, code: moduleCode, total: 0, correct: 0, errors: [] };
+            }
+            const correctCount = results.filter(r => r === 'correct').length;
+            global[mKey].total += cards.length;
+            global[mKey].correct += correctCount;
+            // Stocker les erreurs (garder les 20 dernières)
+            const newErrors = errors.map(e => ({ q: e.q, a: e.a }));
+            global[mKey].errors = [...newErrors, ...(global[mKey].errors || [])].slice(0, 20);
+            localStorage.setItem(key, JSON.stringify(global));
+        }
+
+        function showEndScreen() {
+            const correct = results.filter(r => r === 'correct').length;
+            localStorage.removeItem(saveKey);
+            saveGlobalResults();
+
+            let errorsHtml = '';
+            if (errors.length > 0) {
+                errorsHtml = `
+                    <div class="fc-errors-list">
+                        <h3>Tes erreurs</h3>
+                        ${errors.map(e => `
+                            <div class="fc-error-item">
+                                <span class="fc-error-q">${e.q}</span>
+                                <span class="fc-error-arrow">→</span>
+                                <span class="fc-error-a">${e.a}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            const wrapper = document.getElementById('cardWrapper');
+            wrapper.innerHTML = `
+                <div class="fc-end">
+                    <h2>Session terminée</h2>
+                    <p class="fc-end-score">${correct} / ${cards.length}</p>
+                    <p class="fc-end-text">bonnes réponses</p>
+                    ${errorsHtml}
+                </div>
+            `;
+            wrapper.style.height = 'auto';
+            document.querySelector('.fc-controls').style.display = 'none';
+        }
+
+        function flipCard() {
+            flipped = !flipped;
+            card.classList.toggle('flipped');
+            if (flipped) {
+                btnWrong.disabled = false;
+                btnCorrect.disabled = false;
+            } else {
+                btnWrong.disabled = true;
+                btnCorrect.disabled = true;
+            }
+        }
+
+        btnFlip.addEventListener('click', flipCard);
+        card.addEventListener('click', flipCard);
+
+        btnWrong.addEventListener('click', () => nextCard('wrong'));
+        btnCorrect.addEventListener('click', () => nextCard('correct'));
+
+        // Label et titre
+        document.getElementById('fcLabel').textContent = moduleCode ? `${moduleName.toUpperCase()} · ${moduleCode}` : moduleName.toUpperCase();
+        document.title = `Révisio — Flashcards ${moduleName}`;
+
+        document.getElementById('fcBack').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = `module.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}`;
+        });
+
+        loadCard();
+    </script>
+
+</body>
+</html>

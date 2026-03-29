@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Résultats</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/resultats.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">Révisio</span>
+            </div>
+            <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="fiches.html">Fiches</a></li>
+                <li><a href="resultats.html" class="active">Résultats</a></li>
+                <li><a href="calendrier.html">Calendrier</a></li>
+                <li><a href="#">Mon profil</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero hero-resultats">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span id="heroDate"></span>
+            </div>
+            <h1 class="hero-title">Tes <em>résultats</em></h1>
+            <p class="hero-subtitle" id="heroSummary">Aucune session pour l'instant.</p>
+        </div>
+    </section>
+
+    <!-- SPACER -->
+    <div class="hero-spacer"></div>
+
+    <!-- CONTENT PANEL -->
+    <div class="content-panel">
+
+        <!-- SCORE GLOBAL -->
+        <section class="res-global-section" id="globalSection" style="display:none;">
+            <div class="res-container">
+                <div class="res-global-card">
+                    <div class="res-global-left">
+                        <div class="res-ring-wrap res-ring-big">
+                            <svg class="res-ring" viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="8"/>
+                                <circle id="globalRingCircle" cx="60" cy="60" r="54" fill="none" stroke="#C4944A" stroke-width="8"
+                                    stroke-dasharray="339.29" stroke-dashoffset="339.29"
+                                    stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="res-ring-text">
+                                <span class="res-ring-pct" id="globalPct">0%</span>
+                                <span class="res-ring-label">global</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="res-global-right">
+                        <span class="res-global-tag">SCORE GLOBAL</span>
+                        <h2 class="res-global-title" id="globalMessage">Continue !</h2>
+                        <p class="res-global-sub" id="globalSub">Lance une session pour voir tes stats.</p>
+                        <div class="res-global-stats">
+                            <div class="res-stat">
+                                <span class="res-stat-num" id="globalCorrect">0</span>
+                                <span class="res-stat-label">RÉUSSIES</span>
+                            </div>
+                            <div class="res-stat">
+                                <span class="res-stat-num" id="globalWrong">0</span>
+                                <span class="res-stat-label">À REVOIR</span>
+                            </div>
+                            <div class="res-stat">
+                                <span class="res-stat-num" id="globalTotal">0</span>
+                                <span class="res-stat-label">TOTAL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MATIÈRES GRID -->
+        <section class="res-modules-section">
+            <div class="res-container">
+                <div class="res-modules-grid" id="modulesGrid">
+                    <!-- Rempli par JS -->
+                </div>
+                <p class="results-empty" id="emptyMsg">Aucun résultat pour l'instant.<br>Lance une session de flashcards pour commencer.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Date
+        const now = new Date();
+        const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+        document.getElementById('heroDate').textContent = `SESSION DU ${now.getDate()} ${months[now.getMonth()].toUpperCase()} ${now.getFullYear()}`;
+
+        // Données
+        const global = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+        const modules = Object.keys(global);
+
+        if (modules.length > 0) {
+            document.getElementById('emptyMsg').style.display = 'none';
+            document.getElementById('globalSection').style.display = 'block';
+
+            // Calculs globaux
+            let totalAll = 0, correctAll = 0;
+            modules.forEach(k => {
+                totalAll += global[k].total;
+                correctAll += global[k].correct;
+            });
+            const wrongAll = totalAll - correctAll;
+            const pctAll = totalAll > 0 ? Math.round((correctAll / totalAll) * 100) : 0;
+
+            // Summary hero
+            document.getElementById('heroSummary').textContent = `${modules.length} matière${modules.length > 1 ? 's' : ''} · ${totalAll} cartes au total`;
+
+            // Global card
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (pctAll / 100) * circumference;
+            document.getElementById('globalRingCircle').style.strokeDashoffset = offset;
+            document.getElementById('globalPct').textContent = pctAll + '%';
+            document.getElementById('globalCorrect').textContent = correctAll;
+            document.getElementById('globalWrong').textContent = wrongAll;
+            document.getElementById('globalTotal').textContent = totalAll;
+
+            if (pctAll >= 80) {
+                document.getElementById('globalMessage').textContent = 'Excellent !';
+                document.getElementById('globalSub').textContent = 'Tu maîtrises très bien tes sujets.';
+            } else if (pctAll >= 60) {
+                document.getElementById('globalMessage').textContent = 'Bonne session !';
+                document.getElementById('globalSub').textContent = 'Tu as bien progressé aujourd\'hui.';
+            } else if (pctAll >= 40) {
+                document.getElementById('globalMessage').textContent = 'Pas mal !';
+                document.getElementById('globalSub').textContent = 'Continue comme ça, tu progresses.';
+            } else {
+                document.getElementById('globalMessage').textContent = 'Continue !';
+                document.getElementById('globalSub').textContent = 'Révise régulièrement pour t\'améliorer.';
+            }
+
+            // Module cards
+            const grid = document.getElementById('modulesGrid');
+
+            modules.forEach(key => {
+                const m = global[key];
+                const pct = m.total > 0 ? Math.round((m.correct / m.total) * 100) : 0;
+                const wrong = m.total - m.correct;
+                const circ = 2 * Math.PI * 40;
+                const off = circ - (pct / 100) * circ;
+
+                let color = '#C0614A';
+                if (pct >= 70) color = '#7A9A6D';
+                else if (pct >= 40) color = '#C4944A';
+
+                const errCount = m.errors ? m.errors.length : 0;
+
+                grid.innerHTML += `
+                    <div class="res-module-card">
+                        <div class="res-mod-header">
+                            <div class="res-mod-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="res-mod-name">${m.name}</h3>
+                                <span class="res-mod-code">${m.code || ''}</span>
+                            </div>
+                        </div>
+
+                        <div class="res-mod-body">
+                            <div class="res-mod-ring-wrap">
+                                <svg class="res-ring" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#E8DFD6" stroke-width="6"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="${color}" stroke-width="6"
+                                        stroke-dasharray="${circ}" stroke-dashoffset="${off}"
+                                        stroke-linecap="round" transform="rotate(-90 50 50)"
+                                        style="transition: stroke-dashoffset 1s ease"/>
+                                </svg>
+                                <div class="res-ring-text">
+                                    <span class="res-mod-pct">${pct}%</span>
+                                    <span class="res-mod-pct-label">réussite</span>
+                                </div>
+                            </div>
+
+                            <div class="res-mod-stats">
+                                <div class="res-mod-stat-row">
+                                    <span class="res-dot dot-green"></span>
+                                    <span>Réussies</span>
+                                    <span class="res-mod-stat-val">${m.correct}</span>
+                                </div>
+                                <div class="res-mod-stat-row">
+                                    <span class="res-dot dot-red"></span>
+                                    <span>À revoir</span>
+                                    <span class="res-mod-stat-val">${wrong}</span>
+                                </div>
+                                <div class="res-mod-stat-row">
+                                    <span class="res-dot dot-grey"></span>
+                                    <span>Erreurs sauvées</span>
+                                    <span class="res-mod-stat-val">${errCount}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="res-mod-footer">
+                            ${m.total} cartes · ${m.code || m.name}
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            document.getElementById('heroSummary').textContent = 'Aucune session pour l\'instant.';
+        }
+    </script>
+
+
+</body>
+</html>

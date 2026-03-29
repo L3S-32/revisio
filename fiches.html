@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Fiches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fiches.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">Révisio</span>
+            </div>
+            <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="fiches.html" class="active">Fiches</a></li>
+                <li><a href="resultats.html">Résultats</a></li>
+                <li><a href="calendrier.html">Calendrier</a></li>
+                <li><a href="#">Mon profil</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero hero-fiches">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                6 MODULES
+            </div>
+            <h1 class="hero-title">Tes fiches<br>de révision.</h1>
+            <p class="hero-subtitle">Choisis un module pour accéder à tes fiches,<br>résumés et exercices.</p>
+
+            <div class="hero-modules">
+                <div class="hero-module-tag">M319</div>
+                <div class="hero-module-tag">M106</div>
+                <div class="hero-module-tag">M231</div>
+                <div class="hero-module-tag">M162</div>
+                <div class="hero-module-tag">SI</div>
+                <div class="hero-module-tag">M117</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPACER -->
+    <div class="hero-spacer"></div>
+
+    <!-- CONTENT PANEL -->
+    <div class="content-panel">
+        <section class="fiches-section">
+            <div class="fiches-container">
+                <div class="fiches-grid">
+
+                    <!-- M319 C++ -->
+                    <a href="module.html?name=C%2B%2B&code=M319" class="fiche-choice">
+                        <div class="fiche-icon icon-cpp">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>C++</h3>
+                        <span class="fiche-module">M319</span>
+                        <p>Programmation orientée objet · Pointeurs · Classes</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- M106 Maintenance BDD -->
+                    <a href="module.html?name=Maintenance%20BDD&code=M106" class="fiche-choice">
+                        <div class="fiche-icon icon-bdd">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M14.5 10.5l2 2-2 2"/><path d="M9.5 10.5l-2 2 2 2"/>
+                            </svg>
+                        </div>
+                        <h3>Maintenance BDD</h3>
+                        <span class="fiche-module">M106</span>
+                        <p>Requêtes SQL · Optimisation · Sauvegarde · Index</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- M231 Protection des données -->
+                    <a href="module.html?name=Protection%20des%20donn%C3%A9es&code=M231" class="fiche-choice">
+                        <div class="fiche-icon icon-protect">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><rect x="10" y="11" width="4" height="5" rx="1"/><circle cx="12" cy="9" r="1.5"/>
+                            </svg>
+                        </div>
+                        <h3>Protection des données</h3>
+                        <span class="fiche-module">M231</span>
+                        <p>Chiffrement · RGPD · Sécurité réseau · Droits</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- M162 Modélisation de données -->
+                    <a href="module.html?name=Mod%C3%A9lisation%20de%20donn%C3%A9es&code=M162" class="fiche-choice">
+                        <div class="fiche-icon icon-model">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="8" y="14" width="7" height="7" rx="1.5"/><line x1="6.5" y1="10" x2="11.5" y2="14"/><line x1="17.5" y1="10" x2="11.5" y2="14"/>
+                            </svg>
+                        </div>
+                        <h3>Modélisation de données</h3>
+                        <span class="fiche-module">M162</span>
+                        <p>MCD · MLD · Entités · Relations · Cardinalités</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- SI Sciences appliquées -->
+                    <a href="module.html?name=Sciences%20appliqu%C3%A9es&code=SI" class="fiche-choice">
+                        <div class="fiche-icon icon-si">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/><line x1="9" y1="10" x2="9" y2="14"/><line x1="15" y1="10" x2="15" y2="14"/><line x1="10" y1="9" x2="14" y2="9"/><line x1="10" y1="15" x2="14" y2="15"/>
+                            </svg>
+                        </div>
+                        <h3>Sciences appliquées</h3>
+                        <span class="fiche-module">SI</span>
+                        <p>Logique · Numération · Algèbre de Boole · Circuits</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- M117 Infrastructure réseau -->
+                    <a href="module.html?name=Infrastructure%20r%C3%A9seau&code=M117" class="fiche-choice">
+                        <div class="fiche-icon icon-reseau">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="17" width="6" height="6" rx="1"/><rect x="17" y="1" width="6" height="6" rx="1"/><line x1="4" y1="7" x2="4" y2="12"/><line x1="20" y1="7" x2="20" y2="12"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="12" y1="12" x2="12" y2="17"/>
+                            </svg>
+                        </div>
+                        <h3>Infrastructure réseau</h3>
+                        <span class="fiche-module">M117</span>
+                        <p>TCP/IP · DNS · DHCP · VLAN · Routage</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                </div>
+
+                <!-- SÉPARATEUR THÉORIE -->
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-label">
+                        <span class="divider-diamond">✦</span>
+                        Théorie
+                        <span class="divider-diamond">✦</span>
+                    </div>
+                    <div class="divider-line"></div>
+                </div>
+
+                <!-- GRILLE THÉORIE -->
+                <div class="fiches-grid">
+
+                    <!-- EGC Culture générale -->
+                    <a href="module.html?name=Culture%20g%C3%A9n%C3%A9rale&code=EGC" class="fiche-choice">
+                        <div class="fiche-icon icon-egc">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <h3>Culture générale</h3>
+                        <span class="fiche-module">EGC</span>
+                        <p>Société · Économie · Politique · Éthique</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- FR Français -->
+                    <a href="module.html?name=Fran%C3%A7ais&code=FR" class="fiche-choice">
+                        <div class="fiche-icon icon-fr">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/>
+                            </svg>
+                        </div>
+                        <h3>Français</h3>
+                        <span class="fiche-module">FR</span>
+                        <p>Rédaction · Analyse · Argumentation · Synthèse</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- AN Anglais -->
+                    <a href="module.html?name=Anglais&code=AN" class="fiche-choice">
+                        <div class="fiche-icon icon-an">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>
+                            </svg>
+                        </div>
+                        <h3>Anglais</h3>
+                        <span class="fiche-module">AN</span>
+                        <p>Vocabulaire · Grammaire · Compréhension · Expression</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- SC Sciences -->
+                    <a href="module.html?name=Sciences&code=SC" class="fiche-choice">
+                        <div class="fiche-icon icon-sc">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 3v11.5"/><path d="M15 3v11.5"/><path d="M9 14.5c0 3.5-4 4.5-4 6.5h14c0-2-4-3-4-6.5"/><circle cx="9" cy="3" r="1"/><circle cx="15" cy="3" r="1"/>
+                            </svg>
+                        </div>
+                        <h3>Sciences</h3>
+                        <span class="fiche-module">SC</span>
+                        <p>Physique · Chimie · Énergie · Méthode scientifique</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                    <!-- MA Maths -->
+                    <a href="module.html?name=Maths&code=MA" class="fiche-choice">
+                        <div class="fiche-icon icon-ma">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M17 7l-10 10"/><path d="M7 7l10 10"/>
+                            </svg>
+                        </div>
+                        <h3>Maths</h3>
+                        <span class="fiche-module">MA</span>
+                        <p>Algèbre · Fonctions · Statistiques · Géométrie</p>
+                        <span class="fiche-count">0 fiches</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Désactiver le smooth scroll temporairement pour restaurer la position
+        document.documentElement.style.scrollBehavior = 'auto';
+        const savedScroll = sessionStorage.getItem('fichesScroll');
+        if (savedScroll) {
+            window.scrollTo(0, parseInt(savedScroll));
+            sessionStorage.removeItem('fichesScroll');
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = '';
+            }, 100);
+        });
+
+        // Clic sur une carte module
+        document.querySelectorAll('.fiche-choice').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                sessionStorage.setItem('fichesScroll', window.scrollY);
+                this.classList.add('clicked');
+                window.location.href = href;
+            });
+        });
+    </script>
+
+</body>
+</html>

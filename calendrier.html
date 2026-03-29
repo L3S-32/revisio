@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Calendrier</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/calendrier.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">Révisio</span>
+            </div>
+            <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="fiches.html">Fiches</a></li>
+                <li><a href="resultats.html">Résultats</a></li>
+                <li><a href="calendrier.html" class="active">Calendrier</a></li>
+                <li><a href="#">Mon profil</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero hero-cal">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                CALENDRIER DE RÉVISION
+            </div>
+            <h1 class="hero-title"><span id="calMonthTitle">Mars</span> <em id="calYearTitle">2026</em></h1>
+            <div class="cal-nav">
+                <button class="cal-nav-btn" id="calPrev">‹</button>
+                <button class="cal-nav-today" id="calToday">Aujourd'hui</button>
+                <button class="cal-nav-btn" id="calNext">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPACER -->
+    <div class="hero-spacer"></div>
+
+    <!-- CONTENT PANEL -->
+    <div class="content-panel">
+
+        <!-- CALENDRIER GRAND -->
+        <section class="cal-section">
+            <div class="cal-container-wide">
+                <div class="cal-grid">
+                    <div class="cal-header-row">
+                        <span>LUN</span><span>MAR</span><span>MER</span><span>JEU</span><span>VEN</span><span>SAM</span><span>DIM</span>
+                    </div>
+                    <div class="cal-body" id="calBody"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTS À VENIR -->
+        <section class="cal-upcoming-section">
+            <div class="cal-container-wide">
+                <div class="cal-upcoming-card">
+                    <span class="cal-upcoming-tag">TESTS À VENIR</span>
+                    <div class="cal-upcoming-list" id="upcomingList"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- TESTS (uniquement ceux que tu as donnés) ---
+        const tests = [
+            { date: '2026-04-01', name: 'Anglais', module: 'AN', color: '#C4944A', link: 'module.html?name=Anglais&code=AN' },
+        ];
+
+        const monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+        const now = new Date();
+        let currentMonth = now.getMonth();
+        let currentYear = now.getFullYear();
+
+        function getTestsForDate(y, m, d) {
+            const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            return tests.filter(t => t.date === dateStr);
+        }
+
+        function renderCalendar() {
+            document.getElementById('calMonthTitle').textContent = monthNames[currentMonth];
+            document.getElementById('calYearTitle').textContent = currentYear;
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            let startDay = firstDay.getDay() - 1;
+            if (startDay < 0) startDay = 6;
+
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
+
+            const body = document.getElementById('calBody');
+            body.innerHTML = '';
+
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
+            // Previous month
+            for (let i = startDay - 1; i >= 0; i--) {
+                body.innerHTML += `<div class="cal-day cal-day-other"><span class="cal-day-num">${prevMonthDays - i}</span></div>`;
+            }
+
+            // Current month
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = isCurrentMonth && d === today.getDate();
+                const dayTests = getTestsForDate(currentYear, currentMonth, d);
+
+                let testHtml = '';
+                if (dayTests.length > 0) {
+                    testHtml = dayTests.map(t =>
+                        `<a href="${t.link}" class="cal-test-badge" style="background:${t.color}">${t.name}</a>`
+                    ).join('');
+                }
+
+                body.innerHTML += `
+                    <div class="cal-day ${isToday ? 'cal-day-today' : ''} ${dayTests.length > 0 ? 'cal-day-has-test' : ''}">
+                        <span class="cal-day-num">${d}</span>
+                        ${testHtml}
+                    </div>
+                `;
+            }
+
+            // Next month
+            const totalCells = startDay + daysInMonth;
+            const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (let i = 1; i <= remaining; i++) {
+                body.innerHTML += `<div class="cal-day cal-day-other"><span class="cal-day-num">${i}</span></div>`;
+            }
+        }
+
+        function renderUpcoming() {
+            const list = document.getElementById('upcomingList');
+            const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+            const upcoming = tests.filter(t => t.date >= todayStr);
+
+            if (upcoming.length === 0) {
+                list.innerHTML = '<p class="cal-no-tests">Aucun test à venir.</p>';
+                return;
+            }
+
+            upcoming.forEach(t => {
+                const d = new Date(t.date);
+                const dayNum = d.getDate();
+                const month = monthNames[d.getMonth()];
+                const dayNames = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+                const dayName = dayNames[d.getDay()];
+                const diff = Math.ceil((d - now) / (1000 * 60 * 60 * 24));
+                let timeLabel = diff === 0 ? "Aujourd'hui" : diff === 1 ? 'Demain' : `Dans ${diff} jours`;
+
+                list.innerHTML += `
+                    <a href="${t.link}" class="cal-upcoming-item">
+                        <div class="cal-upcoming-color" style="background:${t.color}"></div>
+                        <div class="cal-upcoming-info">
+                            <h4>Test ${t.name}</h4>
+                            <span>${dayName} ${dayNum} ${month} · ${t.module}</span>
+                        </div>
+                        <div class="cal-upcoming-right">
+                            <span class="cal-upcoming-time">${timeLabel}</span>
+                            <span class="cal-upcoming-arrow">→</span>
+                        </div>
+                    </a>
+                `;
+            });
+        }
+
+        document.getElementById('calPrev').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        });
+
+        document.getElementById('calNext').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        });
+
+        document.getElementById('calToday').addEventListener('click', () => {
+            currentMonth = now.getMonth();
+            currentYear = now.getFullYear();
+            renderCalendar();
+        });
+
+        renderCalendar();
+        renderUpcoming();
+    </script>
+
+
+</body>
+</html>

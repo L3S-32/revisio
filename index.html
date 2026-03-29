@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisio — Révise moins. Retiens tout.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">Révisio</span>
+            </div>
+            <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="fiches.html">Fiches</a></li>
+                <li><a href="resultats.html">Résultats</a></li>
+                <li><a href="calendrier.html">Calendrier</a></li>
+                <li><a href="#">Mon profil</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                examen 2026 · 9 JUIN
+            </div>
+            <div class="countdown-big">
+                <span id="countdown"></span> <span class="countdown-label">JOURS RESTANTS</span>
+            </div>
+            <h1 class="hero-title">Révise moins.<br>Retiens <em>tout</em>.</h1>
+            <p class="hero-subtitle">Fiches intelligentes, quiz adaptatifs et suivi quotidien — ton<br>meilleur outil avant l'examen.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-dark">Commencer</button>
+                <button class="btn btn-outline">Voir les fiches</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPACER to push content below the fixed hero -->
+    <div class="hero-spacer"></div>
+
+    <!-- CONTENT PANEL that slides up over the hero -->
+    <div class="content-panel">
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">FICHES</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">0%</span>
+                <span class="stat-label">QUIZ RÉUSSIS</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">JOURS DE SUITE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAILY PROGRESS & MATIÈRES -->
+    <section class="main-content">
+        <div class="main-container">
+
+            <!-- TODAY -->
+            <div class="today-card">
+                <div class="today-left">
+                    <span class="today-label">AUJOURD'HUI</span>
+                    <div class="today-tasks">
+                        <span class="task done"><span class="task-check">✓</span> Dérivées</span>
+                        <span class="task done"><span class="task-check">✓</span> Quiz Révolution</span>
+                        <span class="task pending"><span class="task-circle"></span> Vocabulaire anglais</span>
+                    </div>
+                </div>
+                <div class="today-right">
+                    <span class="today-count">2/3</span>
+                    <span class="today-completed">complétés</span>
+                </div>
+            </div>
+
+            <!-- MATIÈRES EN COURS -->
+            <div class="matieres-header">
+                <h2>Matières en cours</h2>
+                <a href="#" class="see-all">Tout voir →</a>
+            </div>
+            <div class="matieres-grid">
+                <div class="matiere-card">
+                    <div class="matiere-icon icon-math">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
+                    </div>
+                    <h3>Mathématiques</h3>
+                    <p class="matiere-topics">Dérivées · Intégrales · Suites</p>
+                    <div class="matiere-progress">
+                        <div class="progress-info">
+                            <span>8 fiches</span>
+                            <span>78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-progress="78"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="matiere-card">
+                    <div class="matiere-icon icon-history">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Histoire-Géo</h3>
+                    <p class="matiere-topics">Révolution · Guerres mondiales</p>
+                    <div class="matiere-progress">
+                        <div class="progress-info">
+                            <span>5 fiches</span>
+                            <span>55%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-progress="55"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="matiere-card">
+                    <div class="matiere-icon icon-svt">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l2-6 4 12 2-6"/></svg>
+                    </div>
+                    <h3>SVT</h3>
+                    <p class="matiere-topics">Génétique · Évolution</p>
+                    <div class="matiere-progress">
+                        <div class="progress-info">
+                            <span>4 fiches</span>
+                            <span>33%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-progress="33"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RÉVISION & PROGRESSION -->
+            <h2 class="section-title">Révision & Progression</h2>
+            <div class="quiz-progression-grid">
+                <!-- Flashcard difficile -->
+                <div class="quiz-card" id="hardFlashcard">
+                    <span class="quiz-label">CARTE À REVOIR</span>
+                    <p class="quiz-question" id="hardQuestion">Aucune erreur enregistrée</p>
+                    <div class="quiz-answer-reveal">
+                        <button class="btn btn-outline btn-sm" id="hardRevealBtn">Voir la réponse</button>
+                        <p class="quiz-answer-text" id="hardAnswer" style="display:none;"></p>
+                    </div>
+                </div>
+                <!-- Streak -->
+                <div class="streak-card">
+                    <div class="streak-top">
+                        <div>
+                            <span class="streak-number">7</span>
+                            <span class="streak-text">JOURS DE SUITE</span>
+                        </div>
+                        <span class="streak-badge">En feu</span>
+                    </div>
+                    <div class="streak-days">
+                        <span class="day">L</span>
+                        <span class="day">M</span>
+                        <span class="day">M</span>
+                        <span class="day">J</span>
+                        <span class="day">V</span>
+                        <span class="day">S</span>
+                        <span class="day active">D</span>
+                    </div>
+                    <p class="streak-message">Tu révises chaque jour depuis une semaine.<br>Continue — l'examen approche.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    </div><!-- /content-panel -->
+
+    <script src="js/script.js"></script>
+    <script>
+        // Charger une flashcard difficile depuis les erreurs
+        const global = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+        const allErrors = [];
+        Object.values(global).forEach(m => {
+            if (m.errors) allErrors.push(...m.errors);
+        });
+        if (allErrors.length > 0) {
+            const rand = allErrors[Math.floor(Math.random() * allErrors.length)];
+            document.getElementById('hardQuestion').textContent = rand.q;
+            document.getElementById('hardAnswer').textContent = rand.a;
+            document.getElementById('hardRevealBtn').addEventListener('click', function() {
+                const ans = document.getElementById('hardAnswer');
+                if (ans.style.display === 'none') {
+                    ans.style.display = 'block';
+                    this.textContent = 'Masquer';
+                } else {
+                    ans.style.display = 'none';
+                    this.textContent = 'Voir la réponse';
+                }
+            });
+        } else {
+            document.getElementById('hardRevealBtn').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

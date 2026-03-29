@@ -1,0 +1,251 @@
+/* ===== FICHES PAGE ===== */
+
+.hero-fiches .hero-container {
+    padding-top: 80px;
+}
+
+.hero-fiches {
+    align-items: flex-start;
+    padding-top: 80px;
+}
+
+.hero-fiches .hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* ===== MODULE TAGS IN HERO ===== */
+.hero-modules {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-module-tag {
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.hero-module-tag:hover {
+    border-color: rgba(196, 148, 74, 0.4);
+    color: rgba(196, 148, 74, 0.7);
+    background: rgba(196, 148, 74, 0.08);
+}
+
+.fiches-section {
+    padding: 60px 0 80px;
+    background: var(--white);
+}
+
+.fiches-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.fiches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.fiche-choice {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 36px 28px;
+    text-decoration: none;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease, border-color 0.3s ease, opacity 0.4s ease;
+    border: 1.5px solid transparent;
+}
+
+/* Animation au clic */
+.fiche-choice.clicked {
+    transform: scale(0.96);
+    opacity: 0.6;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+
+.fiche-choice:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(62, 43, 30, 0.1);
+    border-color: var(--border);
+}
+
+.fiche-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--brown-medium);
+}
+
+.fiche-choice h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    margin-bottom: 4px;
+}
+
+.fiche-module {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+
+.fiche-choice p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.fiche-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown-light);
+    letter-spacing: 0.5px;
+}
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 56px 0 40px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(62, 43, 30, 0.1);
+}
+
+.divider-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 26px;
+    border: 1px solid rgba(62, 43, 30, 0.1);
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: rgba(62, 43, 30, 0.45);
+    white-space: nowrap;
+    background: rgba(62, 43, 30, 0.02);
+}
+
+.divider-diamond {
+    color: var(--gold);
+    font-size: 9px;
+    opacity: 0.5;
+}
+
+/* ===== RESPONSIVE — TABLET ===== */
+@media (max-width: 1024px) {
+    .fiches-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-modules {
+        max-width: 500px;
+        gap: 10px;
+    }
+
+    .fiche-choice {
+        padding: 28px 22px;
+    }
+
+    .fiche-choice h3 {
+        font-size: 18px;
+    }
+}
+
+/* ===== RESPONSIVE — MOBILE ===== */
+@media (max-width: 768px) {
+    .hero-fiches {
+        padding-top: 60px;
+    }
+
+    .hero-fiches .hero-container {
+        padding-top: 60px;
+    }
+
+    .fiches-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .fiches-container {
+        padding: 0 16px;
+    }
+
+    .fiches-section {
+        padding: 40px 0 60px;
+    }
+
+    .fiche-choice {
+        padding: 24px 20px;
+    }
+
+    .fiche-choice h3 {
+        font-size: 18px;
+    }
+
+    .fiche-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .hero-modules {
+        max-width: 320px;
+        gap: 8px;
+    }
+
+    .hero-module-tag {
+        padding: 8px 16px;
+        font-size: 11px;
+    }
+}
+
+/* ===== RESPONSIVE — SMALL MOBILE ===== */
+@media (max-width: 400px) {
+    .hero-modules {
+        max-width: 260px;
+    }
+
+    .hero-module-tag {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+}
