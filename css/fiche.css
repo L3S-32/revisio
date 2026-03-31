@@ -1,0 +1,448 @@
+/* ===== FICHE DE RÉVISION PAGE ===== */
+.fiche-page {
+    min-height: 100vh;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    animation: ficheFadeIn 0.6s ease both;
+}
+
+@keyframes ficheFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- TOP BAR --- */
+.fiche-topbar {
+    padding: 28px 40px 0;
+}
+
+.fiche-module-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+}
+
+/* --- MAIN LAYOUT --- */
+.fiche-layout {
+    display: flex;
+    gap: 28px;
+    padding: 20px 40px 60px;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ===== SIDEBAR GAUCHE ===== */
+.fiche-sidebar {
+    width: 340px;
+    min-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* Barre de recherche */
+.fiche-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s ease;
+}
+
+.fiche-search:focus-within {
+    border-color: var(--gold);
+}
+
+.fiche-search svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.fiche-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text-dark);
+    width: 100%;
+}
+
+.fiche-search input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Liste des fiches */
+.fiche-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fiche-list-item {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.fiche-list-item:hover {
+    border-color: var(--border);
+    transform: translateY(-1px);
+}
+
+.fiche-list-item.active {
+    border-color: var(--gold);
+    box-shadow: 0 2px 12px rgba(196, 148, 74, 0.1);
+}
+
+.fiche-list-item h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 4px;
+}
+
+.fiche-list-item .fiche-list-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.fiche-list-meta .meta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+}
+
+/* ===== CONTENU DROITE ===== */
+.fiche-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.fiche-card-container {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Header de la carte */
+.fiche-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.fiche-card-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--brown-dark);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.fiche-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.fiche-card-actions button {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brown-light);
+    transition: all 0.2s ease;
+}
+
+.fiche-card-actions button:hover {
+    background: var(--brown-dark);
+    color: var(--white);
+    border-color: var(--brown-dark);
+}
+
+/* Corps de la carte */
+.fiche-card-body {
+    padding: 36px 36px 48px;
+}
+
+/* Titre de la fiche */
+.fiche-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 3.5vw, 34px);
+    font-weight: 900;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+/* Méta (date, temps) */
+.fiche-card-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+/* --- SECTIONS DE CONTENU --- */
+.fiche-section-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    margin-top: 36px;
+}
+
+.fiche-section-title:first-of-type {
+    margin-top: 0;
+}
+
+.fiche-section-title h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    white-space: nowrap;
+}
+
+.fiche-section-title .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* Paragraphes */
+.fiche-card-body p {
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+/* Texte inline surligné (code inline) */
+.fiche-card-body .hl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 10px;
+    border-radius: 6px;
+    background: var(--cream-dark);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brown-dark);
+}
+
+/* Listes à puces */
+.fiche-card-body ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.fiche-card-body ul li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.fiche-card-body ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+}
+
+/* Blocs de formule / code (bruns foncés) */
+.fiche-formula-block {
+    background: var(--brown-dark);
+    color: #E8DFD6;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-bottom: 14px;
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+/* Blocs d'encadré info */
+.fiche-info-box {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.fiche-info-box .info-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 10px;
+}
+
+/* Warning box */
+.fiche-warning-box {
+    background: rgba(196, 148, 74, 0.08);
+    border: 1px solid rgba(196, 148, 74, 0.25);
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    line-height: 1.7;
+}
+
+/* Tableaux */
+.fiche-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.fiche-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.fiche-table-wrap thead {
+    background: var(--brown-dark);
+}
+
+.fiche-table-wrap th {
+    padding: 14px 16px;
+    color: var(--gold-light);
+    font-weight: 700;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+.fiche-table-wrap td {
+    padding: 12px 16px;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+}
+
+.fiche-table-wrap tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.fiche-table-wrap tbody tr:nth-child(even) {
+    background: rgba(250, 246, 241, 0.5);
+}
+
+/* --- BOUTON RETOUR (en bas) --- */
+.fiche-back-bar {
+    text-align: center;
+    padding: 0 40px 48px;
+}
+
+.fiche-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 36px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    background: var(--white);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.fiche-back-btn:hover {
+    background: var(--brown-dark);
+    color: var(--white);
+    border-color: var(--brown-dark);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .fiche-layout {
+        flex-direction: column;
+        padding: 16px 16px 40px;
+        gap: 16px;
+    }
+
+    .fiche-sidebar {
+        width: 100%;
+        min-width: 0;
+        position: static;
+        max-height: none;
+    }
+
+    /* On mobile, collapse sidebar to horizontal scroll */
+    .fiche-list {
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 4px;
+    }
+
+    .fiche-list-item {
+        min-width: 200px;
+        flex-shrink: 0;
+    }
+
+    .fiche-topbar {
+        padding: 20px 16px 0;
+    }
+
+    .fiche-card-body {
+        padding: 24px 20px 36px;
+    }
+
+    .fiche-back-bar {
+        padding: 0 16px 36px;
+    }
+}
