@@ -156,44 +156,6 @@
 
 .profil-success.show { display: block; }
 
-/* ===== NAV AVATAR ===== */
-.nav-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--brown-medium);
-    color: var(--gold-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.nav-links-profil {
-    display: flex;
-    list-style: none;
-    gap: 24px;
-}
-
-.nav-links-profil a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 15px;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-}
-
-.nav-links-profil a:hover,
-.nav-links-profil a.active {
-    color: var(--white);
-    background: none;
-    border: none;
-}
 
 /* ============================================
    DASHBOARD
@@ -565,10 +527,6 @@
 }
 
 @media (max-width: 768px) {
-    .nav-links-profil {
-        display: none;
-    }
-
     .dash-header,
     .dash-stats,
     .dash-mid,

@@ -18,16 +18,14 @@
                 <span class="logo-icon">✦</span>
                 <span class="logo-text">Revisfredo</span>
             </div>
-            <ul class="nav-links nav-links-profil">
+            <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open');document.body.classList.toggle('menu-open');document.documentElement.classList.toggle('menu-open')"><span></span><span></span><span></span></div>
+            <ul class="nav-links">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="fiches.html">Fiches</a></li>
                 <li><a href="resultats.html">Résultats</a></li>
                 <li><a href="calendrier.html">Calendrier</a></li>
-                <li><a href="profil.html" class="active">Compte</a></li>
+                <li><a href="profil.html" class="active">Mon profil</a></li>
             </ul>
-            <div class="nav-avatar" id="navAvatar">
-                <span id="navAvatarLetter">?</span>
-            </div>
         </div>
     </nav>
 
@@ -270,7 +268,8 @@
             // Header
             document.getElementById('dashName').textContent = name;
             document.getElementById('dashAvatar').textContent = initial;
-            document.getElementById('navAvatarLetter').textContent = initial;
+            const navAvatarEl = document.getElementById('navAvatarLetter');
+            if (navAvatarEl) navAvatarEl.textContent = initial;
 
             // Membre depuis
             const createdAt = profile?.createdAt ? new Date(profile.createdAt) : new Date();
