@@ -34,6 +34,19 @@ body {
     overflow-x: hidden;
 }
 
+/* ===== MENU OPEN — BLOCK SCROLL ===== */
+body.menu-open,
+html.menu-open {
+    overflow: hidden !important;
+    touch-action: none;
+}
+
+body.menu-open .content-panel,
+body.menu-open .hero-spacer,
+body.menu-open .hero {
+    pointer-events: none;
+}
+
 /* ===== NAVBAR ===== */
 .navbar {
     background: var(--brown-dark);
@@ -769,7 +782,7 @@ body {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 16px;
+        gap: 24px;
         z-index: 1000;
     }
 
@@ -778,8 +791,20 @@ body {
     }
 
     .nav-links a {
-        font-size: 18px;
-        padding: 12px 32px;
+        font-size: 22px;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 0;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--white);
+        background: none;
+        border: none;
     }
 
     .hero-container {
