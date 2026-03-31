@@ -378,9 +378,32 @@
             current = state.current;
             results = state.results;
         } else {
-            let fullDeck = shuffle(allDecks[moduleName] || allDecks['Anglais']);
-            const count = Math.max(1, Math.round(fullDeck.length * pct / 100));
-            cards = fullDeck.slice(0, count);
+            const fullDeckRaw = allDecks[moduleName] || allDecks['Anglais'];
+            const count = Math.max(1, Math.round(fullDeckRaw.length * pct / 100));
+
+            if (pct < 100) {
+                // Mode partiel : 80% cartes échouées + 20% aléatoires
+                const globalKey = 'fc_results_global';
+                const globalData = JSON.parse(localStorage.getItem(globalKey) || '{}');
+                const mKey = moduleCode || moduleName;
+                const pastErrors = (globalData[mKey] && globalData[mKey].errors) || [];
+
+                // Trouver les cartes qui matchent des erreurs passées
+                const errorQuestions = new Set(pastErrors.map(e => e.q));
+                const failedCards = fullDeckRaw.filter(c => errorQuestions.has(c.q));
+                const otherCards = fullDeckRaw.filter(c => !errorQuestions.has(c.q));
+
+                const failedCount = Math.min(Math.round(count * 0.8), failedCards.length);
+                const otherCount = count - failedCount;
+
+                const picked = [
+                    ...shuffle(failedCards).slice(0, failedCount),
+                    ...shuffle(otherCards).slice(0, otherCount)
+                ];
+                cards = shuffle(picked);
+            } else {
+                cards = shuffle(fullDeckRaw).slice(0, count);
+            }
             current = 0;
             results = [];
         }

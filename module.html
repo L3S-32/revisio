@@ -90,6 +90,22 @@
         </div>
     </div>
 
+    <!-- MODAL AVERTISSEMENT MODE PARTIEL -->
+    <div class="percent-modal" id="warnModal">
+        <div class="percent-backdrop" id="warnBackdrop"></div>
+        <div class="percent-content warn-content">
+            <div class="warn-icon">⚠</div>
+            <h3>Mode révision ciblée</h3>
+            <p class="percent-sub">En mode 25% ou 50%, <strong>80% des cartes</strong> seront celles que tu rates le plus souvent, pour t'aider à progresser sur tes points faibles.</p>
+            <label class="warn-check-label">
+                <input type="checkbox" id="warnDontShow">
+                <span class="warn-checkmark"></span>
+                Ne plus afficher ce message
+            </label>
+            <button class="percent-start" id="warnContinue">Compris, continuer</button>
+        </div>
+    </div>
+
     <script>
         // Lire le module depuis l'URL
         const params = new URLSearchParams(window.location.search);
@@ -112,6 +128,8 @@
         // Flashcards — ouvrir modal %
         const modal = document.getElementById('percentModal');
         const backdrop = document.getElementById('percentBackdrop');
+        const warnModal = document.getElementById('warnModal');
+        const warnBackdrop = document.getElementById('warnBackdrop');
         let selectedPct = 100;
 
         document.getElementById('optFlashcards').addEventListener('click', function(e) {
@@ -121,6 +139,7 @@
         });
 
         backdrop.addEventListener('click', () => modal.classList.remove('open'));
+        warnBackdrop.addEventListener('click', () => warnModal.classList.remove('open'));
 
         document.querySelectorAll('.percent-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -130,8 +149,25 @@
             });
         });
 
-        document.getElementById('percentStart').addEventListener('click', () => {
+        function launchFlashcards() {
             window.location.href = `flashcard.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}&pct=${selectedPct}`;
+        }
+
+        document.getElementById('percentStart').addEventListener('click', () => {
+            if (selectedPct <= 50 && !localStorage.getItem('hidePartialWarn')) {
+                modal.classList.remove('open');
+                warnModal.classList.add('open');
+            } else {
+                launchFlashcards();
+            }
+        });
+
+        document.getElementById('warnContinue').addEventListener('click', () => {
+            if (document.getElementById('warnDontShow').checked) {
+                localStorage.setItem('hidePartialWarn', '1');
+            }
+            warnModal.classList.remove('open');
+            launchFlashcards();
         });
 
         // Résumé global — ouvrir fiche.html

@@ -325,6 +325,61 @@
     background: var(--gold);
 }
 
+/* --- WARNING MODAL --- */
+.warn-content {
+    max-width: 420px;
+}
+
+.warn-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.warn-content strong {
+    color: var(--gold);
+}
+
+.warn-check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 24px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-muted);
+    user-select: none;
+}
+
+.warn-check-label input[type="checkbox"] {
+    display: none;
+}
+
+.warn-checkmark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.warn-check-label input[type="checkbox"]:checked + .warn-checkmark {
+    background: var(--brown-dark);
+    border-color: var(--brown-dark);
+}
+
+.warn-check-label input[type="checkbox"]:checked + .warn-checkmark::after {
+    content: '✓';
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .module-page {
