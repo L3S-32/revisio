@@ -171,6 +171,25 @@
     opacity: 0.5;
 }
 
+/* ===== RESPONSIVE — MAC 14"/16" ===== */
+@media (max-height: 900px) {
+    .hero-fiches {
+        padding-top: 60px;
+    }
+
+    .hero-fiches .hero-container {
+        padding-top: 60px;
+        transform: scale(0.9);
+        transform-origin: center center;
+    }
+}
+
+@media (max-height: 750px) {
+    .hero-fiches .hero-container {
+        transform: scale(0.8);
+    }
+}
+
 /* ===== RESPONSIVE — TABLET ===== */
 @media (max-width: 1024px) {
     .fiches-grid {

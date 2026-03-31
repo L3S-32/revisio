@@ -200,6 +200,9 @@ body {
     transition: all 0.3s ease;
     border: none;
     font-family: inherit;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
 
 .btn-dark {
@@ -655,6 +658,36 @@ body {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.45);
     line-height: 1.6;
+}
+
+/* ===== RESPONSIVE — MAC 14"/16" ===== */
+@media (max-height: 900px) {
+    .hero-container {
+        transform: scale(0.9);
+        transform-origin: center center;
+    }
+
+    .countdown-big {
+        margin-bottom: 12px;
+    }
+
+    .hero-badge {
+        margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-height: 750px) {
+    .hero-container {
+        transform: scale(0.82);
+    }
+
+    .hero-spacer {
+        height: 80vh;
+    }
 }
 
 /* ===== RESPONSIVE — TABLET ===== */

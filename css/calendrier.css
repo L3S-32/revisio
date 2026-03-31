@@ -247,6 +247,14 @@
     padding: 20px 0;
 }
 
+/* ===== RESPONSIVE — MAC 14"/16" ===== */
+@media (max-height: 900px) {
+    .hero-cal .hero-container {
+        transform: scale(0.9);
+        transform-origin: center center;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .cal-container-wide {
