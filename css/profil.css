@@ -1,0 +1,302 @@
+/* ===== PROFIL PAGE ===== */
+.profil-page {
+    min-height: 100vh;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    animation: profilFadeIn 0.6s ease both;
+}
+
+@keyframes profilFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profil-container {
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+}
+
+.profil-logo {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: var(--gold);
+}
+
+.profil-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight: 900;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+}
+
+.profil-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+}
+
+/* --- TABS LOGIN / SIGNUP --- */
+.profil-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--cream-dark);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 28px;
+}
+
+.profil-tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.profil-tab.active {
+    background: var(--white);
+    color: var(--brown-dark);
+    box-shadow: 0 2px 8px rgba(62, 43, 30, 0.08);
+}
+
+/* --- FORMS --- */
+.profil-form {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.profil-form.active {
+    display: flex;
+}
+
+.profil-input-group {
+    text-align: left;
+}
+
+.profil-input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
+}
+
+.profil-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    background: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.profil-input:focus {
+    border-color: var(--gold);
+}
+
+.profil-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* --- SUBMIT --- */
+.profil-submit {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: var(--brown-dark);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-top: 8px;
+}
+
+.profil-submit:hover {
+    background: var(--gold);
+}
+
+.profil-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- ERROR --- */
+.profil-error {
+    background: rgba(192, 97, 74, 0.1);
+    border: 1px solid rgba(192, 97, 74, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--red-soft);
+    display: none;
+}
+
+.profil-error.show {
+    display: block;
+}
+
+/* --- SUCCESS (message) --- */
+.profil-success {
+    background: rgba(122, 154, 109, 0.1);
+    border: 1px solid rgba(122, 154, 109, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--green-soft);
+    display: none;
+}
+
+.profil-success.show {
+    display: block;
+}
+
+/* ===== DASHBOARD (quand connecté) ===== */
+.profil-dashboard {
+    display: none;
+    text-align: center;
+}
+
+.profil-dashboard.active {
+    display: block;
+}
+
+.profil-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: var(--brown-dark);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.profil-user-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--brown-dark);
+    margin-bottom: 4px;
+}
+
+.profil-user-email {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+/* Stats */
+.profil-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.profil-stat {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px 12px;
+    border: 1px solid var(--border);
+}
+
+.profil-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--brown-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.profil-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Actions */
+.profil-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profil-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.profil-action-btn:hover {
+    border-color: var(--gold);
+    transform: translateY(-1px);
+}
+
+.profil-action-btn.danger {
+    color: var(--red-soft);
+    border-color: rgba(192, 97, 74, 0.3);
+}
+
+.profil-action-btn.danger:hover {
+    background: rgba(192, 97, 74, 0.08);
+    border-color: var(--red-soft);
+}
+
+/* --- BACK LINK --- */
+.profil-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.profil-back:hover {
+    color: var(--brown-dark);
+}
+
+@media (max-width: 500px) {
+    .profil-stats {
+        grid-template-columns: 1fr;
+    }
+}

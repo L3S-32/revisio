@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Révisio — Flashcards</title>
+    <title>Revisfredo — Flashcards</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flashcard.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -66,7 +66,14 @@
 
     </div>
 
-    <script>
+    <script type="module">
+        import { auth, onAuthStateChanged, saveQuizResult } from './js/firebase-config.js';
+
+        let currentUser = null;
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+        });
+
         // --- DONNÉES FLASHCARDS ---
         const allDecks = {
             'Infrastructure réseau': [
@@ -470,10 +477,27 @@
             localStorage.setItem(key, JSON.stringify(global));
         }
 
-        function showEndScreen() {
+        async function showEndScreen() {
             const correct = results.filter(r => r === 'correct').length;
             localStorage.removeItem(saveKey);
             saveGlobalResults();
+
+            // Sauvegarder dans Firebase si connecté
+            if (currentUser) {
+                try {
+                    await saveQuizResult(currentUser.uid, {
+                        module: moduleName,
+                        code: moduleCode,
+                        score: correct,
+                        total: cards.length,
+                        percentage: Math.round((correct / cards.length) * 100),
+                        date: new Date().toISOString(),
+                        errors: errors.map(e => ({ q: e.q, a: e.a })).slice(0, 20)
+                    });
+                } catch (e) {
+                    console.warn('Erreur sauvegarde Firebase:', e);
+                }
+            }
 
             let errorsHtml = '';
             if (errors.length > 0) {
@@ -524,7 +548,7 @@
 
         // Label et titre
         document.getElementById('fcLabel').textContent = moduleCode ? `${moduleName.toUpperCase()} · ${moduleCode}` : moduleName.toUpperCase();
-        document.title = `Révisio — Flashcards ${moduleName}`;
+        document.title = `Revisfredo — Flashcards ${moduleName}`;
 
         document.getElementById('fcBack').addEventListener('click', function(e) {
             e.preventDefault();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Révisio — Résultats</title>
+    <title>Revisfredo — Résultats</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/resultats.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <span class="logo-icon">✦</span>
-                <span class="logo-text">Révisio</span>
+                <span class="logo-text">Revisfredo</span>
             </div>
             <div class="nav-hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
             <ul class="nav-links">
@@ -23,7 +23,7 @@
                 <li><a href="fiches.html">Fiches</a></li>
                 <li><a href="resultats.html" class="active">Résultats</a></li>
                 <li><a href="calendrier.html">Calendrier</a></li>
-                <li><a href="#">Mon profil</a></li>
+                <li><a href="profil.html">Mon profil</a></li>
             </ul>
         </div>
     </nav>
@@ -99,14 +99,51 @@
 
     </div>
 
-    <script>
+    <script type="module">
+        import { auth, onAuthStateChanged, loadQuizResults } from './js/firebase-config.js';
+
         // Date
         const now = new Date();
         const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
         document.getElementById('heroDate').textContent = `SESSION DU ${now.getDate()} ${months[now.getMonth()].toUpperCase()} ${now.getFullYear()}`;
 
-        // Données
-        const global = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+        // --- Charger les résultats (localStorage + Firebase) ---
+        async function loadAllResults() {
+            // D'abord les données locales
+            const global = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+
+            // Ensuite Firebase si connecté
+            const user = auth.currentUser;
+            if (user) {
+                try {
+                    const firebaseResults = await loadQuizResults(user.uid);
+                    // Fusionner les résultats Firebase dans l'objet global
+                    firebaseResults.forEach(r => {
+                        const mKey = r.code || r.module;
+                        if (!global[mKey]) {
+                            global[mKey] = { name: r.module, code: r.code, total: 0, correct: 0, errors: [] };
+                        }
+                        global[mKey].total += r.total;
+                        global[mKey].correct += r.score;
+                        if (r.errors) {
+                            global[mKey].errors = [...(r.errors || []), ...(global[mKey].errors || [])].slice(0, 20);
+                        }
+                    });
+                } catch (e) {
+                    console.warn('Erreur chargement Firebase:', e);
+                }
+            }
+
+            return global;
+        }
+
+        // Attendre l'auth puis charger
+        onAuthStateChanged(auth, async (user) => {
+            const global = await loadAllResults();
+            renderResults(global);
+        });
+
+        function renderResults(global) {
         const modules = Object.keys(global);
 
         if (modules.length > 0) {
@@ -221,6 +258,7 @@
         } else {
             document.getElementById('heroSummary').textContent = 'Aucune session pour l\'instant.';
         }
+        } // fin renderResults
     </script>
 
 
