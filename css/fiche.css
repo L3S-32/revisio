@@ -468,12 +468,12 @@
 /* ===== EXERCICE À TROUS ===== */
 .rev-blank {
     display: inline-block;
-    min-width: 80px;
-    height: 1.8em;
-    padding: 0 16px;
-    margin: 3px 4px;
+    min-width: 110px;
+    height: 2.2em;
+    padding: 0 20px;
+    margin: 4px 4px;
     background: var(--brown-dark);
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     user-select: none;
     transition: background 0.3s ease;
