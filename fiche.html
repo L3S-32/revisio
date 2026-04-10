@@ -1062,11 +1062,20 @@ GHz = 10⁹ Hz</div>
         });
         cardContent.innerHTML = html;
 
-        // En mode révision : montrer 1 mot sur 2 comme indice supplémentaire
+        // En mode révision : révéler ~50% des mots aléatoirement
         if (revisionMode) {
             const blanks = cardContent.querySelectorAll('.rev-blank');
+            const indices = [...Array(blanks.length).keys()];
+            // Mélanger Fisher-Yates
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            // Révéler la première moitié (aléatoire)
+            const revealCount = Math.floor(blanks.length * 0.5);
+            const toReveal = new Set(indices.slice(0, revealCount));
             blanks.forEach((b, i) => {
-                if (i % 2 === 0) {
+                if (toReveal.has(i)) {
                     b.textContent = b.dataset.answer;
                     b.classList.add('rev-revealed');
                 }
@@ -1101,6 +1110,13 @@ GHz = 10⁹ Hz</div>
         } else {
             revisionMode = false;
             showFiche(activeIndex);
+        }
+    });
+
+    // Bouton pour re-mélanger les mots cachés (clic sur le label "Révision")
+    document.querySelector('.rev-switch-label').addEventListener('click', () => {
+        if (revisionMode) {
+            showFiche(activeIndex); // Re-génère avec un nouveau mélange aléatoire
         }
     });
 
