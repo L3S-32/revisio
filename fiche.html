@@ -923,10 +923,14 @@ GHz = 10⁹ Hz</div>
         let html = '';
         f.sections.forEach(sec => {
             html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
-            html += `<div class="rev-content-wrap${revisionMode ? ' rev-hidden' : ''}">
-                <div class="rev-spoiler-overlay"></div>
-                <div class="rev-content-inner">${sec.html}</div>
-            </div>`;
+            if (revisionMode) {
+                html += `<div class="rev-content-wrap rev-hidden">
+                    <div class="rev-spoiler-overlay"></div>
+                    <div class="rev-content-inner">${sec.html}</div>
+                </div>`;
+            } else {
+                html += sec.html;
+            }
         });
         cardContent.innerHTML = html;
 
