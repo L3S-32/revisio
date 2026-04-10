@@ -937,66 +937,97 @@ GHz = 10⁹ Hz</div>
     // Mots "vides" (articles, prépositions) qu'on ne cache pas car pas utiles pour la révision
     const stopWords = new Set(['le','la','les','l','un','une','des','de','du','d','et','ou','à','a','en','au','aux','par','pour','avec','dans','sur','est','sont','ce','se','ne','pas','que','qui','son','sa','ses','il','elle','on','nous','vous','ils','elles','être','avoir','faire','plus','très','aussi','mais','car','donc','si','y','cette','ces','tout','tous','toute','toutes','peut','entre','même','vers','chez','sans','avant','après','comme','bien','peu','trop','moins','lors','dont','où','n','s','c','qu','j','m','t','alors','puis','deux','trois','non','oui','chaque','quel','quelle','quels','autre','autres','sous']);
 
-    // Tags dont le contenu ne doit JAMAIS être caché (indices de renseignement)
+    // Tags protégés = indices visibles (ne jamais cacher)
     const protectedTags = new Set(['TH', 'STRONG', 'B', 'H3', 'H4']);
+    var blankCounter = 0;
 
-    // Extraire le texte d'un noeud HTML et cacher les mots importants
+    function getBlankLetter(n) {
+        // A, B, C... Z, AA, AB...
+        let s = '';
+        do {
+            s = String.fromCharCode(65 + (n % 26)) + s;
+            n = Math.floor(n / 26) - 1;
+        } while (n >= 0);
+        return s;
+    }
+
+    // Transformer le HTML en exercice à trous
     function blurContentHTML(htmlStr, heading) {
         const temp = document.createElement('div');
         temp.innerHTML = htmlStr;
 
-        // Mots du heading à ne pas cacher
-        const headingWords = new Set(heading.toLowerCase().replace(/['']/g, ' ').split(/\s+/).filter(w => w.length > 2));
-
         function isInsideProtected(node) {
-            let parent = node.parentElement;
-            while (parent && parent !== temp) {
-                if (protectedTags.has(parent.tagName)) return true;
-                if (parent.classList && parent.classList.contains('hl')) return true;
-                parent = parent.parentElement;
+            let p = node.parentElement;
+            while (p && p !== temp) {
+                if (protectedTags.has(p.tagName)) return true;
+                if (p.classList && p.classList.contains('hl')) return true;
+                p = p.parentElement;
             }
             return false;
         }
 
         function processNode(node) {
-            if (node.nodeType === 3) { // Texte
+            if (node.nodeType === 3) { // Noeud texte
                 const text = node.textContent;
                 if (!text.trim()) return node;
-                // Ne pas cacher si dans un tag protégé
                 if (isInsideProtected(node)) return node;
 
+                // Grouper les mots importants consécutifs en un seul trou
                 const frag = document.createDocumentFragment();
-                const parts = text.split(/(\s+)/);
-                parts.forEach(part => {
+                const words = text.split(/(\s+)/);
+                let groupWords = [];
+                let groupParts = [];
+
+                function flushGroup() {
+                    if (groupWords.length === 0) return;
+                    const answer = groupParts.join('');
+                    const letter = getBlankLetter(blankCounter++);
+                    const span = document.createElement('span');
+                    span.className = 'rev-blank';
+                    span.dataset.answer = answer;
+                    span.textContent = '[' + letter + ']';
+                    span.title = 'Cliquer pour révéler';
+                    span.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (!this.classList.contains('rev-revealed')) {
+                            this.textContent = this.dataset.answer;
+                            this.classList.add('rev-revealed');
+                        }
+                    });
+                    frag.appendChild(span);
+                    groupWords = [];
+                    groupParts = [];
+                }
+
+                words.forEach(part => {
                     if (/^\s+$/.test(part)) {
-                        frag.appendChild(document.createTextNode(part));
+                        if (groupWords.length > 0) {
+                            groupParts.push(part);
+                        } else {
+                            frag.appendChild(document.createTextNode(part));
+                        }
                         return;
                     }
-                    const cleanWord = part.replace(/[.,;:!?()→=\[\]«»"'/\\+−×÷≈≥≤≠⁻¹²³⁰⁴⁵⁶⁷⁸⁹°%€]/g, '').toLowerCase();
-                    const isStop = stopWords.has(cleanWord) || cleanWord.length <= 2;
-                    const isHeading = headingWords.has(cleanWord);
-                    const isNumber = /^\d+([.,]\d+)?$/.test(cleanWord);
+                    const clean = part.replace(/[.,;:!?()→=\[\]«»"''/\\⚠️]/g, '').toLowerCase();
+                    const isStop = stopWords.has(clean) || clean.length <= 2;
 
-                    if (isStop || isHeading || isNumber) {
+                    if (isStop) {
+                        flushGroup();
                         frag.appendChild(document.createTextNode(part));
                     } else {
-                        const span = document.createElement('span');
-                        span.className = 'rev-word rev-word-hidden';
-                        span.textContent = part;
-                        span.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            this.classList.remove('rev-word-hidden');
-                        });
-                        frag.appendChild(span);
+                        groupWords.push(clean);
+                        groupParts.push(part);
                     }
                 });
+                flushGroup();
                 return frag;
             }
-            // Ne pas entrer dans les tags protégés
+
+            // Ne pas toucher aux tags protégés
             if (node.nodeType === 1 && (protectedTags.has(node.tagName) || (node.classList && node.classList.contains('hl')))) {
                 return node;
             }
-            // Récursion sur les enfants
+
             const children = [...node.childNodes];
             children.forEach(child => {
                 const result = processNode(child);
@@ -1027,6 +1058,7 @@ GHz = 10⁹ Hz</div>
         cardMeta.textContent = `Dernière révision · ${dateStr} · ${f.time} de lecture`;
 
         let html = '';
+        blankCounter = 0; // Reset pour chaque fiche
         f.sections.forEach(sec => {
             html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
             if (revisionMode) {

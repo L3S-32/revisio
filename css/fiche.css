@@ -465,24 +465,41 @@
     transform: translateX(20px);
 }
 
-/* ===== MOTS CACHÉS RÉVISION ===== */
-.rev-word {
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    padding: 0 2px;
-}
-
-.rev-word-hidden {
+/* ===== EXERCICE À TROUS ===== */
+.rev-blank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    padding: 2px 10px;
+    margin: 1px 2px;
     background: var(--brown-dark);
-    color: transparent;
+    color: var(--gold-light);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
     cursor: pointer;
     user-select: none;
-    border-radius: 4px;
-    padding: 0 2px;
+    transition: all 0.25s ease;
+    letter-spacing: 0.5px;
 }
 
-.rev-word-hidden:hover {
+.rev-blank:hover {
     background: var(--gold);
+    color: var(--brown-dark);
+    transform: scale(1.05);
+}
+
+.rev-blank.rev-revealed {
+    background: rgba(196, 148, 74, 0.12);
+    color: var(--brown-dark);
+    font-weight: 600;
+    font-size: inherit;
+    cursor: default;
+    padding: 1px 6px;
+    min-width: 0;
+    letter-spacing: 0;
 }
 
 /* ===== MODAL MOT DE PASSE ===== */
