@@ -981,11 +981,10 @@ GHz = 10⁹ Hz</div>
                 function flushGroup() {
                     if (groupWords.length === 0) return;
                     const answer = groupParts.join('');
-                    const letter = getBlankLetter(blankCounter++);
+                    blankCounter++;
                     const span = document.createElement('span');
                     span.className = 'rev-blank';
                     span.dataset.answer = answer;
-                    span.textContent = '[' + letter + ']';
                     span.title = 'Cliquer pour révéler';
                     span.addEventListener('click', function(e) {
                         e.stopPropagation();

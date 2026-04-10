@@ -467,28 +467,21 @@
 
 /* ===== EXERCICE À TROUS ===== */
 .rev-blank {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 36px;
-    padding: 2px 10px;
+    display: inline-block;
+    min-width: 40px;
+    height: 1.4em;
+    padding: 0 8px;
     margin: 1px 2px;
     background: var(--brown-dark);
-    color: var(--gold-light);
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
     border-radius: 6px;
     cursor: pointer;
     user-select: none;
     transition: all 0.25s ease;
-    letter-spacing: 0.5px;
+    vertical-align: baseline;
 }
 
 .rev-blank:hover {
     background: var(--gold);
-    color: var(--brown-dark);
-    transform: scale(1.05);
 }
 
 .rev-blank.rev-revealed {
