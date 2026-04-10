@@ -921,18 +921,26 @@ GHz = 10⁹ Hz</div>
         cardMeta.textContent = `Dernière révision · ${dateStr} · ${f.time} de lecture`;
 
         let html = '';
-        f.sections.forEach(sec => {
-            html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
-            if (revisionMode) {
-                html += `<div class="rev-content-wrap rev-hidden">
-                    <div class="rev-spoiler-overlay"></div>
-                    <div class="rev-content-inner">${sec.html}</div>
-                </div>`;
-            } else {
-                html += sec.html;
-            }
-        });
+        try {
+            f.sections.forEach(sec => {
+                html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
+                if (revisionMode) {
+                    html += `<div class="rev-content-wrap rev-hidden">
+                        <div class="rev-spoiler-overlay"></div>
+                        <div class="rev-content-inner">${sec.html}</div>
+                    </div>`;
+                } else {
+                    html += sec.html;
+                }
+            });
+        } catch(e) {
+            html = '<p style="color:red;font-weight:bold;">ERREUR JS: ' + e.message + '</p>';
+        }
+        if (!html || html.trim().length < 10) {
+            html = '<p style="color:orange;font-weight:bold;">DEBUG: html vide — sections=' + (f.sections ? f.sections.length : 'undefined') + ' revMode=' + revisionMode + '</p>';
+        }
         cardContent.innerHTML = html;
+        cardContent.style.border = '2px dashed red';
 
         // Ajouter les listeners de clic sur les spoilers
         if (revisionMode) {
