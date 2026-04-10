@@ -468,17 +468,16 @@
 /* ===== EXERCICE À TROUS ===== */
 .rev-blank {
     display: inline-block;
-    min-width: 0;
-    padding: 3px 10px;
-    margin: 2px 2px;
+    padding: 2px 8px;
+    margin: 1px 1px;
     background: var(--brown-dark);
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     user-select: none;
-    transition: background 0.3s ease;
+    transition: background 0.2s ease;
     vertical-align: baseline;
     font-size: inherit;
-    line-height: 1.6;
+    line-height: 1.5;
     color: transparent;
 }
 
@@ -487,15 +486,13 @@
 }
 
 .rev-blank.rev-revealed {
-    background: rgba(196, 148, 74, 0.1);
+    background: rgba(196, 148, 74, 0.15);
     color: var(--brown-dark);
     font-weight: 600;
     font-size: inherit;
     cursor: default;
-    padding: 3px 10px;
-    min-width: 0;
-    height: auto;
-    transition: background 0.5s ease, color 0.5s ease;
+    padding: 2px 8px;
+    transition: background 0.4s ease, color 0.4s ease;
 }
 
 /* ===== MODAL MOT DE PASSE ===== */

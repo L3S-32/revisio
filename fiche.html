@@ -985,8 +985,8 @@ GHz = 10⁹ Hz</div>
                     const span = document.createElement('span');
                     span.className = 'rev-blank';
                     span.dataset.answer = answer;
-                    // Texte invisible pour donner la bonne largeur
-                    span.textContent = answer.replace(/./g, '\u00A0');
+                    // Contenu invisible court (juste assez pour cliquer)
+                    span.textContent = '\u00A0\u00A0\u00A0\u00A0';
                     frag.appendChild(span);
                     groupWords = [];
                     groupParts = [];
@@ -1063,11 +1063,11 @@ GHz = 10⁹ Hz</div>
         });
         cardContent.innerHTML = html;
 
-        // En mode révision : montrer 1 mot sur 3 comme indice supplémentaire
+        // En mode révision : montrer 1 mot sur 2 comme indice supplémentaire
         if (revisionMode) {
             const blanks = cardContent.querySelectorAll('.rev-blank');
             blanks.forEach((b, i) => {
-                if (i % 3 === 0) {
+                if (i % 2 === 0) {
                     b.textContent = b.dataset.answer;
                     b.classList.add('rev-revealed');
                 }
