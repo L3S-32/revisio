@@ -468,17 +468,20 @@
 /* ===== EXERCICE À TROUS ===== */
 .rev-blank {
     display: inline-block;
-    padding: 2px 8px;
-    margin: 1px 1px;
+    width: 2.5em;
+    height: 1.1em;
+    padding: 0;
+    margin: 0 2px;
     background: var(--brown-dark);
     border-radius: 4px;
     cursor: pointer;
     user-select: none;
     transition: background 0.2s ease;
-    vertical-align: baseline;
+    vertical-align: middle;
     font-size: inherit;
-    line-height: 1.5;
+    line-height: 1.1em;
     color: transparent;
+    overflow: hidden;
 }
 
 .rev-blank:hover {
@@ -486,13 +489,16 @@
 }
 
 .rev-blank.rev-revealed {
+    width: auto;
+    height: auto;
+    overflow: visible;
     background: rgba(196, 148, 74, 0.15);
     color: var(--brown-dark);
     font-weight: 600;
     font-size: inherit;
     cursor: default;
-    padding: 2px 8px;
-    transition: background 0.4s ease, color 0.4s ease;
+    padding: 1px 6px;
+    transition: width 0.3s ease, background 0.4s ease, color 0.4s ease;
 }
 
 /* ===== MODAL MOT DE PASSE ===== */
