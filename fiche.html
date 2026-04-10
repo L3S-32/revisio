@@ -937,6 +937,9 @@ GHz = 10⁹ Hz</div>
     // Mots "vides" (articles, prépositions) qu'on ne cache pas car pas utiles pour la révision
     const stopWords = new Set(['le','la','les','l','un','une','des','de','du','d','et','ou','à','a','en','au','aux','par','pour','avec','dans','sur','est','sont','ce','se','ne','pas','que','qui','son','sa','ses','il','elle','on','nous','vous','ils','elles','être','avoir','faire','plus','très','aussi','mais','car','donc','si','y','cette','ces','tout','tous','toute','toutes','peut','entre','même','vers','chez','sans','avant','après','comme','bien','peu','trop','moins','lors','dont','où','n','s','c','qu','j','m','t','alors','puis','deux','trois','non','oui','chaque','quel','quelle','quels','autre','autres','sous']);
 
+    // Tags dont le contenu ne doit JAMAIS être caché (indices de renseignement)
+    const protectedTags = new Set(['TH', 'STRONG', 'B', 'H3', 'H4']);
+
     // Extraire le texte d'un noeud HTML et cacher les mots importants
     function blurContentHTML(htmlStr, heading) {
         const temp = document.createElement('div');
@@ -945,12 +948,24 @@ GHz = 10⁹ Hz</div>
         // Mots du heading à ne pas cacher
         const headingWords = new Set(heading.toLowerCase().replace(/['']/g, ' ').split(/\s+/).filter(w => w.length > 2));
 
+        function isInsideProtected(node) {
+            let parent = node.parentElement;
+            while (parent && parent !== temp) {
+                if (protectedTags.has(parent.tagName)) return true;
+                if (parent.classList && parent.classList.contains('hl')) return true;
+                parent = parent.parentElement;
+            }
+            return false;
+        }
+
         function processNode(node) {
             if (node.nodeType === 3) { // Texte
                 const text = node.textContent;
                 if (!text.trim()) return node;
+                // Ne pas cacher si dans un tag protégé
+                if (isInsideProtected(node)) return node;
+
                 const frag = document.createDocumentFragment();
-                // Split en gardant les espaces
                 const parts = text.split(/(\s+)/);
                 parts.forEach(part => {
                     if (/^\s+$/.test(part)) {
@@ -962,11 +977,11 @@ GHz = 10⁹ Hz</div>
                     const isHeading = headingWords.has(cleanWord);
                     const isNumber = /^\d+([.,]\d+)?$/.test(cleanWord);
 
-                    if (isStop || isHeading) {
+                    if (isStop || isHeading || isNumber) {
                         frag.appendChild(document.createTextNode(part));
                     } else {
                         const span = document.createElement('span');
-                        span.className = 'rev-word' + (isNumber ? '' : ' rev-word-hidden');
+                        span.className = 'rev-word rev-word-hidden';
                         span.textContent = part;
                         span.addEventListener('click', function(e) {
                             e.stopPropagation();
@@ -976,6 +991,10 @@ GHz = 10⁹ Hz</div>
                     }
                 });
                 return frag;
+            }
+            // Ne pas entrer dans les tags protégés
+            if (node.nodeType === 1 && (protectedTags.has(node.tagName) || (node.classList && node.classList.contains('hl')))) {
+                return node;
             }
             // Récursion sur les enfants
             const children = [...node.childNodes];
