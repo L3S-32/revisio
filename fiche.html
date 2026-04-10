@@ -37,6 +37,9 @@
                     <div class="fiche-card-header">
                         <span class="fiche-card-badge" id="ficheBadge">MODULE</span>
                         <div class="fiche-card-actions">
+                            <button id="btnRevisionMode" title="Mode révision" class="btn-revision-toggle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
                             <button id="btnNext" title="Fiche suivante">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                             </button>
@@ -896,6 +899,8 @@ GHz = 10⁹ Hz</div>
         showFiche(0);
     }
 
+    let revisionMode = false;
+
     function showFiche(index) {
         activeIndex = index;
         const f = fiches[index];
@@ -912,16 +917,82 @@ GHz = 10⁹ Hz</div>
         cardMeta.textContent = `Dernière révision · ${dateStr} · ${f.time} de lecture`;
 
         let html = '';
-        f.sections.forEach(sec => {
-            html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
-            html += sec.html;
-        });
+        if (revisionMode) {
+            f.sections.forEach((sec, si) => {
+                html += `
+                <div class="rev-block" data-step="0" data-si="${si}">
+                    <div class="rev-header" onclick="revealNext(this.parentElement)">
+                        <h3>${sec.heading}</h3>
+                        <span class="rev-hint-label">Cliquer pour révéler</span>
+                        <svg class="rev-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="rev-hint" style="display:none;"></div>
+                    <div class="rev-full" style="display:none;">${sec.html}</div>
+                </div>`;
+            });
+        } else {
+            f.sections.forEach(sec => {
+                html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
+                html += sec.html;
+            });
+        }
         cardContent.innerHTML = html;
 
         // Scroll card to top
         document.querySelector('.fiche-card-body').scrollTop = 0;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // Générer un indice partiel à partir du HTML complet
+    function generateHint(htmlStr) {
+        const temp = document.createElement('div');
+        temp.innerHTML = htmlStr;
+        const text = temp.textContent || temp.innerText || '';
+        // Prendre les premiers mots (environ 30% du texte)
+        const words = text.trim().split(/\s+/);
+        const hintCount = Math.max(3, Math.ceil(words.length * 0.3));
+        return words.slice(0, hintCount).join(' ') + ' …';
+    }
+
+    // Fonction globale pour le onclick
+    window.revealNext = function(block) {
+        const step = parseInt(block.dataset.step);
+        if (step === 0) {
+            // Montrer l'indice
+            const fullHtml = block.querySelector('.rev-full').innerHTML;
+            const hint = generateHint(fullHtml);
+            const hintEl = block.querySelector('.rev-hint');
+            hintEl.textContent = hint;
+            hintEl.style.display = '';
+            block.dataset.step = '1';
+            block.querySelector('.rev-hint-label').textContent = 'Cliquer pour la réponse';
+            block.querySelector('.rev-chevron').style.transform = 'rotate(-90deg)';
+        } else if (step === 1) {
+            // Montrer la réponse complète
+            block.querySelector('.rev-hint').style.display = 'none';
+            block.querySelector('.rev-full').style.display = '';
+            block.dataset.step = '2';
+            block.querySelector('.rev-hint-label').textContent = '';
+            block.querySelector('.rev-chevron').style.transform = 'rotate(-180deg)';
+            block.classList.add('rev-revealed');
+        } else {
+            // Re-cacher (toggle off)
+            block.querySelector('.rev-full').style.display = 'none';
+            block.querySelector('.rev-hint').style.display = 'none';
+            block.dataset.step = '0';
+            block.querySelector('.rev-hint-label').textContent = 'Cliquer pour révéler';
+            block.querySelector('.rev-chevron').style.transform = '';
+            block.classList.remove('rev-revealed');
+        }
+    };
+
+    // Toggle mode révision
+    const btnRevMode = document.getElementById('btnRevisionMode');
+    btnRevMode.addEventListener('click', () => {
+        revisionMode = !revisionMode;
+        btnRevMode.classList.toggle('active', revisionMode);
+        showFiche(activeIndex);
+    });
 
     // Bouton suivant
     document.getElementById('btnNext').addEventListener('click', () => {
