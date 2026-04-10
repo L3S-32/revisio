@@ -986,13 +986,6 @@ GHz = 10⁹ Hz</div>
                     span.className = 'rev-blank';
                     span.dataset.answer = answer;
                     span.title = 'Cliquer pour révéler';
-                    span.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (!this.classList.contains('rev-revealed')) {
-                            this.textContent = this.dataset.answer;
-                            this.classList.add('rev-revealed');
-                        }
-                    });
                     frag.appendChild(span);
                     groupWords = [];
                     groupParts = [];
@@ -1009,8 +1002,9 @@ GHz = 10⁹ Hz</div>
                     }
                     const clean = part.replace(/[.,;:!?()→=\[\]«»"''/\\⚠️]/g, '').toLowerCase();
                     const isStop = stopWords.has(clean) || clean.length <= 2;
+                    const isNumber = /\d/.test(clean);
 
-                    if (isStop) {
+                    if (isStop || isNumber) {
                         flushGroup();
                         frag.appendChild(document.createTextNode(part));
                     } else {
@@ -1067,6 +1061,17 @@ GHz = 10⁹ Hz</div>
             }
         });
         cardContent.innerHTML = html;
+
+        // En mode révision : montrer 1 mot sur 3 comme indice supplémentaire
+        if (revisionMode) {
+            const blanks = cardContent.querySelectorAll('.rev-blank');
+            blanks.forEach((b, i) => {
+                if (i % 3 === 0) {
+                    b.textContent = b.dataset.answer;
+                    b.classList.add('rev-revealed');
+                }
+            });
+        }
 
         // Scroll card to top
         document.querySelector('.fiche-card-body').scrollTop = 0;
@@ -1127,6 +1132,15 @@ GHz = 10⁹ Hz</div>
             setTimeout(() => pwdInput.classList.remove('shake'), 500);
         }
     }
+
+    // Event delegation pour les blanks (les listeners sur innerHTML sont perdus)
+    cardContent.addEventListener('click', function(e) {
+        const blank = e.target.closest('.rev-blank');
+        if (blank && !blank.classList.contains('rev-revealed')) {
+            blank.textContent = blank.dataset.answer;
+            blank.classList.add('rev-revealed');
+        }
+    });
 
     pwdSubmit.addEventListener('click', unlockRevision);
     pwdInput.addEventListener('keydown', (e) => {
