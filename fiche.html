@@ -985,7 +985,8 @@ GHz = 10⁹ Hz</div>
                     const span = document.createElement('span');
                     span.className = 'rev-blank';
                     span.dataset.answer = answer;
-                    span.title = 'Cliquer pour révéler';
+                    // Texte invisible pour donner la bonne largeur
+                    span.textContent = answer.replace(/./g, '\u00A0');
                     frag.appendChild(span);
                     groupWords = [];
                     groupParts = [];

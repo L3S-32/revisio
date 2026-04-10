@@ -468,16 +468,18 @@
 /* ===== EXERCICE À TROUS ===== */
 .rev-blank {
     display: inline-block;
-    min-width: 110px;
-    height: 2.2em;
-    padding: 0 20px;
-    margin: 4px 4px;
+    min-width: 0;
+    padding: 3px 10px;
+    margin: 2px 2px;
     background: var(--brown-dark);
-    border-radius: 12px;
+    border-radius: 6px;
     cursor: pointer;
     user-select: none;
     transition: background 0.3s ease;
-    vertical-align: middle;
+    vertical-align: baseline;
+    font-size: inherit;
+    line-height: 1.6;
+    color: transparent;
 }
 
 .rev-blank:hover {
