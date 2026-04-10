@@ -70,7 +70,36 @@
 
     </div>
 
-    <script>
+    <!-- MODAL MOT DE PASSE RÉVISION -->
+    <div class="rev-pwd-modal" id="revPwdModal">
+        <div class="rev-pwd-backdrop" id="revPwdBackdrop"></div>
+        <div class="rev-pwd-content">
+            <div class="rev-pwd-icon">🔒</div>
+            <h3>Mode Révision</h3>
+            <p>Entre le mot de passe pour débloquer ce mode.</p>
+            <input type="password" id="revPwdInput" placeholder="Mot de passe..." autocomplete="off">
+            <p class="rev-pwd-error" id="revPwdError"></p>
+            <button class="rev-pwd-btn" id="revPwdSubmit">Débloquer</button>
+        </div>
+    </div>
+
+    <script type="module">
+    import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc, setDoc } from './js/firebase-config.js';
+
+    let currentUser = null;
+    let revisionUnlocked = localStorage.getItem('revisionUnlocked') === '1';
+
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+        if (user) {
+            const snap = await getDoc(doc(db, 'users', user.uid));
+            if (snap.exists() && snap.data().revisionUnlocked) {
+                revisionUnlocked = true;
+                localStorage.setItem('revisionUnlocked', '1');
+            }
+        }
+    });
+
     const params = new URLSearchParams(window.location.search);
     const moduleName = params.get('name') || 'Module';
     const moduleCode = params.get('code') || '';
@@ -905,6 +934,64 @@ GHz = 10⁹ Hz</div>
 
     var revisionMode = false;
 
+    // Mots "vides" (articles, prépositions) qu'on ne cache pas car pas utiles pour la révision
+    const stopWords = new Set(['le','la','les','l','un','une','des','de','du','d','et','ou','à','a','en','au','aux','par','pour','avec','dans','sur','est','sont','ce','se','ne','pas','que','qui','son','sa','ses','il','elle','on','nous','vous','ils','elles','être','avoir','faire','plus','très','aussi','mais','car','donc','si','y','cette','ces','tout','tous','toute','toutes','peut','entre','même','vers','chez','sans','avant','après','comme','bien','peu','trop','moins','lors','dont','où','n','s','c','qu','j','m','t','alors','puis','deux','trois','non','oui','chaque','quel','quelle','quels','autre','autres','sous']);
+
+    // Extraire le texte d'un noeud HTML et cacher les mots importants
+    function blurContentHTML(htmlStr, heading) {
+        const temp = document.createElement('div');
+        temp.innerHTML = htmlStr;
+
+        // Mots du heading à ne pas cacher
+        const headingWords = new Set(heading.toLowerCase().replace(/['']/g, ' ').split(/\s+/).filter(w => w.length > 2));
+
+        function processNode(node) {
+            if (node.nodeType === 3) { // Texte
+                const text = node.textContent;
+                if (!text.trim()) return node;
+                const frag = document.createDocumentFragment();
+                // Split en gardant les espaces
+                const parts = text.split(/(\s+)/);
+                parts.forEach(part => {
+                    if (/^\s+$/.test(part)) {
+                        frag.appendChild(document.createTextNode(part));
+                        return;
+                    }
+                    const cleanWord = part.replace(/[.,;:!?()→=\[\]«»"'/\\+−×÷≈≥≤≠⁻¹²³⁰⁴⁵⁶⁷⁸⁹°%€]/g, '').toLowerCase();
+                    const isStop = stopWords.has(cleanWord) || cleanWord.length <= 2;
+                    const isHeading = headingWords.has(cleanWord);
+                    const isNumber = /^\d+([.,]\d+)?$/.test(cleanWord);
+
+                    if (isStop || isHeading) {
+                        frag.appendChild(document.createTextNode(part));
+                    } else {
+                        const span = document.createElement('span');
+                        span.className = 'rev-word' + (isNumber ? '' : ' rev-word-hidden');
+                        span.textContent = part;
+                        span.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            this.classList.remove('rev-word-hidden');
+                        });
+                        frag.appendChild(span);
+                    }
+                });
+                return frag;
+            }
+            // Récursion sur les enfants
+            const children = [...node.childNodes];
+            children.forEach(child => {
+                const result = processNode(child);
+                if (result !== child) {
+                    node.replaceChild(result, child);
+                }
+            });
+            return node;
+        }
+
+        processNode(temp);
+        return temp.innerHTML;
+    }
+
     function showFiche(index) {
         activeIndex = index;
         const f = fiches[index];
@@ -924,35 +1011,76 @@ GHz = 10⁹ Hz</div>
         f.sections.forEach(sec => {
             html += `<div class="fiche-section-title"><h3>${sec.heading}</h3><span class="section-line"></span></div>`;
             if (revisionMode) {
-                html += `<div class="rev-content-wrap rev-hidden">
-                    <div class="rev-spoiler-overlay"></div>
-                    <div class="rev-content-inner">${sec.html}</div>
-                </div>`;
+                html += blurContentHTML(sec.html, sec.heading);
             } else {
                 html += sec.html;
             }
         });
         cardContent.innerHTML = html;
 
-        // Ajouter les listeners de clic sur les spoilers
-        if (revisionMode) {
-            cardContent.querySelectorAll('.rev-content-wrap.rev-hidden').forEach(wrap => {
-                wrap.addEventListener('click', function() {
-                    this.classList.remove('rev-hidden');
-                });
-            });
-        }
-
         // Scroll card to top
         document.querySelector('.fiche-card-body').scrollTop = 0;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Toggle mode révision
+    // --- Mot de passe révision ---
     const btnRevMode = document.getElementById('btnRevisionMode');
+    const pwdModal = document.getElementById('revPwdModal');
+    const pwdBackdrop = document.getElementById('revPwdBackdrop');
+    const pwdInput = document.getElementById('revPwdInput');
+    const pwdError = document.getElementById('revPwdError');
+    const pwdSubmit = document.getElementById('revPwdSubmit');
+
     btnRevMode.addEventListener('change', () => {
-        revisionMode = btnRevMode.checked;
-        showFiche(activeIndex);
+        if (btnRevMode.checked) {
+            if (revisionUnlocked) {
+                revisionMode = true;
+                showFiche(activeIndex);
+            } else {
+                btnRevMode.checked = false;
+                pwdModal.classList.add('open');
+                pwdInput.value = '';
+                pwdError.textContent = '';
+                setTimeout(() => pwdInput.focus(), 200);
+            }
+        } else {
+            revisionMode = false;
+            showFiche(activeIndex);
+        }
+    });
+
+    pwdBackdrop.addEventListener('click', () => pwdModal.classList.remove('open'));
+
+    async function unlockRevision() {
+        if (pwdInput.value === 'picasso32') {
+            revisionUnlocked = true;
+            localStorage.setItem('revisionUnlocked', '1');
+            // Sauvegarder dans Firestore si connecté
+            if (currentUser) {
+                try {
+                    const userRef = doc(db, 'users', currentUser.uid);
+                    const snap = await getDoc(userRef);
+                    if (snap.exists()) {
+                        await updateDoc(userRef, { revisionUnlocked: true });
+                    } else {
+                        await setDoc(userRef, { revisionUnlocked: true, quizResults: [] });
+                    }
+                } catch(e) {}
+            }
+            pwdModal.classList.remove('open');
+            revisionMode = true;
+            btnRevMode.checked = true;
+            showFiche(activeIndex);
+        } else {
+            pwdError.textContent = 'Mot de passe incorrect';
+            pwdInput.classList.add('shake');
+            setTimeout(() => pwdInput.classList.remove('shake'), 500);
+        }
+    }
+
+    pwdSubmit.addEventListener('click', unlockRevision);
+    pwdInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') unlockRevision();
     });
 
     // Bouton suivant
