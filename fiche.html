@@ -122,778 +122,41 @@
     // ============================
     const fichesData = {
 
-    'Infrastructure réseau': [
-        {
-            title: 'Objectif du module',
-            time: '2 min',
-            sections: [
-                { heading: 'Contexte', html: `<p>Simuler le rôle d'un <strong>prestataire informatique</strong> qui informatise une PME de A à Z.</p>` },
-                { heading: 'Les 5 étapes', html: `
-                    <ul>
-                        <li><strong>Analyse</strong> des besoins du client</li>
-                        <li><strong>Offre commerciale</strong></li>
-                        <li><strong>Planification</strong> du déploiement</li>
-                        <li><strong>Déploiement</strong> (installation + configuration)</li>
-                        <li><strong>Tests</strong> + procès-verbal de réception</li>
-                    </ul>` },
-                { heading: 'Points clés', html: `
-                    <ul>
-                        <li><span class="hl">Winner Flex</span> = logiciel Compusoft de conception 3D + pilotage CNC (installé par le fournisseur, pas l'informaticien)</li>
-                        <li><span class="hl">ERP</span> = Enterprise Resource Planning, logiciel de gestion de l'entreprise</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Analyse des besoins – Matériel',
-            time: '3 min',
-            sections: [
-                { heading: 'Matériel par poste', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Poste</th><th>Matériel recommandé</th></tr></thead>
-                        <tbody>
-                            <tr><td>Dessinateurs (3D, CNC)</td><td>PC fixe puissant, double écran 27", GPU dédiée (RTX A1000 / RTX 4070)</td></tr>
-                            <tr><td>Direction / Secrétariat</td><td>Portable + station d'accueil (docking USB-C)</td></tr>
-                            <tr><td>Tous les postes</td><td>RAM 32 Go min (48 Go dessinateurs), SSD 1 To</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Points clés', html: `
-                    <ul>
-                        <li>Onduleur <span class="hl">UPS</span> pour protéger contre les coupures de courant</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Réseau – Filaire vs Wi-Fi',
-            time: '3 min',
-            sections: [
-                { heading: 'Règles', html: `
-                    <ul>
-                        <li><strong>Filaire (RJ45)</strong> en priorité pour les postes fixes → plus stable et sécurisé</li>
-                        <li><strong>Wi-Fi</strong> réservé aux appareils mobiles</li>
-                        <li>Préférer un <strong>switch 24 ou 48 ports</strong> avec marge plutôt que cascader plusieurs petits</li>
-                        <li>Liaison entre bâtiments : <strong>fibre optique 10 Gbit/s</strong></li>
-                    </ul>` },
-                { heading: 'Schéma logique vs physique', html: `
-                    <ul>
-                        <li><strong>Logique</strong> = connexions et services (VLAN, Wi-Fi, sous-réseaux)</li>
-                        <li><strong>Physique</strong> = emplacement du matériel sur le plan du bâtiment</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Équipements réseau',
-            time: '3 min',
-            sections: [
-                { heading: 'Matériel', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Équipement</th><th>Rôle</th></tr></thead>
-                        <tbody>
-                            <tr><td>Switch</td><td>Relier tous les appareils, avec PoE si nécessaire</td></tr>
-                            <tr><td>PoE</td><td>Alimente caméras et AP via câble réseau</td></tr>
-                            <tr><td>UniFi / Ubiquiti</td><td>Dream Machine Pro (firewall + contrôleur + stockage caméras)</td></tr>
-                            <tr><td>Onduleur (UPS)</td><td>Protection contre les coupures de courant</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        },
-        {
-            title: 'Stockage et sauvegarde',
-            time: '4 min',
-            sections: [
-                { heading: 'NAS', html: `
-                    <ul>
-                        <li><strong>4 baies minimum</strong>, en <strong>RAID 5</strong></li>
-                    </ul>
-                    <div class="fiche-warning-box">⚠️ RAID ≠ sauvegarde ! RAID protège contre les pannes matérielles, PAS contre les suppressions ou ransomwares.</div>` },
-                { heading: 'Stratégie Fils / Père / Grand-père', html: `
-                    <div class="fiche-formula-block">Fils   = différentielle (lun → jeu)
-Père   = complète (vendredi)
-Grand-père = mensuelle (11 mois) + annuelle (5-10 ans)</div>
-                    <ul>
-                        <li>Disques dans un <strong>coffre ignifugé</strong> (T30/T60/T180), capacité ≥ 24 disques</li>
-                        <li>Comptabilité : conservation <strong>5 à 10 ans</strong> (obligation légale)</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Impression',
-            time: '2 min',
-            sections: [
-                { heading: 'Comparaison', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Type</th><th>Avantages</th></tr></thead>
-                        <tbody>
-                            <tr><td>Jet d'encre</td><td>Démarrage rapide, encres UV résistantes</td></tr>
-                            <tr><td>Laser</td><td>Plus rapide en volume</td></tr>
-                            <tr><td>Traceur A0</td><td>Grand format (~1500 CHF) pour plans</td></tr>
-                        </tbody>
-                    </table></div>
-                    <div class="fiche-warning-box">⚠️ Toujours désactiver le Wi-Fi Direct des imprimantes → faille de sécurité majeure.</div>` }
-            ]
-        },
-        {
-            title: 'Offre commerciale',
-            time: '3 min',
-            sections: [
-                { heading: 'Structure (7 parties)', html: `
-                    <ul>
-                        <li>Page de titre</li>
-                        <li>Contexte et objectifs</li>
-                        <li>Proposition détaillée</li>
-                        <li>Totaux séparés</li>
-                        <li>Main-d'œuvre</li>
-                        <li>Conditions</li>
-                        <li>Signatures</li>
-                    </ul>` },
-                { heading: 'Chiffres clés', html: `
-                    <div class="fiche-formula-block">Validité offre     ≈ 10 jours
-TVA Suisse         = 8,1%
-Taux horaire       ≈ 180 CHF/h
-Budget matériel    = 18 000 – 21 000 CHF
-Total avec MO      = 26 000 – 29 000 CHF</div>
-                    <ul>
-                        <li>La valeur de l'informaticien = <strong>le service et l'optimisation</strong>, pas la marge sur le matériel</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Sécurité',
-            time: '2 min',
-            sections: [
-                { heading: 'Outils', html: `
-                    <ul>
-                        <li><span class="hl">Sandbox</span> = VM isolée, sans réseau, pour tester les logiciels inconnus</li>
-                        <li><span class="hl">VPN</span> = réseau privé virtuel pour l'accès distant sécurisé</li>
-                        <li>Lecteur QR suisse (~280 CHF) avec émulation clavier CH pour factures QR</li>
-                    </ul>` }
-            ]
-        }
-    ],
-
-    'Protection des données': [
-        {
-            title: 'Types de données',
-            time: '4 min',
-            sections: [
-                { heading: 'Les 6 catégories', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Type</th><th>Définition</th><th>Exemples</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Personnelle</strong></td><td>Identifie une personne</td><td>Nom, IBAN, email</td></tr>
-                            <tr><td><strong>Sensible</strong></td><td>Caractérise en profondeur</td><td>Santé, opinions politiques, biométrie</td></tr>
-                            <tr><td><strong>Confidentielle</strong></td><td>Secret professionnel</td><td>Secret bancaire, brevets</td></tr>
-                            <tr><td><strong>D'identité / accès</strong></td><td>Connexion</td><td>Login, mot de passe, tokens</td></tr>
-                            <tr><td><strong>Opérationnelle</strong></td><td>Traces d'activité</td><td>Transactions, logs</td></tr>
-                            <tr><td><strong>Publique</strong></td><td>Accessible à tous</td><td>Registre du commerce</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Points clés', html: `
-                    <div class="fiche-warning-box">⚠️ Données sensibles : collecte uniquement si justifiée et nécessaire. Seules les données personnelles et sensibles sont spécifiquement réglementées par la loi.</div>` }
-            ]
-        },
-        {
-            title: 'Stockage : local vs cloud',
-            time: '2 min',
-            sections: [
-                { heading: 'Comparaison', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th></th><th>Avantages</th><th>Risques</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Local</strong></td><td>Contrôle total, propriété claire</td><td>Perte sans sauvegarde</td></tr>
-                            <tr><td><strong>Cloud</strong></td><td>Accessible partout, réparti</td><td>Localisation opaque</td></tr>
-                        </tbody>
-                    </table></div>
-                    <div class="fiche-warning-box">⚠️ Règle d'or : toujours contractualiser la propriété et l'accès aux données avec un prestataire externe.</div>` }
-            ]
-        },
-        {
-            title: 'Protection vs Sécurité',
-            time: '2 min',
-            sections: [
-                { heading: 'Définitions', html: `
-                    <ul>
-                        <li><strong>Protection des données</strong> = cadre légal / administratif (juridique)</li>
-                        <li><strong>Sécurité de l'information</strong> = mesures techniques : pare-feu, chiffrement, sauvegardes</li>
-                    </ul>
-                    <div class="fiche-warning-box">⚠️ Le maillon faible en cybersécurité = l'humain (employé qui clique sur un lien malveillant).</div>` }
-            ]
-        },
-        {
-            title: 'Cyberattaques',
-            time: '3 min',
-            sections: [
-                { heading: 'Cibles et vecteurs', html: `
-                    <ul>
-                        <li><strong>Cibles fréquentes</strong> : PME, hôpitaux, administrations, universités</li>
-                        <li><strong>Vecteurs</strong> : emails (phishing), cloud, télétravail, prestataires externes</li>
-                    </ul>` },
-                { heading: 'Exemples concrets', html: `
-                    <div class="fiche-info-box">
-                        <div class="info-title">CFF</div>
-                        <p>Phishing par email → logiciel malveillant installé</p>
-                    </div>
-                    <div class="fiche-info-box">
-                        <div class="info-title">Hôpitaux</div>
-                        <p>Ransomware → données cryptées, rançon demandée</p>
-                    </div>` }
-            ]
-        },
-        {
-            title: 'Authentification et autorisation',
-            time: '4 min',
-            sections: [
-                { heading: 'Définitions', html: `
-                    <ul>
-                        <li><strong>Authentification</strong> = prouver son identité (qui es-tu ?)</li>
-                        <li><strong>Autorisation</strong> = définir les droits (qu'as-tu le droit de faire ?)</li>
-                        <li>L'authentification vient <strong>TOUJOURS avant</strong></li>
-                    </ul>` },
-                { heading: 'Méthodes', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Méthode</th><th>Avantage</th><th>Inconvénient</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>MFA</strong></td><td>Très sécurisé</td><td>Complexe, friction</td></tr>
-                            <tr><td><strong>OTP</strong></td><td>Dynamique</td><td>Expire vite</td></tr>
-                            <tr><td><strong>Biométrie</strong></td><td>Pratique</td><td>Faux positifs/négatifs</td></tr>
-                            <tr><td><strong>Certificat (PKI)</strong></td><td>Haute sécurité</td><td>Complexe et coûteux</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        },
-        {
-            title: 'Fraude e-banking UBS',
-            time: '3 min',
-            sections: [
-                { heading: 'Mécanisme', html: `
-                    <ul>
-                        <li>Victime clique sur un <strong>lien sponsorisé</strong> (faux site UBS)</li>
-                        <li>Le site = <span class="hl">reverse proxy</span> qui capture les identifiants en temps réel</li>
-                        <li>Victime scanne le QR code → virement de <strong>9 900 CHF</strong> validé</li>
-                    </ul>` },
-                { heading: 'Protection', html: `
-                    <div class="fiche-warning-box">⚠️ Toujours utiliser des favoris vers l'URL officielle, jamais les liens sponsorisés Google.</div>` }
-            ]
-        },
-        {
-            title: 'Données par secteur',
-            time: '2 min',
-            sections: [
-                { heading: 'Comparaison', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Secteur</th><th>Données</th><th>Risque</th></tr></thead>
-                        <tbody>
-                            <tr><td>Cabinet médical</td><td>Sensibles (santé)</td><td>Sanctions pénales</td></tr>
-                            <tr><td>Banque</td><td>Confidentielles (IBAN)</td><td>Fraude, vol d'identité</td></tr>
-                            <tr><td>E-commerce</td><td>Personnelles + paiement</td><td>Vol de données</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        }
-    ],
-
+    'Infrastructure réseau': [],
+    'Protection des données': [],
     'Modélisation de données': [
         {
-            title: 'MCD → MLD → MPD',
-            time: '2 min',
-            sections: [
-                { heading: 'Les 3 modèles', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Modèle</th><th>Rôle</th><th>Public</th></tr></thead>
-                        <tbody>
-                            <tr><td><span class="hl">MCD</span></td><td>Conceptuel — le "quoi"</td><td>Parties prenantes</td></tr>
-                            <tr><td><span class="hl">MLD</span></td><td>Logique — le "comment"</td><td>Développeurs</td></tr>
-                            <tr><td><span class="hl">MPD</span></td><td>Physique — le script SQL</td><td>DBA</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        },
-        {
-            title: 'Les 4 sous-langages SQL',
-            time: '3 min',
-            sections: [
-                { heading: 'Vue d\'ensemble', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Sous-langage</th><th>Commandes</th><th>Description</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>LDD (DDL)</strong></td><td>CREATE, ALTER, DROP</td><td>Définition</td></tr>
-                            <tr><td><strong>LMD (DML)</strong></td><td>INSERT, UPDATE, DELETE, SELECT</td><td>Manipulation</td></tr>
-                            <tr><td><strong>DCL</strong></td><td>GRANT, REVOKE</td><td>Contrôle</td></tr>
-                            <tr><td><strong>TCL</strong></td><td>COMMIT, ROLLBACK</td><td>Transactions</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        },
-        {
-            title: 'Clés primaires et relations',
+            title: 'Environnement Oracle',
             time: '4 min',
             sections: [
-                { heading: '3 règles d\'une clé primaire', html: `
-                    <div class="fiche-formula-block">1. Unique
-2. Non nulle
-3. Non porteuse d'information (jamais email, téléphone...)</div>` },
-                { heading: 'Relations', html: `
-                    <ul>
-                        <li>Auto-génération en Oracle : <span class="hl">GENERATED BY DEFAULT AS IDENTITY</span></li>
-                        <li>Relation <strong>1 à N</strong> : la FK va dans la table côté N</li>
-                        <li>Relation <strong>N à N</strong> : créer une table associative</li>
-                    </ul>` },
-                { heading: 'Ordre de création', html: `
-                    <div class="fiche-formula-block">1. Tables indépendantes (sans FK)
-2. Tables dépendantes (avec FK)
-3. Tables associatives en dernier</div>` }
-            ]
-        },
-        {
-            title: 'Contraintes SQL',
-            time: '3 min',
-            sections: [
-                { heading: 'Les 5 types', html: `
+                { heading: 'Résumé', html: `
+                    <p>Oracle ne s'installe pas directement comme MySQL : il tourne dans un <strong>conteneur Docker</strong> (Oracle XE), géré via <strong>Docker Desktop</strong> (qui dépend de WSL sur Windows). Il faut démarrer Docker avant toute commande, et basculer MySQL→Oracle en début de journée.</p>
+                    <p>On interagit avec la base via <strong>SQL Developer</strong>, dans lequel on crée deux connexions distinctes avec l'utilisateur <span class="hl">system</span> / mot de passe <span class="hl">manager</span> :</p>
                     <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Contrainte</th><th>Préfixe de nommage</th></tr></thead>
+                        <thead><tr><th>Connexion</th><th>Type</th><th>Valeur</th></tr></thead>
                         <tbody>
-                            <tr><td>PRIMARY KEY</td><td><span class="hl">CTPK_</span></td></tr>
-                            <tr><td>FOREIGN KEY</td><td><span class="hl">CTFK_</span></td></tr>
-                            <tr><td>UNIQUE</td><td><span class="hl">CTUK_</span></td></tr>
-                            <tr><td>CHECK</td><td><span class="hl">CTCK_</span></td></tr>
-                            <tr><td>NOT NULL</td><td><span class="hl">CTNN_</span></td></tr>
+                            <tr><td><strong>CDB</strong></td><td>SID</td><td><span class="hl">XE</span></td></tr>
+                            <tr><td><strong>PDB</strong></td><td>Service Name</td><td><span class="hl">XEPDB1</span></td></tr>
                         </tbody>
                     </table></div>
-                    <div class="fiche-warning-box">⚠️ Toujours nommer ses contraintes ! En cas d'erreur, le message indique le nom → débogage facile.</div>` }
-            ]
-        },
-        {
-            title: 'Oracle vs MySQL',
-            time: '3 min',
-            sections: [
-                { heading: 'Différences', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th></th><th>Oracle</th><th>MySQL</th></tr></thead>
-                        <tbody>
-                            <tr><td>Type texte</td><td><span class="hl">VARCHAR2</span></td><td>VARCHAR</td></tr>
-                            <tr><td>Auto-increment</td><td>GENERATED BY DEFAULT AS IDENTITY</td><td>AUTO_INCREMENT</td></tr>
-                            <tr><td>Utilisateur</td><td>1 utilisateur = 1 schéma</td><td>—</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Points clés', html: `
-                    <ul>
-                        <li>Utiliser <span class="hl">VARCHAR2</span> pour les codes postaux → conserver les zéros initiaux</li>
-                        <li>Documenter : <span class="hl">COMMENT ON TABLE client IS 'description';</span></li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Utilisateurs et droits',
-            time: '3 min',
-            sections: [
-                { heading: 'Créer un utilisateur', html: `
-                    <div class="fiche-formula-block">CREATE USER magasin IDENTIFIED BY magasin;
-GRANT CREATE SESSION, CREATE TABLE TO magasin;</div>` },
-                { heading: 'Rôles et options', html: `
-                    <ul>
-                        <li>Préférer des <strong>rôles</strong> → modifier un rôle = modifier 50 utilisateurs</li>
-                        <li><span class="hl">WITH GRANT OPTION</span> (objet) → révocation en cascade</li>
-                        <li><span class="hl">WITH ADMIN OPTION</span> (système) → révocation NON cascade</li>
-                        <li><strong>Privilège objet</strong> = sur une table (GRANT SELECT ON client)</li>
-                        <li><strong>Privilège système</strong> = global (GRANT CREATE TABLE)</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Transactions et agrégats',
-            time: '3 min',
-            sections: [
-                { heading: 'Transactions', html: `
-                    <div class="fiche-formula-block">COMMIT   = valide les modifications
-ROLLBACK = annule les modifications</div>
-                    <div class="fiche-info-box">
-                        <div class="info-title">Propriétés ACID</div>
-                        <p><strong>A</strong>tomicité · <strong>C</strong>ohérence · <strong>I</strong>solation · <strong>D</strong>urabilité</p>
-                    </div>` },
-                { heading: 'Agrégats et vues', html: `
-                    <ul>
-                        <li><span class="hl">GROUP BY</span> = regroupe les lignes par valeur</li>
-                        <li><span class="hl">HAVING</span> = filtre sur les groupes (après agrégation)</li>
-                        <li>Fonctions : <strong>SUM, COUNT, MIN, MAX, AVG</strong></li>
-                        <li>Une <strong>vue</strong> = requête sauvegardée comme table virtuelle</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Astuces Oracle',
-            time: '2 min',
-            sections: [
-                { heading: 'À retenir', html: `
-                    <ul>
-                        <li>Connexion PDB : service = <span class="hl">XEPDB1</span>, admin = SYSTEM (mdp : manager)</li>
-                        <li><strong>Recycle Bin</strong> : tables supprimées restent sous forme BIN… → <span class="hl">PURGE RECYCLE BIN</span></li>
-                        <li>Conserver le <strong>prix dans la table associative</strong> commande_produit → historiser le prix au moment de la commande</li>
-                    </ul>` }
+                    <p><strong>Différence clé Oracle vs MySQL</strong> : en MySQL, <span class="hl">CREATE DATABASE ≈ CREATE SCHEMA</span>. En Oracle, une seule instance physique contient plusieurs schémas, et un <strong>schéma = un utilisateur</strong> (relation 1:1). Créer un utilisateur <span class="hl">magasin</span> crée automatiquement le schéma <span class="hl">magasin</span>. Pour pointer vers un objet d'un autre schéma : <span class="hl">magasin.client</span>.</p>
+                    <p>Outils annexes : <span class="hl">winget</span> pour installer SQL Developer, <span class="hl">PURGE RECYCLE BIN</span> pour vider la corbeille Oracle (objets nommés BIN…), et le script de suppression global à exécuter depuis SYSTEM pour repartir propre.</p>
+                    <div class="fiche-video-lock" id="videoLock">
+                        <div class="video-placeholder">
+                            <div class="video-blur-overlay"></div>
+                            <div class="video-lock-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <p>Vidéo verrouillée</p>
+                                <button class="video-unlock-btn" onclick="promptVideoPassword(this)">Déverrouiller</button>
+                            </div>
+                        </div>
+                        <div class="video-content" style="display:none;"></div>
+                    </div>` }
             ]
         }
     ],
-
-    'C++': [
-        {
-            title: 'Les fonctions',
-            time: '3 min',
-            sections: [
-                { heading: 'Définition', html: `
-                    <p>Un bloc de code avec un nom, des paramètres et un type de retour.</p>
-                    <ul>
-                        <li><span class="hl">void</span> = la fonction ne retourne rien</li>
-                        <li>Quand un <span class="hl">return</span> est atteint → la fonction s'arrête immédiatement</li>
-                        <li>On reconnaît une fonction aux <strong>parenthèses ()</strong> après un nom</li>
-                    </ul>` },
-                { heading: 'Paramètres', html: `
-                    <ul>
-                        <li>L'<strong>ordre</strong> des paramètres compte, pas le nom</li>
-                        <li><strong>Formels</strong> = dans la définition / <strong>Effectifs</strong> = valeurs passées à l'appel</li>
-                        <li>Arguments passés <strong>par valeur</strong> → la fonction travaille sur une copie</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Bonnes pratiques',
-            time: '3 min',
-            sections: [
-                { heading: 'Règles', html: `
-                    <ul>
-                        <li>Variable locale = inaccessible en dehors de sa fonction</li>
-                        <li>Toujours <strong>initialiser à la déclaration</strong></li>
-                        <li><strong>Responsabilité unique</strong> : 1 fonction = 1 tâche</li>
-                        <li>Séparer <strong>calcul et affichage</strong> (pas de cout dans une fonction de calcul)</li>
-                        <li>Le <span class="hl">main</span> gère les entrées/sorties</li>
-                        <li>Principe <span class="hl">DRY</span> : Don't Repeat Yourself</li>
-                        <li>Toujours qualifier : <span class="hl">std::sqrt</span>, <span class="hl">std::cout</span></li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Exemples de code',
-            time: '4 min',
-            sections: [
-                { heading: 'Hypoténuse', html: `
-                    <div class="fiche-formula-block">double calculer_hypotenuse(double a, double b) {
-    return std::sqrt(a*a + b*b);
-}</div>
-                    <p>Utiliser <span class="hl">a*a</span> plutôt que std::pow(a, 2) → plus simple.</p>` },
-                { heading: 'Validation triangle', html: `
-                    <div class="fiche-formula-block">a + b > c  &&  a + c > b  &&  b + c > a</div>
-                    <ul>
-                        <li>15, 19, 25 → triangle ✓ (15+19=34 > 25)</li>
-                        <li>1, 10, 12 → non ✗ (1+10=11 < 12)</li>
-                    </ul>` },
-                { heading: 'Formule de Héron', html: `
-                    <div class="fiche-formula-block">1. Vérifier triangle valide
-2. DP = (a + b + c) / 2
-3. Aire = √( DP × (DP-a) × (DP-b) × (DP-c) )</div>` }
-            ]
-        },
-        {
-            title: 'Récursivité',
-            time: '3 min',
-            sections: [
-                { heading: 'Définition', html: `
-                    <p>Une fonction qui <strong>s'appelle elle-même</strong>. Condition d'arrêt <strong>obligatoire</strong> (sinon stack overflow).</p>` },
-                { heading: 'Suite de Syracuse', html: `
-                    <div class="fiche-formula-block">Pair   → diviser par 2
-Impair → multiplier par 3, puis +1
-Répéter jusqu'à atteindre 1</div>
-                    <ul>
-                        <li>Départ à 27 : <strong>111 étapes</strong>, altitude max = <strong>9232</strong></li>
-                        <li><strong>Temps de vol</strong> = nombre d'étapes pour atteindre 1</li>
-                        <li><strong>Altitude max</strong> = plus grande valeur atteinte</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Opérateur ternaire et aléatoire',
-            time: '3 min',
-            sections: [
-                { heading: 'Opérateur ternaire', html: `
-                    <div class="fiche-formula-block">(condition) ? valeur_si_vrai : valeur_si_faux
-
-int max = (a > b) ? a : b;</div>` },
-                { heading: 'Nombre aléatoire', html: `
-                    <div class="fiche-formula-block">std::random_device rd;
-std::mt19937 gen(rd());
-std::uniform_int_distribution<> distrib(1, 100);
-int n = distrib(gen);</div>
-                    <ul>
-                        <li><span class="hl">PRNG</span> = Pseudo-Random Number Generator. Même graine = même séquence</li>
-                        <li><span class="hl">Mersenne Twister</span> = générateur avec très longue période</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Pièges et débogage',
-            time: '2 min',
-            sections: [
-                { heading: 'Pièges courants', html: `
-                    <ul>
-                        <li><strong>Division entière</strong> : <span class="hl">1/2 = 0</span> ! Pour 0.5 → <span class="hl">1.0/2</span></li>
-                        <li>Valeurs par défaut : <span class="hl">void f(int x = 0)</span></li>
-                    </ul>` },
-                { heading: 'Débogage', html: `
-                    <div class="fiche-formula-block">F8 = step over (ligne suivante)
-F7 = step into (entre dans la fonction)</div>` },
-                { heading: 'Documentation Doxygen', html: `
-                    <div class="fiche-formula-block">//! Description
-//! @param a description
-//! @param b description
-//! @return description</div>` }
-            ]
-        }
-    ],
-
-    'Sciences appliquées': [
-        {
-            title: 'Tension et courant',
-            time: '3 min',
-            sections: [
-                { heading: 'Définitions', html: `
-                    <ul>
-                        <li><strong>Tension</strong> <span class="hl">U</span> (volts) : différence de potentiel. Borne − = excès d'électrons, borne + = déficit</li>
-                        <li><strong>Courant</strong> <span class="hl">I</span> (ampères) : flux d'électrons dans un conducteur</li>
-                        <li>La tension existe <strong>même sans courant</strong> (circuit ouvert)</li>
-                    </ul>` },
-                { heading: 'Sens du courant', html: `
-                    <div class="fiche-formula-block">Électrons       : du − vers le +
-Courant (I)     : du + vers le − (convention historique)</div>` },
-                { heading: '3 conditions pour un courant', html: `
-                    <ul>
-                        <li>Source de tension (pile, générateur, réseau)</li>
-                        <li>Circuit fermé (conducteurs)</li>
-                        <li>Résistance/charge (éviter le court-circuit)</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Circuits électriques',
-            time: '3 min',
-            sections: [
-                { heading: 'Série vs Parallèle', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Type</th><th>Propriétés</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Série</strong></td><td>Même courant partout. Tension répartie</td></tr>
-                            <tr><td><strong>Parallèle</strong></td><td>Même tension. Courant se divise</td></tr>
-                        </tbody>
-                    </table></div>
-                    <ul>
-                        <li><strong>Court-circuit</strong> : connexion directe sans résistance → danger</li>
-                        <li><strong>Dérivation</strong> : le courant évite la résistance shuntée</li>
-                    </ul>` },
-                { heading: 'Schéma normalisé', html: `
-                    <div class="fiche-formula-block">Pile : trait long = borne +  /  trait court = borne −
-Flèche U : du + vers le −
-Flèche I : sens conventionnel (+ vers −)
-Résistance : rectangle avec symbole R</div>` }
-            ]
-        },
-        {
-            title: 'Conducteurs et isolants',
-            time: '3 min',
-            sections: [
-                { heading: 'Classification', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Type</th><th>Matériaux</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Conducteurs</strong></td><td>Cuivre, argent, or, aluminium, fer, laiton, étain, graphite</td></tr>
-                            <tr><td><strong>Isolants</strong></td><td>Plastique, caoutchouc, verre, porcelaine, papier, air, bois</td></tr>
-                            <tr><td><strong>Semi-conducteurs</strong></td><td>Silicium, germanium</td></tr>
-                        </tbody>
-                    </table></div>
-                    <div class="fiche-warning-box">⚠️ Silicone ≠ silicium ! Le silicone est un matériau souple, PAS un semi-conducteur.</div>` },
-                { heading: 'Pourquoi ça conduit ?', html: `
-                    <ul>
-                        <li><strong>Métaux</strong> : 1 électron libre par atome → orbitales jointives → conduction</li>
-                        <li><strong>Plastiques</strong> : électrons fortement liés → isolants</li>
-                        <li><strong>Semi-conducteurs</strong> : peu d'électrons libres → conduction contrôlable → transistors</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Structure atomique',
-            time: '2 min',
-            sections: [
-                { heading: 'L\'atome', html: `
-                    <ul>
-                        <li>Composé de <strong>protons (+)</strong>, <strong>neutrons (0)</strong>, <strong>électrons (−)</strong></li>
-                        <li>La matière est <strong>presque entièrement vide</strong></li>
-                    </ul>
-                    <div class="fiche-formula-block">Maquette : noyau = 22 cm → atome = 22 km (× 100 000)</div>
-                    <p>Les objets ne se "touchent" pas → ce sont des <strong>forces électriques de répulsion</strong>.</p>` }
-            ]
-        },
-        {
-            title: 'Effets du courant',
-            time: '3 min',
-            sections: [
-                { heading: 'Les 7 effets', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Effet</th><th>Exemples</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Calorifique (Joule)</strong></td><td>Radiateurs, fusibles</td></tr>
-                            <tr><td><strong>Magnétique</strong></td><td>Moteurs, électroaimants</td></tr>
-                            <tr><td><strong>Lumineux</strong></td><td>Incandescence, LED</td></tr>
-                            <tr><td><strong>Chimique</strong></td><td>Électrolyse, galvanoplastie</td></tr>
-                            <tr><td><strong>Électrostatique</strong></td><td>Peinture, filtres</td></tr>
-                            <tr><td><strong>Physiologique</strong></td><td>Contractions, brûlures</td></tr>
-                            <tr><td><strong>Piézoélectrique</strong></td><td>Quartz, montres</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Seuils physiologiques', html: `
-                    <div class="fiche-formula-block">Perception     : dès ~ 0,5 mA
-Crampes        : ~ 16-17 mA (impossibilité de lâcher)</div>` }
-            ]
-        },
-        {
-            title: 'Sécurité électrique',
-            time: '2 min',
-            sections: [
-                { heading: 'Protections', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Protection</th><th>Fonctionnement</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Fusible</strong></td><td>Fond → coupe définitivement → fortes puissances</td></tr>
-                            <tr><td><strong>Disjoncteur</strong></td><td>Se réarme, latence → usage domestique</td></tr>
-                        </tbody>
-                    </table></div>
-                    <div class="fiche-warning-box">⚠️ Clôture électrique : impulsions brèves = OK. Brancher directement au secteur = MORTEL.</div>` }
-            ]
-        },
-        {
-            title: 'DC vs AC',
-            time: '3 min',
-            sections: [
-                { heading: 'Comparaison', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th></th><th>DC (continu)</th><th>AC (alternatif)</th></tr></thead>
-                        <tbody>
-                            <tr><td>Sens</td><td>Unique</td><td>S'inverse</td></tr>
-                            <tr><td>Forme</td><td>Constante</td><td>Sinusoïdale</td></tr>
-                            <tr><td>Sources</td><td>Piles, batteries, PV</td><td>Alternateurs, réseau</td></tr>
-                            <tr><td>Usages</td><td>Électronique, info</td><td>Domestique</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Fréquence', html: `
-                    <div class="fiche-formula-block">Europe : f = 50 Hz  (T = 20 ms, 100 inversions/s)
-USA    : f = 60 Hz</div>` }
-            ]
-        },
-        {
-            title: 'Fréquence et période',
-            time: '2 min',
-            sections: [
-                { heading: 'Formule', html: `
-                    <div class="fiche-formula-block">f = 1 / T     (Hz = s⁻¹)</div>` },
-                { heading: 'Conversions', html: `
-                    <div class="fiche-formula-block">ns  = 10⁻⁹ s
-µs  = 10⁻⁶ s
-GHz = 10⁹ Hz</div>
-                    <p>Exemple : f = 2,4 GHz → T ≈ 0,417 ns</p>` }
-            ]
-        },
-        {
-            title: 'Transistors et processeurs',
-            time: '2 min',
-            sections: [
-                { heading: 'Fonctionnement', html: `
-                    <ul>
-                        <li><span class="hl">Transistor</span> = interrupteur microscopique contrôlé par tension</li>
-                        <li>Logique binaire : <span class="hl">0 V = 0</span> / <span class="hl">5 V = 1</span></li>
-                        <li>Opérations : ET, OU et arithmétiques</li>
-                        <li>Des <strong>milliards</strong> de transistors forment un processeur</li>
-                        <li>Fréquence d'horloge en GHz → cycles sub-nanosecondes</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Microscope électronique',
-            time: '1 min',
-            sections: [
-                { heading: 'MEB', html: `
-                    <ul>
-                        <li>Résolution : jusqu'au <strong>nanomètre</strong> (10⁻⁹ m)</li>
-                        <li>Insuffisant pour l'intérieur d'un atome (~1 Å = 10⁻¹⁰ m)</li>
-                        <li>On observe la <strong>topographie</strong> (bosses atomiques)</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Production d\'électricité',
-            time: '3 min',
-            sections: [
-                { heading: 'Induction', html: `
-                    <p>Une <strong>bobine qui tourne dans un champ magnétique</strong> produit un courant.</p>
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Machine</th><th>Mécanisme</th><th>Produit</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Alternateur</strong></td><td>Bagues glissantes</td><td>AC</td></tr>
-                            <tr><td><strong>Dynamo</strong></td><td>Collecteur segmenté</td><td>DC</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Sources', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Source</th><th>Type</th></tr></thead>
-                        <tbody>
-                            <tr><td>Hydraulique, thermique, nucléaire, éolien</td><td>AC</td></tr>
-                            <tr><td>Photovoltaïque</td><td>DC → onduleur → AC</td></tr>
-                            <tr><td>Piles / batteries</td><td>DC</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        },
-        {
-            title: 'Mesure et multimètre',
-            time: '2 min',
-            sections: [
-                { heading: 'Branchements', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Instrument</th><th>Branchement</th></tr></thead>
-                        <tbody>
-                            <tr><td><strong>Voltmètre</strong></td><td>En parallèle. Mode DC. Rouge (V) + Noir (COM)</td></tr>
-                            <tr><td><strong>Ampèremètre</strong></td><td>En série (couper le fil)</td></tr>
-                        </tbody>
-                    </table></div>` },
-                { heading: 'Conductivité', html: `
-                    <ul>
-                        <li>Meilleurs conducteurs : <span class="hl">Cu</span>, <span class="hl">Ag</span>, <span class="hl">Au</span> (même colonne)</li>
-                        <li>L'or est meilleur mais trop coûteux. L'aluminium est le meilleur rapport qualité/prix</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Foudre et électricité statique',
-            time: '2 min',
-            sections: [
-                { heading: 'L\'air et l\'électricité', html: `
-                    <ul>
-                        <li>L'air est <strong>isolant</strong> en conditions normales</li>
-                        <li>Sous très haute tension : ionisation → conducteur → <strong>éclair</strong></li>
-                        <li>L'humidité <strong>réduit la résistance</strong> mais ne rend pas l'air conducteur</li>
-                        <li>Frottement → transfert d'électrons → accumulation → décharge brutale</li>
-                    </ul>` }
-            ]
-        },
-        {
-            title: 'Avantages et inconvénients',
-            time: '2 min',
-            sections: [
-                { heading: 'Bilan', html: `
-                    <div class="fiche-table-wrap"><table>
-                        <thead><tr><th>Avantages</th><th>Inconvénients</th></tr></thead>
-                        <tbody>
-                            <tr><td>Transport facile</td><td>Stockage difficile et coûteux</td></tr>
-                            <tr><td>Propre à l'usage</td><td>Variabilité des renouvelables</td></tr>
-                            <tr><td>Polyvalente</td><td>Dangers (électrocution, incendie)</td></tr>
-                            <tr><td>Réactive</td><td>Impacts environnementaux</td></tr>
-                        </tbody>
-                    </table></div>` }
-            ]
-        }
-    ]
+    'C++': [],
+    'Sciences appliquées': []
 
     };
 
@@ -1162,6 +425,62 @@ GHz = 10⁹ Hz</div>
     pwdInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') unlockRevision();
     });
+
+    // --- Vidéo verrouillée ---
+    const videoUnlocked = localStorage.getItem('videoUnlocked') === '1';
+
+    // Déverrouiller automatiquement si déjà fait
+    function checkVideoUnlock() {
+        if (videoUnlocked) {
+            document.querySelectorAll('.fiche-video-lock').forEach(el => {
+                el.querySelector('.video-placeholder').style.display = 'none';
+                el.querySelector('.video-content').style.display = 'block';
+            });
+        }
+    }
+
+    // Appelé après showFiche
+    const origShowFiche = showFiche;
+
+    window.promptVideoPassword = function(btn) {
+        const lockEl = btn.closest('.fiche-video-lock');
+        // Créer un mini prompt inline
+        const existing = lockEl.querySelector('.video-pwd-inline');
+        if (existing) { existing.querySelector('input').focus(); return; }
+
+        const div = document.createElement('div');
+        div.className = 'video-pwd-inline';
+        div.innerHTML = `
+            <input type="password" placeholder="Mot de passe" class="video-pwd-input" autocomplete="off">
+            <button class="video-pwd-go">OK</button>
+            <span class="video-pwd-err"></span>
+        `;
+        btn.parentElement.appendChild(div);
+        const inp = div.querySelector('input');
+        const goBtn = div.querySelector('.video-pwd-go');
+        const err = div.querySelector('.video-pwd-err');
+        inp.focus();
+
+        function tryUnlock() {
+            if (inp.value === 'picasso32') {
+                localStorage.setItem('videoUnlocked', '1');
+                lockEl.querySelector('.video-placeholder').style.display = 'none';
+                lockEl.querySelector('.video-content').style.display = 'block';
+            } else {
+                err.textContent = 'Incorrect';
+                inp.classList.add('shake');
+                setTimeout(() => inp.classList.remove('shake'), 500);
+            }
+        }
+        goBtn.addEventListener('click', tryUnlock);
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlock(); });
+    };
+
+    // Après chaque rendu, vérifier les vidéos
+    const _origCardSet = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerHTML');
+    // Simple observer pour auto-unlock après render
+    const observer = new MutationObserver(() => { if (videoUnlocked) checkVideoUnlock(); });
+    observer.observe(cardContent, { childList: true });
 
     // Bouton suivant
     document.getElementById('btnNext').addEventListener('click', () => {
