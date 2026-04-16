@@ -129,6 +129,7 @@
         {
             title: 'Environnement Oracle',
             time: '4 min',
+            video: 'videos/config_env.mp4',
             sections: [
                 { heading: 'Résumé', html: `
                     <p>Oracle ne s'installe pas directement comme MySQL : il tourne dans un <strong>conteneur Docker</strong> (Oracle XE), géré via <strong>Docker Desktop</strong> (qui dépend de WSL sur Windows). Il faut démarrer Docker avant toute commande, et basculer MySQL→Oracle en début de journée.</p>
@@ -340,6 +341,10 @@
             }
         });
         // Ajouter la case vidéo verrouillée en bas de chaque fiche
+        const videoSrc = f.video || '';
+        const videoEl = videoSrc
+            ? `<video controls playsinline><source src="${videoSrc}" type="video/mp4"></video>`
+            : '<p style="color:var(--text-muted);text-align:center;padding:20px;">Aucune vidéo disponible pour cette fiche.</p>';
         html += `
             <div class="fiche-section-title" style="margin-top:32px;"><h3>Vidéo</h3><span class="section-line"></span></div>
             <div class="fiche-video-lock">
@@ -351,7 +356,7 @@
                         <button class="video-unlock-btn" onclick="promptVideoPassword(this)">Déverrouiller</button>
                     </div>
                 </div>
-                <div class="video-content" style="display:none;"></div>
+                <div class="video-content" style="display:none;">${videoEl}</div>
             </div>`;
 
         cardContent.innerHTML = html;
