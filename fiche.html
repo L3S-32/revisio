@@ -143,6 +143,32 @@
                     <p><strong>Différence clé Oracle vs MySQL</strong> : en MySQL, <span class="hl">CREATE DATABASE ≈ CREATE SCHEMA</span>. En Oracle, une seule instance physique contient plusieurs schémas, et un <strong>schéma = un utilisateur</strong> (relation 1:1). Créer un utilisateur <span class="hl">magasin</span> crée automatiquement le schéma <span class="hl">magasin</span>. Pour pointer vers un objet d'un autre schéma : <span class="hl">magasin.client</span>.</p>
                     <p>Outils annexes : <span class="hl">winget</span> pour installer SQL Developer, <span class="hl">PURGE RECYCLE BIN</span> pour vider la corbeille Oracle (objets nommés BIN…), et le script de suppression global à exécuter depuis SYSTEM pour repartir propre.</p>` }
             ]
+        },
+        {
+            title: 'Cas magasin — Entités et relations',
+            time: '4 min',
+            sections: [
+                { heading: 'Entités identifiées', html: `
+                    <div class="fiche-table-wrap"><table>
+                        <thead><tr><th>Entité</th><th>Attributs / Rôle</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Client</strong></td><td>id, nom, prénom, rue/n°, téléphone, e-mail, date de naissance, titre (Monsieur/Madame)</td></tr>
+                            <tr><td><strong>Produit</strong></td><td>nom, prix, description, IAN</td></tr>
+                            <tr><td><strong>Commande</strong></td><td>id, date, état</td></tr>
+                            <tr><td><strong>Catégorie</strong></td><td>Entité séparée (pas un simple attribut de Produit, car réutilisée)</td></tr>
+                            <tr><td><strong>Localité / NPA</strong></td><td>Entité séparée pour factoriser ville + NPA (évite les redondances)</td></tr>
+                            <tr><td><span class="hl">Commande_Produit</span></td><td>Table associative (N:N) — stocke <strong>quantité</strong> et <strong>prix au moment de l'achat</strong> → historise le prix même si le produit change de tarif</td></tr>
+                        </tbody>
+                    </table></div>` },
+                { heading: 'Cardinalités clés', html: `
+                    <ul>
+                        <li><strong>Client</strong> (0..*) ↔ (1,1) <strong>Commande</strong> — pas de commande orpheline</li>
+                        <li><strong>Commande</strong> (1..*) ↔ (0..*) <strong>Produit</strong> — une commande a au moins 1 produit</li>
+                        <li><strong>Produit</strong> (1,1) → (0..* ou 1..*) <strong>Catégorie</strong></li>
+                    </ul>` },
+                { heading: 'Règle d\'or MLD → MPD', html: `
+                    <div class="fiche-warning-box">⚠️ Ordre de création des tables :<br>1. Tables sans FK (<span class="hl">Localité</span>, <span class="hl">Catégorie</span>)<br>2. Tables qui référencent (<span class="hl">Client</span>, <span class="hl">Produit</span>)<br>3. Tables associatives en dernier (<span class="hl">Commande_Produit</span>)</div>` }
+            ]
         }
     ],
     'C++': [],
