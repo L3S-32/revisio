@@ -219,6 +219,43 @@ COMMENT ON COLUMN client.titre IS 'Monsieur ou Madame';</div>
                     <div class="fiche-formula-block">CHECK (titre IN ('Monsieur','Madame'))
 CHECK (etat_commande IN (1, 9))</div>` }
             ]
+        },
+        {
+            title: 'Gestion des droits — DCL et rôles',
+            time: '4 min',
+            sections: [
+                { heading: 'LCD (DCL)', html: `
+                    <p>Le <strong>LCD</strong> (Langage de Contrôle des Données, DCL) gère qui a le droit de faire quoi. Deux commandes principales :</p>
+                    <ul>
+                        <li><span class="hl">GRANT</span> : attribuer un droit</li>
+                        <li><span class="hl">REVOKE</span> : retirer un droit</li>
+                    </ul>` },
+                { heading: 'Types de privilèges', html: `
+                    <div class="fiche-table-wrap"><table>
+                        <thead><tr><th>Type</th><th>Exemples</th><th>Portée</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Système</strong></td><td>CREATE SESSION, CREATE TABLE, CREATE VIEW</td><td>Actions globales sur la base</td></tr>
+                            <tr><td><strong>Objet</strong></td><td>SELECT, INSERT, UPDATE, DELETE sur magasin.client</td><td>Sur un objet précis</td></tr>
+                        </tbody>
+                    </table></div>` },
+                { heading: 'Workflow rôles (4 étapes)', html: `
+                    <div class="fiche-formula-block">-- 1. Créer le rôle
+CREATE ROLE commercial;
+
+-- 2. Attribuer les privilèges au rôle
+GRANT SELECT, INSERT ON magasin.client TO commercial;
+GRANT SELECT ON magasin.produit TO commercial;
+
+-- 3. Créer l'utilisateur avec son droit de connexion
+CREATE USER Paul IDENTIFIED BY motDePasse;
+GRANT CREATE SESSION TO Paul;
+
+-- 4. Assigner le rôle à l'utilisateur
+GRANT commercial TO Paul;</div>
+                    <p><strong>Pourquoi les rôles ?</strong> Si tu as 50 commerciaux et tu dois modifier leurs droits, tu modifies <strong>un seul rôle</strong> au lieu de 50 utilisateurs.</p>` },
+                { heading: 'À éviter', html: `
+                    <div class="fiche-warning-box">⚠️ Ne pas utiliser les rôles prédéfinis d'Oracle (<span class="hl">CONNECT</span>, <span class="hl">RESOURCE</span>) :<br>• Ils donnent trop de droits (violation du <strong>principe du moindre privilège</strong>)<br>• Leur contenu change entre les versions d'Oracle → comportement imprévisible</div>` }
+            ]
         }
     ],
     'C++': [],
