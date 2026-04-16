@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisfredo — Entraînement examen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    html, body { background: #FAF6F1; margin: 0; }
+    :root {
+        --brown-dark: #3E2B1E;
+        --gold: #C4944A;
+        --cream: #FAF6F1;
+        --white: #fff;
+        --border: #E8DDD0;
+        --text-muted: #9A8C7A;
+    }
+
+    .exam-page { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; font-family: 'Inter', sans-serif; }
+    .exam-back { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 20px; }
+    .exam-back:hover { color: var(--brown-dark); }
+    .exam-label { color: var(--gold); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .exam-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--brown-dark); margin: 0 0 8px; }
+    .exam-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
+
+    /* --- THEME SELECTION --- */
+    .theme-grid { display: flex; flex-direction: column; gap: 12px; }
+    .theme-card {
+        background: var(--white); border-radius: 14px; padding: 20px 24px;
+        cursor: pointer; border: 2px solid var(--border); transition: all 0.2s ease;
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    .theme-card:hover { border-color: var(--gold); transform: translateY(-1px); }
+    .theme-card-left h3 { font-size: 16px; color: var(--brown-dark); margin: 0 0 4px; }
+    .theme-card-left p { font-size: 13px; color: var(--text-muted); margin: 0; }
+    .theme-card-badge {
+        background: var(--cream); color: var(--text-muted); font-size: 12px; font-weight: 600;
+        padding: 4px 10px; border-radius: 20px; white-space: nowrap;
+    }
+    .theme-card.has-errors .theme-card-badge { background: #FFF3E0; color: #E65100; }
+    .theme-card.most-errors { border-color: #E65100; }
+    .theme-card.most-errors .theme-card-badge { background: #E65100; color: white; }
+
+    /* --- QUESTION VIEW --- */
+    .exam-question-view { display: none; }
+    .exam-question-view.active { display: block; }
+    .exam-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .exam-progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .exam-progress-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s ease; }
+    .exam-progress-text { font-size: 13px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+
+    .exam-q-card {
+        background: var(--white); border-radius: 16px; padding: 28px; margin-bottom: 20px;
+        border: 1px solid var(--border);
+    }
+    .exam-q-type {
+        display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; margin-bottom: 14px;
+    }
+    .exam-q-type.written { background: #E8F5E9; color: #2E7D32; }
+    .exam-q-type.qcm { background: #E3F2FD; color: #1565C0; }
+    .exam-q-type.practical { background: #FFF3E0; color: #E65100; }
+
+    .exam-q-text { font-size: 16px; color: var(--brown-dark); line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+
+    /* Written answer */
+    .exam-answer-area {
+        width: 100%; min-height: 100px; padding: 14px; border: 2px solid var(--border);
+        border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; resize: vertical;
+        background: var(--cream); color: var(--brown-dark); outline: none; transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+    .exam-answer-area:focus { border-color: var(--gold); }
+
+    /* QCM options */
+    .qcm-options { display: flex; flex-direction: column; gap: 10px; }
+    .qcm-opt {
+        padding: 14px 18px; border: 2px solid var(--border); border-radius: 12px;
+        cursor: pointer; font-size: 14px; color: var(--brown-dark); transition: all 0.2s;
+        background: var(--white);
+    }
+    .qcm-opt:hover { border-color: var(--gold); background: rgba(196,148,74,0.05); }
+    .qcm-opt.selected { border-color: var(--gold); background: rgba(196,148,74,0.12); font-weight: 600; }
+    .qcm-opt.correct { border-color: #2E7D32; background: #E8F5E9; }
+    .qcm-opt.wrong { border-color: #C62828; background: #FFEBEE; }
+
+    /* Buttons */
+    .exam-btn {
+        display: inline-block; padding: 12px 28px; border: none; border-radius: 12px;
+        font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+        transition: all 0.2s; margin-top: 16px;
+    }
+    .exam-btn-primary { background: var(--brown-dark); color: var(--cream); }
+    .exam-btn-primary:hover { background: var(--gold); }
+    .exam-btn-correct { background: #2E7D32; color: white; }
+    .exam-btn-correct:hover { background: #1B5E20; }
+    .exam-btn-wrong { background: #C62828; color: white; }
+    .exam-btn-wrong:hover { background: #B71C1C; }
+    .exam-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Correct answer reveal */
+    .exam-answer-reveal {
+        margin-top: 16px; padding: 16px 20px; background: #F1F8E9; border-left: 4px solid #2E7D32;
+        border-radius: 0 12px 12px 0; display: none; font-size: 14px; line-height: 1.7;
+        color: var(--brown-dark); white-space: pre-wrap;
+    }
+    .exam-answer-reveal.show { display: block; }
+    .exam-answer-reveal strong { color: #2E7D32; }
+
+    .exam-self-eval { display: none; margin-top: 16px; }
+    .exam-self-eval.show { display: flex; gap: 12px; align-items: center; }
+    .exam-self-eval span { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+    /* Results */
+    .exam-results {
+        background: var(--white); border-radius: 16px; padding: 32px; text-align: center;
+        border: 1px solid var(--border);
+    }
+    .exam-results h2 { font-family: 'Playfair Display', serif; color: var(--brown-dark); margin-bottom: 8px; }
+    .exam-results-score { font-size: 48px; font-weight: 800; color: var(--gold); margin: 16px 0; }
+    .exam-results-detail { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .exam-theme-results { text-align: left; margin-top: 24px; }
+    .exam-theme-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .exam-theme-row:last-child { border: none; }
+    .exam-theme-name { color: var(--brown-dark); font-weight: 500; }
+    .exam-theme-score { font-weight: 700; }
+    .exam-theme-score.good { color: #2E7D32; }
+    .exam-theme-score.medium { color: #E65100; }
+    .exam-theme-score.bad { color: #C62828; }
+
+    /* Password modal */
+    .exam-pwd-modal {
+        position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center;
+        justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .exam-pwd-modal.open { opacity: 1; pointer-events: auto; }
+    .exam-pwd-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    .exam-pwd-content {
+        position: relative; background: var(--white); border-radius: 20px; padding: 32px;
+        max-width: 360px; width: 90%; text-align: center; z-index: 2;
+    }
+    .exam-pwd-content h3 { font-family: 'Playfair Display', serif; color: var(--brown-dark); margin-bottom: 8px; }
+    .exam-pwd-content p { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+    .exam-pwd-content input {
+        width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px;
+        font-family: 'Inter', sans-serif; font-size: 14px; text-align: center; outline: none;
+        box-sizing: border-box;
+    }
+    .exam-pwd-content input:focus { border-color: var(--gold); }
+    .exam-pwd-error { color: #C62828; font-size: 13px; min-height: 20px; margin-top: 8px; }
+    .exam-pwd-btn {
+        margin-top: 12px; padding: 10px 28px; background: var(--brown-dark); color: var(--cream);
+        border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+    .exam-pwd-btn:hover { background: var(--gold); }
+
+    .shake { animation: shake 0.4s ease; }
+    @keyframes shake {
+        0%,100% { transform: translateX(0); }
+        20%,60% { transform: translateX(-6px); }
+        40%,80% { transform: translateX(6px); }
+    }
+
+    @media (max-width: 600px) {
+        .exam-title { font-size: 22px; }
+        .exam-q-card { padding: 20px; }
+        .exam-self-eval.show { flex-direction: column; }
+    }
+    </style>
+</head>
+<body>
+
+    <div class="exam-page">
+        <a href="#" class="exam-back" id="examBack">← Retour</a>
+        <p class="exam-label" id="examLabel">M106</p>
+        <h1 class="exam-title">Entraînement examen</h1>
+        <p class="exam-sub" id="examSub">Choisis un thème pour commencer.</p>
+
+        <!-- THEME SELECTION -->
+        <div id="themeSelect" class="theme-grid"></div>
+
+        <!-- QUESTION VIEW -->
+        <div id="questionView" class="exam-question-view">
+            <div class="exam-progress">
+                <div class="exam-progress-bar"><div class="exam-progress-fill" id="progressFill"></div></div>
+                <span class="exam-progress-text" id="progressText">1 / 10</span>
+            </div>
+            <div class="exam-q-card" id="qCard"></div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="resultsView" style="display:none;"></div>
+    </div>
+
+    <!-- PASSWORD MODAL -->
+    <div class="exam-pwd-modal" id="examPwdModal">
+        <div class="exam-pwd-backdrop" id="examPwdBackdrop"></div>
+        <div class="exam-pwd-content">
+            <h3>Entraînement verrouillé</h3>
+            <p>Entre le mot de passe pour accéder aux questions.</p>
+            <input type="password" id="examPwdInput" placeholder="Mot de passe..." autocomplete="off">
+            <p class="exam-pwd-error" id="examPwdError"></p>
+            <button class="exam-pwd-btn" id="examPwdSubmit">Débloquer</button>
+        </div>
+    </div>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    const moduleName = params.get('name') || 'Module';
+    const moduleCode = params.get('code') || '';
+
+    document.getElementById('examLabel').textContent = moduleCode || moduleName.toUpperCase();
+    document.getElementById('examBack').addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = `module.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}`;
+    });
+
+    // =====================
+    // QUESTIONS DATA (M106)
+    // =====================
+    const examData = {
+        'Maintenance BDD': [
+            {
+                theme: 'Thème 1 — Environnement Oracle',
+                questions: [
+                    { type: 'written', q: 'Pourquoi Oracle tourne-t-il dans un conteneur Docker plutôt qu\'installé directement sur la machine ?', a: 'Oracle est lourd et complexe à installer nativement. Docker permet d\'isoler l\'installation dans un conteneur (Oracle XE), de le démarrer/arrêter facilement, et d\'éviter les conflits avec le système hôte.' },
+                    { type: 'written', q: 'De quoi Docker Desktop dépend-il sur Windows ? Que faire en cas d\'erreur persistante ?', a: 'Docker Desktop dépend de WSL (Windows Subsystem for Linux). En cas d\'erreur : vérifier que WSL est activé, que la version est à jour (wsl --update), et redémarrer Docker Desktop.' },
+                    { type: 'written', q: 'Quel est le workflow à exécuter chaque matin pour commencer à travailler sur Oracle ?', a: 'Démarrer Docker Desktop → attendre que Docker soit prêt → lancer le conteneur Oracle XE → ouvrir SQL Developer → se connecter.' },
+                    { type: 'written', q: 'Quelle est la différence entre CDB et PDB dans Oracle ?', a: 'CDB (Container Database) = la base conteneur globale (SID = XE). PDB (Pluggable Database) = une base enfichable à l\'intérieur du CDB (Service Name = XEPDB1). On travaille dans la PDB.' },
+                    { type: 'written', q: 'En Oracle, quel est le lien entre un utilisateur et un schéma ?', a: 'Un schéma = un utilisateur (relation 1:1). Créer un utilisateur "magasin" crée automatiquement le schéma "magasin".' },
+                    { type: 'written', q: 'Comment pointer vers une table appartenant à un autre schéma ?', a: 'On utilise la notation schéma.table, par exemple : magasin.client' },
+                    { type: 'written', q: 'À quoi sert la commande PURGE RECYCLE BIN en Oracle ?', a: 'Elle vide la corbeille Oracle. Les objets supprimés (tables, etc.) restent dans la corbeille sous forme BIN... tant qu\'on ne purge pas.' },
+                    { type: 'qcm', q: 'En Oracle, créer un utilisateur revient à :', options: ['Créer une nouvelle base de données', 'Créer un schéma du même nom', 'Créer une table système', 'Créer un conteneur Docker'], correct: 1 },
+                    { type: 'qcm', q: 'Le service name utilisé pour la connexion PDB Oracle XE est :', options: ['XE', 'ORCL', 'XEPDB1', 'SYSTEM'], correct: 2 },
+                    { type: 'qcm', q: 'Avant toute commande SQL Developer, il faut :', options: ['Redémarrer Windows', 'Démarrer Docker et lancer le conteneur Oracle', 'Vider la corbeille Oracle', 'Mettre à jour WSL'], correct: 1 },
+                    { type: 'qcm', q: 'En MySQL, CREATE DATABASE et CREATE SCHEMA :', options: ['Font deux choses différentes', 'Font la même chose', 'N\'existent pas', 'Nécessitent d\'être administrateur'], correct: 1 },
+                    { type: 'practical', q: 'Décris pas à pas comment créer une connexion SQL Developer pour la PDB d\'Oracle XE, en listant tous les champs à remplir.', a: '1. Ouvrir SQL Developer\n2. Nouvelle connexion\n3. Name : PDB_magasin (ou autre nom descriptif)\n4. Username : system\n5. Password : manager\n6. Cocher "Service Name" (pas SID)\n7. Saisir : XEPDB1\n8. Hostname : localhost\n9. Port : 1521\n10. Tester la connexion puis sauvegarder' },
+                    { type: 'practical', q: 'Un camarade dit "Docker ne démarre pas, j\'ai une erreur". Liste les 3 vérifications à faire dans l\'ordre.', a: '1. Vérifier que WSL est activé et à jour (wsl --update dans PowerShell)\n2. Vérifier que Docker Desktop est bien installé et lancé\n3. Vérifier que la virtualisation est activée dans le BIOS (Hyper-V / VT-x)' }
+                ]
+            },
+            {
+                theme: 'Thème 2 — Modélisation MCD → MLD → MPD',
+                questions: [
+                    { type: 'written', q: 'Que signifient les acronymes MCD, MLD, MPD ?', a: 'MCD = Modèle Conceptuel de Données (le "quoi")\nMLD = Modèle Logique de Données (le "comment")\nMPD = Modèle Physique de Données (le script SQL)' },
+                    { type: 'written', q: 'Dans quel ordre produit-on ces trois modèles et pourquoi ?', a: 'MCD → MLD → MPD. Le MCD est abstrait (compréhensible par le client), le MLD traduit en tables/relations (pour les développeurs), le MPD est le script SQL concret (dépend du SGBDR choisi).' },
+                    { type: 'written', q: 'Qu\'est-ce qu\'une table associative et quand est-elle créée ?', a: 'Une table associative est créée quand on a une relation N:N entre deux entités. Elle contient les FK des deux tables + les attributs propres à la relation (ex: quantité, prix).' },
+                    { type: 'written', q: 'Pourquoi faut-il historiser le prix dans la table associative Commande_Produit ?', a: 'Si le prix est modifié dans la table Produit, les anciennes commandes changeraient de montant. En stockant le prix au moment de l\'achat dans la table associative, on historise le prix réel payé.' },
+                    { type: 'written', q: 'Pourquoi la catégorie est-elle une entité séparée et pas un simple attribut de Produit ?', a: 'Car une catégorie peut être réutilisée par plusieurs produits. En faire une entité séparée évite la redondance et permet de modifier le nom d\'une catégorie en un seul endroit.' },
+                    { type: 'written', q: 'Dans quel ordre faut-il créer les tables dans le MPD, et pourquoi ?', a: '1. Tables sans FK (Localité, Catégorie)\n2. Tables dépendantes avec FK (Client, Produit)\n3. Tables associatives en dernier (Commande_Produit)\nCar une FK doit pointer vers une table qui existe déjà.' },
+                    { type: 'qcm', q: 'Le MCD est destiné à :', options: ['L\'administrateur système', 'Le client et les parties prenantes métier', 'Le développeur uniquement', 'Oracle directement'], correct: 1 },
+                    { type: 'qcm', q: 'Une relation N:N entre deux entités devient au MLD :', options: ['Une clé étrangère dans une des deux tables', 'Une table associative', 'Deux clés primaires', 'Une vue'], correct: 1 },
+                    { type: 'qcm', q: 'Dans une relation 1,N, la clé étrangère se place :', options: ['Dans la table du côté "1"', 'Dans la table du côté "N" (plusieurs)', 'Dans les deux tables', 'Dans une table associative'], correct: 1 },
+                    { type: 'qcm', q: 'L\'ordre de création des tables est :', options: ['Tables associatives → dépendantes → référencées', 'Peu importe l\'ordre', 'Tables référencées (sans FK) → dépendantes → associatives', 'Par ordre alphabétique'], correct: 2 },
+                    { type: 'practical', q: 'On te donne : Client (0..*) passe (1,1) Commande ; Commande (1..*) contient (0..*) Produit. Écris le MLD correspondant en listant toutes les tables avec leurs PK, FK et attributs.', a: 'Client (PK: id_client, nom, prenom, email)\nCommande (PK: id_commande, date, etat, FK: id_client → Client)\nProduit (PK: id_produit, nom, prix, description)\nCommande_Produit (PK: id_commande + id_produit, FK: id_commande → Commande, FK: id_produit → Produit, quantite, prix_achat)' },
+                    { type: 'practical', q: 'Dans quel ordre créerais-tu les tables Client, Localité, Commande, Commande_Produit, Produit, Catégorie ? Justifie.', a: '1. Localité (pas de FK)\n2. Catégorie (pas de FK)\n3. Client (FK vers Localité)\n4. Produit (FK vers Catégorie)\n5. Commande (FK vers Client)\n6. Commande_Produit (FK vers Commande et Produit)\nRaison : on crée d\'abord les tables sans dépendances, puis celles qui en ont.' }
+                ]
+            },
+            {
+                theme: 'Thème 3 — DDL et contraintes Oracle',
+                questions: [
+                    { type: 'written', q: 'Quels sont les 4 sous-langages du SQL ? Donne leur nom complet et un exemple de commande.', a: 'LDD (DDL) : CREATE TABLE, ALTER, DROP\nLMD (DML) : SELECT, INSERT, UPDATE, DELETE\nLCD (DCL) : GRANT, REVOKE\nLCT (TCL) : COMMIT, ROLLBACK' },
+                    { type: 'written', q: 'Quelles sont les trois propriétés d\'une bonne clé primaire ?', a: '1. Unique\n2. Non nulle\n3. Non porteuse d\'information (ne jamais mettre un email, AVS, etc.)' },
+                    { type: 'written', q: 'Quel type utiliser pour un NPA ou un téléphone ? Pourquoi pas NUMBER ?', a: 'VARCHAR2. Car NUMBER supprimerait les zéros à gauche (ex: 01onal deviendrait 1...) et ne gère pas les préfixes (+41).' },
+                    { type: 'written', q: 'Écris la syntaxe moderne Oracle pour une PK auto-incrémentée.', a: 'id NUMBER GENERATED BY DEFAULT AS IDENTITY' },
+                    { type: 'written', q: 'Cite les 5 grandes contraintes d\'intégrité et leur rôle.', a: 'PRIMARY KEY : identifiant unique + non nul\nFOREIGN KEY : intégrité référentielle\nUNIQUE : valeur unique (peut être nulle)\nNOT NULL : valeur obligatoire\nCHECK : règle métier (ex: âge > 0)' },
+                    { type: 'written', q: 'Pourquoi faut-il nommer ses contraintes ?', a: 'Pour avoir des messages d\'erreur compréhensibles. Sans nommage, Oracle affiche "ORA-00001: SYS_C007234" au lieu de "CTCK_titre_valide".' },
+                    { type: 'qcm', q: 'Pour stocker un numéro postal suisse (ex : 2800), on utilise :', options: ['NUMBER(4)', 'INT', 'VARCHAR2(4)', 'CHAR(4)'], correct: 2 },
+                    { type: 'qcm', q: 'La méthode moderne en Oracle pour auto-générer une PK est :', options: ['AUTO_INCREMENT', 'SEQUENCE + TRIGGER', 'GENERATED BY DEFAULT AS IDENTITY', 'SERIAL'], correct: 2 },
+                    { type: 'qcm', q: 'Laquelle de ces contraintes peut accepter des valeurs NULL ?', options: ['PRIMARY KEY', 'NOT NULL', 'UNIQUE', 'Aucune des trois'], correct: 2 },
+                    { type: 'qcm', q: 'Le sous-langage SQL qui contient CREATE TABLE est :', options: ['LMD (DML)', 'LCD (DCL)', 'LDD (DDL)', 'LCT (TCL)'], correct: 2 },
+                    { type: 'qcm', q: 'Nommer les contraintes permet principalement :', options: ['D\'améliorer les performances', 'D\'obtenir des messages d\'erreur lisibles', 'De gagner de la place en base', 'De chiffrer les données'], correct: 1 },
+                    { type: 'practical', q: 'Écris le CREATE TABLE pour une table client avec : id auto-généré, nom, prénom, email unique, titre (Monsieur ou Madame uniquement), date de naissance. Nomme toutes tes contraintes.', a: 'CREATE TABLE client (\n  id_client NUMBER GENERATED BY DEFAULT AS IDENTITY,\n  nom VARCHAR2(50) CONSTRAINT CTNN_client_nom NOT NULL,\n  prenom VARCHAR2(50) CONSTRAINT CTNN_client_prenom NOT NULL,\n  email VARCHAR2(100),\n  titre VARCHAR2(10),\n  date_naissance DATE,\n  CONSTRAINT CTPK_client PRIMARY KEY (id_client),\n  CONSTRAINT CTUK_client_email UNIQUE (email),\n  CONSTRAINT CTCK_client_titre CHECK (titre IN (\'Monsieur\', \'Madame\'))\n);' },
+                    { type: 'practical', q: 'Corrige ce code et explique les erreurs :\nCREATE TABLE produit (\n  id NUMBER PRIMARY KEY,\n  nom VARCHAR(50),\n  prix NUMBER NOT NULL,\n  code_barre NUMBER\n);', a: 'Erreurs :\n1. id : pas auto-généré → ajouter GENERATED BY DEFAULT AS IDENTITY\n2. PRIMARY KEY non nommée → CONSTRAINT CTPK_produit PRIMARY KEY (id)\n3. VARCHAR → VARCHAR2 (syntaxe Oracle)\n4. code_barre en NUMBER → VARCHAR2 (c\'est un code, pas un calcul, pour garder les zéros)\n5. NOT NULL et UNIQUE non nommés\n\nVersion corrigée :\nCREATE TABLE produit (\n  id NUMBER GENERATED BY DEFAULT AS IDENTITY,\n  nom VARCHAR2(50) CONSTRAINT CTNN_produit_nom NOT NULL,\n  prix NUMBER CONSTRAINT CTNN_produit_prix NOT NULL,\n  code_barre VARCHAR2(20),\n  CONSTRAINT CTPK_produit PRIMARY KEY (id)\n);' }
+                ]
+            },
+            {
+                theme: 'Thème 4 — Gestion des droits (DCL)',
+                questions: [
+                    { type: 'written', q: 'Que signifie l\'acronyme DCL (LCD) ? Quelle est sa fonction ?', a: 'DCL = Data Control Language (LCD = Langage de Contrôle des Données). Il gère les droits d\'accès : qui a le droit de faire quoi sur quels objets.' },
+                    { type: 'written', q: 'Quelle est la différence entre un privilège système et un privilège d\'objet ?', a: 'Privilège système = action globale sur la base (CREATE SESSION, CREATE TABLE, CREATE VIEW)\nPrivilège objet = action sur un objet précis (SELECT, INSERT, UPDATE, DELETE sur une table spécifique)' },
+                    { type: 'written', q: 'Quelles sont les 4 étapes du workflow de gestion des droits par rôles ?', a: '1. Créer le rôle (CREATE ROLE)\n2. Attribuer les privilèges au rôle (GRANT ... TO rôle)\n3. Créer l\'utilisateur + CREATE SESSION (CREATE USER + GRANT CREATE SESSION)\n4. Assigner le rôle à l\'utilisateur (GRANT rôle TO user)' },
+                    { type: 'written', q: 'Pour quelles deux raisons faut-il éviter les rôles prédéfinis d\'Oracle ?', a: '1. Ils donnent trop de droits (violation du principe du moindre privilège)\n2. Leur contenu change entre les versions d\'Oracle → comportement imprévisible' },
+                    { type: 'written', q: 'Quelle est la différence entre WITH GRANT OPTION et WITH ADMIN OPTION lors d\'une révocation ?', a: 'WITH GRANT OPTION (privilège objet) : la révocation est EN CASCADE — si on révoque Paul, Marie perd aussi le droit.\nWITH ADMIN OPTION (privilège système) : PAS de cascade — Marie garde le droit même si Paul est révoqué.' },
+                    { type: 'qcm', q: 'GRANT et REVOKE appartiennent à :', options: ['LDD (DDL)', 'LMD (DML)', 'LCD (DCL)', 'LCT (TCL)'], correct: 2 },
+                    { type: 'qcm', q: 'CREATE SESSION est un privilège :', options: ['D\'objet', 'Système', 'De rôle', 'Inexistant'], correct: 1 },
+                    { type: 'qcm', q: 'SELECT sur la table magasin.client est un privilège :', options: ['D\'objet', 'Système', 'De rôle', 'Obligatoire'], correct: 0 },
+                    { type: 'qcm', q: 'Les rôles prédéfinis d\'Oracle sont déconseillés car :', options: ['Ils sont payants', 'Ils donnent trop de droits et changent entre versions', 'Ils ne fonctionnent pas en XE', 'Ils sont lents'], correct: 1 },
+                    { type: 'qcm', q: 'Lors d\'une révocation, la cascade s\'applique avec :', options: ['WITH ADMIN OPTION uniquement', 'WITH GRANT OPTION uniquement', 'Les deux', 'Aucune des deux'], correct: 1 },
+                    { type: 'qcm', q: 'Pour qu\'un utilisateur puisse se connecter à Oracle, il faut lui donner :', options: ['GRANT CONNECT', 'GRANT CREATE SESSION', 'GRANT SELECT', 'GRANT ALL'], correct: 1 },
+                    { type: 'practical', q: 'Écris le script SQL complet pour :\n1. Créer un rôle responsable_stock\n2. Lui donner SELECT, INSERT, UPDATE sur magasin.produit\n3. Créer l\'utilisateur Marie avec mot de passe Marie2026\n4. Lui permettre de se connecter\n5. Lui attribuer le rôle', a: 'CREATE ROLE responsable_stock;\n\nGRANT SELECT, INSERT, UPDATE ON magasin.produit TO responsable_stock;\n\nCREATE USER Marie IDENTIFIED BY Marie2026;\nGRANT CREATE SESSION TO Marie;\n\nGRANT responsable_stock TO Marie;' },
+                    { type: 'practical', q: 'Paul a reçu GRANT SELECT ON client TO Paul WITH GRANT OPTION. Paul donne ce droit à Marie. L\'admin révoque Paul. Que se passe-t-il pour Marie ?', a: 'Marie perd aussi le droit SELECT sur client. Avec WITH GRANT OPTION (privilège objet), la révocation est EN CASCADE : révoquer Paul révoque automatiquement tous ceux à qui Paul a transmis le droit.' },
+                    { type: 'practical', q: 'Paul a reçu GRANT CREATE TABLE TO Paul WITH ADMIN OPTION. Même scénario. Que se passe-t-il pour Marie ?', a: 'Marie GARDE le droit CREATE TABLE. Avec WITH ADMIN OPTION (privilège système), il n\'y a PAS de cascade : révoquer Paul ne touche pas Marie.' }
+                ]
+            },
+            {
+                theme: 'Questions transversales',
+                questions: [
+                    { type: 'written', q: 'Décris le parcours complet d\'un projet de base de données, depuis la réunion client jusqu\'à l\'utilisateur final.', a: '1. Réunion client → recueil des besoins\n2. MCD → modélisation conceptuelle (cardinalités, entités)\n3. MLD → traduction en tables (PK, FK, tables associatives)\n4. MPD → script SQL (CREATE TABLE avec contraintes nommées = DDL)\n5. Insertion des données (INSERT = DML)\n6. Création des utilisateurs et rôles (GRANT = DCL)\n7. L\'utilisateur se connecte (CREATE SESSION) et fait ses requêtes (SELECT)' },
+                    { type: 'written', q: 'Un développeur dit : "J\'ai créé mes tables, inséré des données, mais je n\'arrive pas à me connecter avec mon nouvel utilisateur." Quelle est l\'erreur ?', a: 'Il a oublié GRANT CREATE SESSION TO utilisateur. Sans ce privilège système, l\'utilisateur ne peut même pas se connecter à la base.' },
+                    { type: 'practical', q: 'Classe ces commandes dans le bon sous-langage SQL : CREATE TABLE, GRANT, INSERT, COMMIT, DROP, SELECT, REVOKE, UPDATE, ROLLBACK, ALTER.', a: 'LDD (DDL) : CREATE TABLE, DROP, ALTER\nLMD (DML) : INSERT, SELECT, UPDATE\nLCD (DCL) : GRANT, REVOKE\nLCT (TCL) : COMMIT, ROLLBACK' },
+                    { type: 'practical', q: 'Cas pratique : Modélise un système de location de vélos (clients, vélos, locations, stations). Écris le CREATE TABLE de la table location avec contraintes nommées et au moins deux CHECK.', a: 'CREATE TABLE location (\n  id_location NUMBER GENERATED BY DEFAULT AS IDENTITY,\n  id_client NUMBER CONSTRAINT CTNN_loc_client NOT NULL,\n  id_velo NUMBER CONSTRAINT CTNN_loc_velo NOT NULL,\n  id_station_depart NUMBER CONSTRAINT CTNN_loc_depart NOT NULL,\n  id_station_arrivee NUMBER,\n  date_debut TIMESTAMP CONSTRAINT CTNN_loc_debut NOT NULL,\n  date_fin TIMESTAMP,\n  prix NUMBER,\n  CONSTRAINT CTPK_location PRIMARY KEY (id_location),\n  CONSTRAINT CTFK_loc_client FOREIGN KEY (id_client) REFERENCES client(id_client),\n  CONSTRAINT CTFK_loc_velo FOREIGN KEY (id_velo) REFERENCES velo(id_velo),\n  CONSTRAINT CTFK_loc_depart FOREIGN KEY (id_station_depart) REFERENCES station(id_station),\n  CONSTRAINT CTFK_loc_arrivee FOREIGN KEY (id_station_arrivee) REFERENCES station(id_station),\n  CONSTRAINT CTCK_loc_prix CHECK (prix >= 0),\n  CONSTRAINT CTCK_loc_dates CHECK (date_fin IS NULL OR date_fin > date_debut)\n);' }
+                ]
+            },
+            {
+                theme: '10 pièges de l\'examen',
+                questions: [
+                    { type: 'written', q: 'Piège 1 : Quelle est la différence entre SID et Service Name dans SQL Developer ?', a: 'SID = identifiant de l\'instance (XE pour le CDB). Service Name = nom du service (XEPDB1 pour la PDB). Se tromper = se connecter au mauvais endroit.' },
+                    { type: 'written', q: 'Piège 2 : Pourquoi ne faut-il pas mettre un NPA en NUMBER ?', a: 'NUMBER supprimerait les zéros à gauche. Ex : NPA 01000 deviendrait 1000. Il faut utiliser VARCHAR2.' },
+                    { type: 'written', q: 'Piège 3 : Que se passe-t-il si on oublie GRANT CREATE SESSION ?', a: 'L\'utilisateur ne pourra pas se connecter du tout à Oracle, même s\'il a tous les autres droits.' },
+                    { type: 'written', q: 'Piège 4 : Pourquoi éviter CONNECT et RESOURCE ?', a: 'Ce sont des rôles prédéfinis qui donnent trop de droits (violation du moindre privilège) et dont le contenu change entre versions Oracle.' },
+                    { type: 'written', q: 'Piège 5 : Pourquoi nommer ses contraintes ?', a: 'Sans nommage, Oracle donne un nom système illisible (SYS_C007234). Avec un nom (CTCK_titre), le message d\'erreur est compréhensible.' },
+                    { type: 'written', q: 'Piège 6 : Que se passe-t-il si on crée les tables dans le mauvais ordre ?', a: 'Erreur de FK : la table référencée n\'existe pas encore. Il faut créer les tables sans FK d\'abord.' },
+                    { type: 'written', q: 'Piège 7 : Quelle est la différence cascade entre GRANT OPTION et ADMIN OPTION ?', a: 'GRANT OPTION (objet) = révocation en cascade.\nADMIN OPTION (système) = PAS de cascade.' },
+                    { type: 'written', q: 'Piège 8 : Pourquoi historiser le prix dans Commande_Produit ?', a: 'Si le prix change dans la table Produit, les anciennes commandes changeraient de montant. Le prix doit être figé au moment de l\'achat.' },
+                    { type: 'written', q: 'Piège 9 : Dans une relation 1,N, où va la FK ?', a: 'La FK va dans la table du côté N (le côté "plusieurs"). Exemple : FK id_client dans la table Commande.' },
+                    { type: 'written', q: 'Piège 10 : Pourquoi ne pas utiliser un email ou un AVS comme PK ?', a: 'Une PK ne doit pas être porteuse d\'information. Un email peut changer, un AVS est une donnée sensible. Il faut un ID technique auto-généré.' }
+                ]
+            }
+        ]
+    };
+
+    // =====================
+    // ENGINE
+    // =====================
+    const themes = examData[moduleName] || [];
+    const themeSelect = document.getElementById('themeSelect');
+    const questionView = document.getElementById('questionView');
+    const resultsView = document.getElementById('resultsView');
+    let currentTheme = null;
+    let currentQ = 0;
+    let answers = [];
+    const statsKey = `exam_stats_${moduleCode || moduleName}`;
+
+    function getStats() {
+        return JSON.parse(localStorage.getItem(statsKey) || '{}');
+    }
+    function saveStats(stats) {
+        localStorage.setItem(statsKey, JSON.stringify(stats));
+    }
+
+    // Build theme selection
+    function renderThemes() {
+        const stats = getStats();
+        let maxErrors = 0;
+        let maxTheme = '';
+        themes.forEach(t => {
+            const s = stats[t.theme];
+            if (s && s.wrong > maxErrors) { maxErrors = s.wrong; maxTheme = t.theme; }
+        });
+
+        themeSelect.innerHTML = '';
+        themes.forEach((t, i) => {
+            const s = stats[t.theme] || { correct: 0, wrong: 0 };
+            const total = s.correct + s.wrong;
+            const card = document.createElement('div');
+            card.className = 'theme-card';
+            if (s.wrong > 0) card.classList.add('has-errors');
+            if (t.theme === maxTheme && maxErrors > 0) card.classList.add('most-errors');
+
+            const badge = total > 0 ? `${Math.round(s.correct/total*100)}% réussi` : `${t.questions.length} questions`;
+            card.innerHTML = `
+                <div class="theme-card-left">
+                    <h3>${t.theme}</h3>
+                    <p>${t.questions.length} questions · ${t.questions.filter(q=>q.type==='qcm').length} QCM · ${t.questions.filter(q=>q.type==='practical').length} exercices</p>
+                </div>
+                <span class="theme-card-badge">${badge}</span>
+            `;
+            card.addEventListener('click', () => startTheme(i));
+            themeSelect.appendChild(card);
+        });
+
+        // All themes button
+        const allCard = document.createElement('div');
+        allCard.className = 'theme-card';
+        allCard.style.borderColor = 'var(--gold)';
+        const totalQ = themes.reduce((sum, t) => sum + t.questions.length, 0);
+        allCard.innerHTML = `
+            <div class="theme-card-left">
+                <h3>Tous les thèmes</h3>
+                <p>${totalQ} questions au total</p>
+            </div>
+            <span class="theme-card-badge" style="background:var(--gold);color:white;">Complet</span>
+        `;
+        allCard.addEventListener('click', () => startAllThemes());
+        themeSelect.appendChild(allCard);
+    }
+
+    function startTheme(index) {
+        currentTheme = { ...themes[index], originalIndex: index };
+        currentQ = 0;
+        answers = [];
+        themeSelect.style.display = 'none';
+        document.getElementById('examSub').style.display = 'none';
+        questionView.classList.add('active');
+        renderQuestion();
+    }
+
+    function startAllThemes() {
+        const allQuestions = [];
+        themes.forEach(t => {
+            t.questions.forEach(q => allQuestions.push({ ...q, theme: t.theme }));
+        });
+        currentTheme = { theme: 'Tous les thèmes', questions: allQuestions };
+        currentQ = 0;
+        answers = [];
+        themeSelect.style.display = 'none';
+        document.getElementById('examSub').style.display = 'none';
+        questionView.classList.add('active');
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const q = currentTheme.questions[currentQ];
+        const total = currentTheme.questions.length;
+        document.getElementById('progressFill').style.width = ((currentQ + 1) / total * 100) + '%';
+        document.getElementById('progressText').textContent = `${currentQ + 1} / ${total}`;
+
+        const typeLabel = q.type === 'qcm' ? 'QCM' : q.type === 'practical' ? 'Exercice pratique' : 'Question écrite';
+        const typeClass = q.type;
+
+        let html = `<span class="exam-q-type ${typeClass}">${typeLabel}</span>`;
+        html += `<div class="exam-q-text">${q.q.replace(/\n/g, '<br>')}</div>`;
+
+        if (q.type === 'qcm') {
+            html += '<div class="qcm-options">';
+            q.options.forEach((opt, i) => {
+                html += `<div class="qcm-opt" data-idx="${i}">${String.fromCharCode(65+i)}) ${opt}</div>`;
+            });
+            html += '</div>';
+            html += '<button class="exam-btn exam-btn-primary" id="btnValidate" disabled>Valider</button>';
+        } else {
+            html += `<textarea class="exam-answer-area" id="userAnswer" placeholder="Écris ta réponse ici..."></textarea>`;
+            html += '<button class="exam-btn exam-btn-primary" id="btnValidate">Voir la réponse</button>';
+        }
+
+        html += `<div class="exam-answer-reveal" id="answerReveal"><strong>Réponse :</strong><br>${(q.a || '').replace(/\n/g, '<br>')}</div>`;
+        html += `<div class="exam-self-eval" id="selfEval">
+            <span>Ta réponse était :</span>
+            <button class="exam-btn exam-btn-correct" id="btnCorrectSelf">Correcte</button>
+            <button class="exam-btn exam-btn-wrong" id="btnWrongSelf">Incorrecte</button>
+        </div>`;
+
+        document.getElementById('qCard').innerHTML = html;
+
+        // QCM click
+        if (q.type === 'qcm') {
+            let selected = -1;
+            document.querySelectorAll('.qcm-opt').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    document.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    selected = parseInt(opt.dataset.idx);
+                    document.getElementById('btnValidate').disabled = false;
+                });
+            });
+
+            document.getElementById('btnValidate').addEventListener('click', () => {
+                // Show correct/wrong
+                document.querySelectorAll('.qcm-opt').forEach(opt => {
+                    const idx = parseInt(opt.dataset.idx);
+                    if (idx === q.correct) opt.classList.add('correct');
+                    if (idx === selected && idx !== q.correct) opt.classList.add('wrong');
+                    opt.style.pointerEvents = 'none';
+                });
+                document.getElementById('btnValidate').style.display = 'none';
+                document.getElementById('answerReveal').classList.add('show');
+
+                const isCorrect = selected === q.correct;
+                answers.push({ theme: q.theme || currentTheme.theme, correct: isCorrect });
+
+                // Auto next after 1.5s
+                setTimeout(() => {
+                    currentQ++;
+                    if (currentQ < currentTheme.questions.length) {
+                        renderQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 1500);
+            });
+        } else {
+            // Written / practical
+            document.getElementById('btnValidate').addEventListener('click', () => {
+                document.getElementById('btnValidate').style.display = 'none';
+                document.getElementById('answerReveal').classList.add('show');
+                document.getElementById('selfEval').classList.add('show');
+                const ta = document.getElementById('userAnswer');
+                if (ta) ta.disabled = true;
+            });
+
+            // Self evaluation
+            document.getElementById('qCard').addEventListener('click', (e) => {
+                if (e.target.id === 'btnCorrectSelf' || e.target.id === 'btnWrongSelf') {
+                    const isCorrect = e.target.id === 'btnCorrectSelf';
+                    answers.push({ theme: q.theme || currentTheme.theme, correct: isCorrect });
+                    currentQ++;
+                    if (currentQ < currentTheme.questions.length) {
+                        renderQuestion();
+                    } else {
+                        showResults();
+                    }
+                }
+            });
+        }
+    }
+
+    function showResults() {
+        questionView.classList.remove('active');
+        resultsView.style.display = 'block';
+
+        const total = answers.length;
+        const correct = answers.filter(a => a.correct).length;
+        const pct = Math.round(correct / total * 100);
+
+        // Stats by theme
+        const byTheme = {};
+        answers.forEach(a => {
+            if (!byTheme[a.theme]) byTheme[a.theme] = { correct: 0, wrong: 0 };
+            if (a.correct) byTheme[a.theme].correct++;
+            else byTheme[a.theme].wrong++;
+        });
+
+        // Save stats
+        const stats = getStats();
+        Object.entries(byTheme).forEach(([theme, data]) => {
+            if (!stats[theme]) stats[theme] = { correct: 0, wrong: 0 };
+            stats[theme].correct += data.correct;
+            stats[theme].wrong += data.wrong;
+        });
+        saveStats(stats);
+
+        let themeRows = '';
+        Object.entries(byTheme).forEach(([theme, data]) => {
+            const total = data.correct + data.wrong;
+            const pct = Math.round(data.correct / total * 100);
+            const cls = pct >= 70 ? 'good' : pct >= 40 ? 'medium' : 'bad';
+            themeRows += `<div class="exam-theme-row">
+                <span class="exam-theme-name">${theme}</span>
+                <span class="exam-theme-score ${cls}">${data.correct}/${total} (${pct}%)</span>
+            </div>`;
+        });
+
+        resultsView.innerHTML = `
+            <div class="exam-results">
+                <h2>Résultats</h2>
+                <div class="exam-results-score">${pct}%</div>
+                <p class="exam-results-detail">${correct} bonnes réponses sur ${total}</p>
+                <div class="exam-theme-results">
+                    <h3 style="font-size:15px;color:var(--brown-dark);margin-bottom:12px;">Par thème</h3>
+                    ${themeRows}
+                </div>
+                <button class="exam-btn exam-btn-primary" style="margin-top:24px;" onclick="location.reload()">Recommencer</button>
+                <button class="exam-btn" style="margin-top:12px;background:var(--border);color:var(--brown-dark);" onclick="window.location.href='module.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}'">Retour au module</button>
+            </div>
+        `;
+    }
+
+    // =====================
+    // PASSWORD
+    // =====================
+    const examUnlocked = localStorage.getItem('examUnlocked') === '1';
+    const pwdModal = document.getElementById('examPwdModal');
+    const pwdInput = document.getElementById('examPwdInput');
+    const pwdError = document.getElementById('examPwdError');
+
+    if (!examUnlocked) {
+        pwdModal.classList.add('open');
+        setTimeout(() => pwdInput.focus(), 300);
+    } else {
+        renderThemes();
+    }
+
+    document.getElementById('examPwdBackdrop').addEventListener('click', () => {
+        window.location.href = `module.html?name=${encodeURIComponent(moduleName)}&code=${encodeURIComponent(moduleCode)}`;
+    });
+
+    function tryUnlock() {
+        if (pwdInput.value === 'picasso32') {
+            localStorage.setItem('examUnlocked', '1');
+            pwdModal.classList.remove('open');
+            renderThemes();
+        } else {
+            pwdError.textContent = 'Mot de passe incorrect';
+            pwdInput.classList.add('shake');
+            setTimeout(() => pwdInput.classList.remove('shake'), 500);
+        }
+    }
+
+    document.getElementById('examPwdSubmit').addEventListener('click', tryUnlock);
+    pwdInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+    </script>
+</body>
+</html>
