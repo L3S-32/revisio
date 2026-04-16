@@ -84,21 +84,35 @@
     </div>
 
     <script type="module">
-    import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc, setDoc } from './js/firebase-config.js';
-
     let currentUser = null;
+    let auth, db, onAuthStateChanged, doc, getDoc, updateDoc, setDoc;
     let revisionUnlocked = localStorage.getItem('revisionUnlocked') === '1';
 
-    onAuthStateChanged(auth, async (user) => {
-        currentUser = user;
-        if (user) {
-            const snap = await getDoc(doc(db, 'users', user.uid));
-            if (snap.exists() && snap.data().revisionUnlocked) {
-                revisionUnlocked = true;
-                localStorage.setItem('revisionUnlocked', '1');
+    try {
+        const fb = await import('./js/firebase-config.js');
+        auth = fb.auth;
+        db = fb.db;
+        onAuthStateChanged = fb.onAuthStateChanged;
+        doc = fb.doc;
+        getDoc = fb.getDoc;
+        updateDoc = fb.updateDoc;
+        setDoc = fb.setDoc;
+
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            if (user) {
+                try {
+                    const snap = await getDoc(doc(db, 'users', user.uid));
+                    if (snap.exists() && snap.data().revisionUnlocked) {
+                        revisionUnlocked = true;
+                        localStorage.setItem('revisionUnlocked', '1');
+                    }
+                } catch(e) {}
             }
-        }
-    });
+        });
+    } catch(e) {
+        console.warn('Firebase non disponible, mode hors-ligne');
+    }
 
     const params = new URLSearchParams(window.location.search);
     const moduleName = params.get('name') || 'Module';
