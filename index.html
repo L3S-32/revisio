@@ -52,106 +52,51 @@
     <!-- CONTENT PANEL that slides up over the hero -->
     <div class="content-panel">
 
-    <!-- STATS -->
+    <!-- STATS (dynamiques) -->
     <section class="stats">
         <div class="stats-container">
             <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">FICHES</span>
+                <span class="stat-number" id="statQuiz">0</span>
+                <span class="stat-label">QUIZ FAITS</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <span class="stat-number">0%</span>
-                <span class="stat-label">QUIZ RÉUSSIS</span>
+                <span class="stat-number" id="statPct">0%</span>
+                <span class="stat-label">TAUX RÉUSSITE</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">JOURS DE SUITE</span>
+                <span class="stat-number" id="statExam">0</span>
+                <span class="stat-label">EXAMENS FAITS</span>
             </div>
         </div>
     </section>
 
-    <!-- DAILY PROGRESS & MATIÈRES -->
     <section class="main-content">
         <div class="main-container">
 
-            <!-- TODAY -->
-            <div class="today-card">
-                <div class="today-left">
-                    <span class="today-label">AUJOURD'HUI</span>
-                    <div class="today-tasks">
-                        <span class="task done"><span class="task-check">✓</span> Dérivées</span>
-                        <span class="task done"><span class="task-check">✓</span> Quiz Révolution</span>
-                        <span class="task pending"><span class="task-circle"></span> Vocabulaire anglais</span>
-                    </div>
-                </div>
-                <div class="today-right">
-                    <span class="today-count">2/3</span>
-                    <span class="today-completed">complétés</span>
-                </div>
-            </div>
-
-            <!-- MATIÈRES EN COURS -->
+            <!-- ACTIVITÉ RÉCENTE -->
             <div class="matieres-header">
-                <h2>Matières en cours</h2>
-                <a href="#" class="see-all">Tout voir →</a>
+                <h2>Activité récente</h2>
             </div>
-            <div class="matieres-grid">
-                <div class="matiere-card">
-                    <div class="matiere-icon icon-math">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
-                    </div>
-                    <h3>Mathématiques</h3>
-                    <p class="matiere-topics">Dérivées · Intégrales · Suites</p>
-                    <div class="matiere-progress">
-                        <div class="progress-info">
-                            <span>8 fiches</span>
-                            <span>78%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-progress="78"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="matiere-card">
-                    <div class="matiere-icon icon-history">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
-                    <h3>Histoire-Géo</h3>
-                    <p class="matiere-topics">Révolution · Guerres mondiales</p>
-                    <div class="matiere-progress">
-                        <div class="progress-info">
-                            <span>5 fiches</span>
-                            <span>55%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-progress="55"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="matiere-card">
-                    <div class="matiere-icon icon-svt">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l2-6 4 12 2-6"/></svg>
-                    </div>
-                    <h3>SVT</h3>
-                    <p class="matiere-topics">Génétique · Évolution</p>
-                    <div class="matiere-progress">
-                        <div class="progress-info">
-                            <span>4 fiches</span>
-                            <span>33%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-progress="33"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="recentActivity"></div>
 
-            <!-- RÉVISION & PROGRESSION -->
-            <h2 class="section-title">Révision & Progression</h2>
+            <!-- FLASHCARDS PAR MODULE -->
+            <div class="matieres-header" style="margin-top:32px;">
+                <h2>Progression flashcards</h2>
+                <a href="fiches.html" class="see-all">Voir les fiches →</a>
+            </div>
+            <div class="matieres-grid" id="fcProgress"></div>
+
+            <!-- ENTRAÎNEMENT EXAMEN -->
+            <div class="matieres-header" style="margin-top:32px;">
+                <h2>Entraînement examen</h2>
+            </div>
+            <div id="examProgress"></div>
+
+            <!-- CARTE À REVOIR -->
+            <h2 class="section-title" style="margin-top:32px;">Carte à revoir</h2>
             <div class="quiz-progression-grid">
-                <!-- Flashcard difficile -->
                 <div class="quiz-card" id="hardFlashcard">
                     <span class="quiz-label">CARTE À REVOIR</span>
                     <p class="quiz-question" id="hardQuestion">Aucune erreur enregistrée</p>
@@ -159,26 +104,6 @@
                         <button class="btn btn-outline btn-sm" id="hardRevealBtn">Voir la réponse</button>
                         <p class="quiz-answer-text" id="hardAnswer" style="display:none;"></p>
                     </div>
-                </div>
-                <!-- Streak -->
-                <div class="streak-card">
-                    <div class="streak-top">
-                        <div>
-                            <span class="streak-number">7</span>
-                            <span class="streak-text">JOURS DE SUITE</span>
-                        </div>
-                        <span class="streak-badge">En feu</span>
-                    </div>
-                    <div class="streak-days">
-                        <span class="day">L</span>
-                        <span class="day">M</span>
-                        <span class="day">M</span>
-                        <span class="day">J</span>
-                        <span class="day">V</span>
-                        <span class="day">S</span>
-                        <span class="day active">D</span>
-                    </div>
-                    <p class="streak-message">Tu révises chaque jour depuis une semaine.<br>Continue — l'examen approche.</p>
                 </div>
             </div>
 
@@ -189,10 +114,162 @@
 
     <script src="js/script.js"></script>
     <script>
-        // Charger une flashcard difficile depuis les erreurs
-        const global = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+    (function() {
+        // === FLASHCARD RESULTS ===
+        const fcGlobal = JSON.parse(localStorage.getItem('fc_results_global') || '{}');
+        let totalQuiz = 0, totalCorrect = 0, totalCards = 0;
+
+        Object.values(fcGlobal).forEach(m => {
+            if (m.total) { totalCards += m.total; totalCorrect += m.correct; totalQuiz++; }
+        });
+
+        // === EXAM RESULTS ===
+        let examCount = 0;
+        const examModules = ['M106','M117','M231','M162','M319'];
+        const allExamStats = {};
+        examModules.forEach(code => {
+            const key = `exam_stats_${code}`;
+            const stats = JSON.parse(localStorage.getItem(key) || '{}');
+            if (Object.keys(stats).length > 0) {
+                examCount++;
+                Object.entries(stats).forEach(([theme, data]) => {
+                    totalCards += data.correct + data.wrong;
+                    totalCorrect += data.correct;
+                    allExamStats[theme] = data;
+                });
+            }
+        });
+        // Also check by name
+        ['Maintenance BDD','Infrastructure réseau','Protection des données','Modélisation de données','C++','Sciences appliquées'].forEach(name => {
+            const key = `exam_stats_${name}`;
+            const stats = JSON.parse(localStorage.getItem(key) || '{}');
+            if (Object.keys(stats).length > 0) {
+                examCount++;
+                Object.entries(stats).forEach(([theme, data]) => {
+                    if (!allExamStats[theme]) {
+                        totalCards += data.correct + data.wrong;
+                        totalCorrect += data.correct;
+                        allExamStats[theme] = data;
+                    }
+                });
+            }
+        });
+
+        // STATS BAR
+        document.getElementById('statQuiz').textContent = totalQuiz;
+        document.getElementById('statPct').textContent = totalCards > 0 ? Math.round(totalCorrect / totalCards * 100) + '%' : '—';
+        document.getElementById('statExam').textContent = examCount;
+
+        // === RECENT ACTIVITY ===
+        const recentDiv = document.getElementById('recentActivity');
+        const activities = [];
+
+        Object.entries(fcGlobal).forEach(([key, m]) => {
+            if (m.total > 0) {
+                const pct = Math.round(m.correct / m.total * 100);
+                activities.push({
+                    type: 'flashcard',
+                    name: m.name || key,
+                    code: m.code || key,
+                    score: `${m.correct}/${m.total}`,
+                    pct: pct
+                });
+            }
+        });
+
+        Object.entries(allExamStats).forEach(([theme, data]) => {
+            const total = data.correct + data.wrong;
+            const pct = Math.round(data.correct / total * 100);
+            activities.push({ type: 'exam', name: theme, score: `${data.correct}/${total}`, pct: pct });
+        });
+
+        if (activities.length === 0) {
+            recentDiv.innerHTML = '<div class="today-card"><div class="today-left"><span class="today-label">PAS ENCORE D\'ACTIVITÉ</span><p style="color:var(--text-muted);font-size:14px;margin-top:8px;">Commence par faire un quiz ou un entraînement examen.</p></div></div>';
+        } else {
+            let html = '';
+            activities.slice(0, 6).forEach(a => {
+                const icon = a.type === 'exam' ? '📝' : '🃏';
+                const label = a.type === 'exam' ? 'Examen' : 'Flashcards';
+                const cls = a.pct >= 70 ? 'color:#2E7D32' : a.pct >= 40 ? 'color:#E65100' : 'color:#C62828';
+                html += `<div class="today-card" style="margin-bottom:8px;">
+                    <div class="today-left">
+                        <span class="today-label">${icon} ${label}</span>
+                        <div class="today-tasks"><span class="task done" style="font-size:14px;">${a.name}</span></div>
+                    </div>
+                    <div class="today-right">
+                        <span class="today-count" style="${cls}">${a.pct}%</span>
+                        <span class="today-completed">${a.score}</span>
+                    </div>
+                </div>`;
+            });
+            recentDiv.innerHTML = html;
+        }
+
+        // === FLASHCARD PROGRESS PER MODULE ===
+        const fcDiv = document.getElementById('fcProgress');
+        const modules = Object.entries(fcGlobal);
+        if (modules.length === 0) {
+            fcDiv.innerHTML = '<p style="color:var(--text-muted);font-size:14px;">Aucun quiz flashcard réalisé.</p>';
+        } else {
+            let html = '';
+            modules.forEach(([key, m]) => {
+                const pct = m.total > 0 ? Math.round(m.correct / m.total * 100) : 0;
+                html += `<div class="matiere-card">
+                    <div class="matiere-icon icon-math">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="3"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3>${m.name || key}</h3>
+                    <p class="matiere-topics">${m.correct} correctes · ${m.total - m.correct} erreurs</p>
+                    <div class="matiere-progress">
+                        <div class="progress-info"><span>${m.total} cartes</span><span>${pct}%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" data-progress="${pct}"></div></div>
+                    </div>
+                </div>`;
+            });
+            fcDiv.innerHTML = html;
+            // Animate progress bars
+            setTimeout(() => {
+                fcDiv.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.progress + '%';
+                });
+            }, 100);
+        }
+
+        // === EXAM PROGRESS ===
+        const examDiv = document.getElementById('examProgress');
+        const examEntries = Object.entries(allExamStats);
+        if (examEntries.length === 0) {
+            examDiv.innerHTML = '<p style="color:var(--text-muted);font-size:14px;">Aucun entraînement examen réalisé.</p>';
+        } else {
+            let html = '<div class="matieres-grid">';
+            examEntries.forEach(([theme, data]) => {
+                const total = data.correct + data.wrong;
+                const pct = Math.round(data.correct / total * 100);
+                const color = pct >= 70 ? '#2E7D32' : pct >= 40 ? '#E65100' : '#C62828';
+                html += `<div class="matiere-card">
+                    <div class="matiere-icon" style="background:${color}15;color:${color};">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    </div>
+                    <h3>${theme}</h3>
+                    <p class="matiere-topics">${data.correct} correctes · ${data.wrong} erreurs</p>
+                    <div class="matiere-progress">
+                        <div class="progress-info"><span>${total} questions</span><span style="color:${color}">${pct}%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" data-progress="${pct}"></div></div>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            examDiv.innerHTML = html;
+            setTimeout(() => {
+                examDiv.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.progress + '%';
+                });
+            }, 100);
+        }
+
+        // === CARTE À REVOIR ===
         const allErrors = [];
-        Object.values(global).forEach(m => {
+        Object.values(fcGlobal).forEach(m => {
             if (m.errors) allErrors.push(...m.errors);
         });
         if (allErrors.length > 0) {
@@ -212,6 +289,7 @@
         } else {
             document.getElementById('hardRevealBtn').style.display = 'none';
         }
+    })();
     </script>
 
 </body>
