@@ -561,25 +561,26 @@ GRANT commercial TO Paul;</div>
         if (e.key === 'Enter') unlockRevision();
     });
 
-    // --- Vidéo verrouillée ---
-    const videoUnlocked = localStorage.getItem('videoUnlocked') === '1';
-
-    // Déverrouiller automatiquement si déjà fait
-    function checkVideoUnlock() {
-        if (videoUnlocked) {
-            document.querySelectorAll('.fiche-video-lock').forEach(el => {
-                el.querySelector('.video-placeholder').style.display = 'none';
-                el.querySelector('.video-content').style.display = 'block';
-            });
-        }
+    // --- Vidéo verrouillée (chaque vidéo a son propre verrou) ---
+    function getVideoKey(src) {
+        return 'videoUnlocked_' + (src || 'none').replace(/[^a-zA-Z0-9]/g, '_');
     }
 
-    // Appelé après showFiche
-    const origShowFiche = showFiche;
+    // Vérifier si la vidéo de la fiche courante est déjà déverrouillée
+    function checkVideoUnlock() {
+        document.querySelectorAll('.fiche-video-lock').forEach(el => {
+            const videoContent = el.querySelector('.video-content');
+            const videoTag = videoContent ? videoContent.querySelector('source') : null;
+            const src = videoTag ? videoTag.getAttribute('src') : '';
+            if (src && localStorage.getItem(getVideoKey(src)) === '1') {
+                el.querySelector('.video-placeholder').style.display = 'none';
+                videoContent.style.display = 'block';
+            }
+        });
+    }
 
     window.promptVideoPassword = function(btn) {
         const lockEl = btn.closest('.fiche-video-lock');
-        // Créer un mini prompt inline
         const existing = lockEl.querySelector('.video-pwd-inline');
         if (existing) { existing.querySelector('input').focus(); return; }
 
@@ -598,9 +599,12 @@ GRANT commercial TO Paul;</div>
 
         function tryUnlock() {
             if (inp.value === 'picasso32') {
-                localStorage.setItem('videoUnlocked', '1');
+                const videoContent = lockEl.querySelector('.video-content');
+                const videoTag = videoContent ? videoContent.querySelector('source') : null;
+                const src = videoTag ? videoTag.getAttribute('src') : '';
+                if (src) localStorage.setItem(getVideoKey(src), '1');
                 lockEl.querySelector('.video-placeholder').style.display = 'none';
-                lockEl.querySelector('.video-content').style.display = 'block';
+                videoContent.style.display = 'block';
             } else {
                 err.textContent = 'Incorrect';
                 inp.classList.add('shake');
@@ -611,10 +615,8 @@ GRANT commercial TO Paul;</div>
         inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlock(); });
     };
 
-    // Après chaque rendu, vérifier les vidéos
-    const _origCardSet = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerHTML');
-    // Simple observer pour auto-unlock après render
-    const observer = new MutationObserver(() => { if (videoUnlocked) checkVideoUnlock(); });
+    // Après chaque rendu, vérifier les vidéos déjà déverrouillées
+    const observer = new MutationObserver(() => checkVideoUnlock());
     observer.observe(cardContent, { childList: true });
 
     // Bouton suivant
