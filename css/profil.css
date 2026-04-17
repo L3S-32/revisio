@@ -515,6 +515,71 @@
     font-style: italic;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .dash-avatar {
+    background: #2A2218;
+}
+
+[data-theme="dark"] .dash-stat-streak {
+    background: #2A2218;
+}
+
+[data-theme="dark"] .dash-stat-streak .dash-stat-label {
+    color: #9A8B78;
+}
+
+[data-theme="dark"] .dash-stat-streak .dash-stat-sub {
+    color: #7A6E5E;
+}
+
+[data-theme="dark"] .dash-serie-card {
+    background: #2A2218;
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .dash-serie-num {
+    color: #D4A85C;
+}
+
+[data-theme="dark"] .dash-serie-text {
+    color: rgba(240,230,216,0.45);
+}
+
+[data-theme="dark"] .dash-day {
+    background: rgba(255,255,255,0.06);
+    color: rgba(240,230,216,0.35);
+}
+
+[data-theme="dark"] .dash-day.active {
+    background: #D4A85C;
+    color: #1A1410;
+}
+
+[data-theme="dark"] .dash-serie-record {
+    color: rgba(240,230,216,0.35);
+}
+
+[data-theme="dark"] .dash-session-item {
+    background: #2A2218;
+}
+
+[data-theme="dark"] .dash-progress-bar-wrap {
+    background: rgba(240,230,216,0.08);
+}
+
+[data-theme="dark"] .profil-submit {
+    background: #D4A85C;
+    color: #1A1410;
+}
+
+[data-theme="dark"] .profil-submit:hover {
+    background: #E0B96E;
+}
+
+[data-theme="dark"] .profil-tab.active {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .dash-stats-grid {

@@ -986,81 +986,111 @@ body.menu-open .hero {
 
 /* ===== DARK MODE ===== */
 [data-theme="dark"] {
-    --brown-dark: #1a1520;
-    --brown-medium: #2a2030;
-    --brown-light: #a090b0;
-    --cream: #1e1a24;
-    --cream-dark: #16121c;
+    --brown-dark: #F5E6D3;
+    --brown-medium: #2E231A;
+    --brown-light: #C4A882;
+    --cream: #1A1410;
+    --cream-dark: #141008;
     --gold: #D4A85C;
     --gold-light: #E0B96E;
-    --red-soft: #E07A63;
+    --red-soft: #E8856E;
     --green-soft: #8FB87F;
-    --text-dark: #E8E0F0;
-    --text-muted: #8A7E96;
-    --white: #242030;
-    --border: #3A3244;
+    --text-dark: #F0E6D8;
+    --text-muted: #9A8B78;
+    --white: #221C16;
+    --border: #3A3028;
 }
 
 [data-theme="dark"] body {
-    background: #1a1520;
+    background: #1A1410;
 }
 
 [data-theme="dark"] .navbar {
-    background: #1a1520;
+    background: #1A1410;
 }
 
 [data-theme="dark"] .hero {
-    background: linear-gradient(180deg, #1a1520 0%, #2a2030 100%);
+    background: linear-gradient(180deg, #1A1410 0%, #2E231A 100%);
 }
 
 [data-theme="dark"] .content-panel {
-    background: #242030;
-    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.4);
+    background: #221C16;
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="dark"] .stats {
-    background: #242030;
-    border-bottom-color: #3A3244;
+    background: #221C16;
+    border-bottom-color: #3A3028;
 }
 
 [data-theme="dark"] .main-content {
-    background: #1e1a24;
+    background: #1A1410;
 }
 
 [data-theme="dark"] .today-card,
 [data-theme="dark"] .matiere-card,
 [data-theme="dark"] .quiz-card {
-    background: #2a2535;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    background: #2A2218;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="dark"] .matiere-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="dark"] .streak-card {
-    background: #16121c;
+    background: #141008;
 }
 
 [data-theme="dark"] .progress-bar {
-    background: #3A3244;
+    background: #3A3028;
 }
 
 [data-theme="dark"] .btn-outline {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.15);
 }
 
 [data-theme="dark"] .quiz-option {
-    background: #2a2535;
-    border-color: #3A3244;
-    color: #E8E0F0;
+    background: #2A2218;
+    border-color: #3A3028;
+    color: #F0E6D8;
 }
 
 [data-theme="dark"] .icon-math,
 [data-theme="dark"] .icon-history,
 [data-theme="dark"] .icon-svt {
-    background: #3A3244;
+    background: #3A3028;
+    color: #C4A882;
+}
+
+/* Nav links in dark mode */
+[data-theme="dark"] .nav-links a {
+    color: #F0E6D8;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .nav-links a.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* SVG icons visibility */
+[data-theme="dark"] .matiere-icon svg,
+[data-theme="dark"] .fiche-icon svg,
+[data-theme="dark"] .option-icon svg {
+    stroke: #C4A882;
+}
+
+[data-theme="dark"] .toolbar-btn {
+    background: #2A2218;
+    border-color: #3A3028;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toolbar-btn svg {
+    stroke: #D4A85C;
 }
 
 /* Dark mode — sun/moon icons */

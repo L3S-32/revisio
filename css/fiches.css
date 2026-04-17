@@ -172,18 +172,37 @@
 }
 
 /* Dark mode overrides */
-[data-theme="dark"] .divider-line {
-    background: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .fiches-section {
+    background: #221C16;
 }
 
-[data-theme="dark"] .divider-label {
-    border-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.45);
-    background: rgba(255, 255, 255, 0.03);
+[data-theme="dark"] .fiche-choice {
+    background: #2A2218;
+    border-color: #3A3028;
 }
 
 [data-theme="dark"] .fiche-choice:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    border-color: #D4A85C;
+}
+
+[data-theme="dark"] .fiche-choice h3 {
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .fiche-icon {
+    background: #3A3028;
+    color: #C4A882;
+}
+
+[data-theme="dark"] .divider-line {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .divider-label {
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(240, 230, 216, 0.5);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 /* ===== RESPONSIVE — MAC 14"/16" ===== */

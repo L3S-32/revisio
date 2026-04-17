@@ -352,16 +352,38 @@
 
 /* Dark mode overrides */
 [data-theme="dark"] .fc-front {
-    background: linear-gradient(145deg, #2a2030, #3a2f45);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(145deg, #2E231A, #3A2E22);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .fc-front .fc-question {
+    color: #F0E6D8;
 }
 
 [data-theme="dark"] .fc-back {
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .fc-answer {
+    color: #D4A85C;
 }
 
 [data-theme="dark"] .fc-error-item {
-    background: #2a2535;
+    background: #2A2218;
+}
+
+[data-theme="dark"] .fc-btn {
+    background: #2A2218;
+    border-color: #3A3028;
+}
+
+[data-theme="dark"] .fc-btn-flip {
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .fc-btn-flip:hover {
+    background: #3A2E22;
+    border-color: #D4A85C;
 }
 
 

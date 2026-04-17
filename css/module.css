@@ -382,15 +382,61 @@
 
 /* Dark mode overrides */
 [data-theme="dark"] .option-dark {
-    background: #16121c;
+    background: #141008;
+}
+
+[data-theme="dark"] .option-light {
+    background: #2A2218;
+}
+
+[data-theme="dark"] .option-light .option-icon {
+    background: #3A3028;
+    color: #C4A882;
+}
+
+[data-theme="dark"] .option-light h3 {
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .module-back {
+    background: #2A2218;
+    color: #F0E6D8;
+    border-color: #3A3028;
+}
+
+[data-theme="dark"] .module-back:hover {
+    background: #D4A85C;
+    color: #1A1410;
+    border-color: #D4A85C;
 }
 
 [data-theme="dark"] .percent-backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 [data-theme="dark"] .percent-content {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .percent-btn {
+    background: #1A1410;
+    color: #F0E6D8;
+    border-color: #3A3028;
+}
+
+[data-theme="dark"] .percent-btn.selected {
+    background: #D4A85C;
+    color: #1A1410;
+    border-color: #D4A85C;
+}
+
+[data-theme="dark"] .percent-start {
+    background: #D4A85C;
+    color: #1A1410;
+}
+
+[data-theme="dark"] .percent-start:hover {
+    background: #E0B96E;
 }
 
 /* ===== RESPONSIVE ===== */

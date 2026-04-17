@@ -255,6 +255,57 @@
     padding: 80px 0;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .res-global-section {
+    background: #221C16;
+}
+
+[data-theme="dark"] .res-global-card {
+    background: #2A2218;
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .res-ring-pct,
+[data-theme="dark"] .res-global-title,
+[data-theme="dark"] .res-stat-num {
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .res-global-tag,
+[data-theme="dark"] .res-stat-label,
+[data-theme="dark"] .res-ring-label {
+    color: rgba(240,230,216,0.45);
+}
+
+[data-theme="dark"] .res-global-sub {
+    color: rgba(240,230,216,0.5);
+}
+
+[data-theme="dark"] .res-modules-section {
+    background: #221C16;
+}
+
+[data-theme="dark"] .res-module-card {
+    background: #2A2218;
+}
+
+[data-theme="dark"] .res-module-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .res-mod-icon {
+    background: #3A3028;
+    color: #C4A882;
+}
+
+[data-theme="dark"] .res-mod-stat-row {
+    border-bottom-color: rgba(240,230,216,0.06);
+}
+
+[data-theme="dark"] .res-mod-footer {
+    border-top-color: rgba(240,230,216,0.08);
+}
+
 /* ===== RESPONSIVE — MAC 14"/16" ===== */
 @media (max-height: 900px) {
     .hero-resultats .hero-container {

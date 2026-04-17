@@ -247,6 +247,56 @@
     padding: 20px 0;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .cal-section {
+    background: #221C16;
+}
+
+[data-theme="dark"] .cal-grid {
+    background: #2A2218;
+    border-color: #3A3028;
+}
+
+[data-theme="dark"] .cal-day {
+    border-top-color: rgba(240,230,216,0.06);
+}
+
+[data-theme="dark"] .cal-day-today .cal-day-num {
+    background: #D4A85C;
+    color: #1A1410;
+}
+
+[data-theme="dark"] .cal-day-has-test {
+    background: rgba(212,168,92,0.06);
+}
+
+[data-theme="dark"] .cal-upcoming-section {
+    background: #221C16;
+}
+
+[data-theme="dark"] .cal-upcoming-card {
+    background: #2A2218;
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .cal-upcoming-tag {
+    color: rgba(240,230,216,0.4);
+}
+
+[data-theme="dark"] .cal-upcoming-item {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.04);
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .cal-upcoming-info h4 {
+    color: #F0E6D8;
+}
+
+[data-theme="dark"] .cal-upcoming-info span {
+    color: rgba(240,230,216,0.4);
+}
+
 /* ===== RESPONSIVE — MAC 14"/16" ===== */
 @media (max-height: 900px) {
     .hero-cal .hero-container {
