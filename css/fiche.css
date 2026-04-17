@@ -795,3 +795,32 @@
     20%, 60% { transform: translateX(-6px); }
     40%, 80% { transform: translateX(6px); }
 }
+
+/* Dark mode overrides */
+[data-theme="dark"] .fiche-card {
+    background: #2a2535;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .fiche-sidebar-item:hover,
+[data-theme="dark"] .fiche-sidebar-item.active {
+    background: #2a2535;
+}
+
+[data-theme="dark"] .fiche-code-block {
+    background: #16121c;
+}
+
+[data-theme="dark"] .fiche-info-box {
+    background: #2a2535;
+    border-left-color: var(--gold);
+}
+
+[data-theme="dark"] .fiche-warn-box {
+    background: #3a2a1a;
+    border-left-color: #FFB74D;
+}
+
+[data-theme="dark"] .video-placeholder {
+    background: #16121c;
+}

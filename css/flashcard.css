@@ -350,6 +350,20 @@
     cursor: pointer;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .fc-front {
+    background: linear-gradient(145deg, #2a2030, #3a2f45);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .fc-back {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .fc-error-item {
+    background: #2a2535;
+}
+
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {

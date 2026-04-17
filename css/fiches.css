@@ -171,6 +171,21 @@
     opacity: 0.5;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .divider-line {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .divider-label {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .fiche-choice:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
 /* ===== RESPONSIVE — MAC 14"/16" ===== */
 @media (max-height: 900px) {
     .hero-fiches {

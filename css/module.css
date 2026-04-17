@@ -380,6 +380,19 @@
     font-weight: 700;
 }
 
+/* Dark mode overrides */
+[data-theme="dark"] .option-dark {
+    background: #16121c;
+}
+
+[data-theme="dark"] .percent-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .percent-content {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .module-page {
